@@ -7,9 +7,22 @@
     <div class="header">
       <% include partials/header %>
     </div>
-    It's main
-    <div class="footer">
-      <% include partials/footer %>
+    <div class="container" style="margin-top:30px">
+      <div class="row container">
+        <div class="container col-md-5">
+          <% include partials/home/notice %>
+        </div>
+
+        <div class="container col-md-1"></div>
+
+        <div class="container col-md-5">
+          <% include partials/home/test %>
+        </div>
+      </div>
+      <br>
+      <div class="row container">
+        <% include partials/home/timeline %>
+      </div>
     </div>
   </body>
 </html>

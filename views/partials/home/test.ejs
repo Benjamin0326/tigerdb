@@ -1,0 +1,16 @@
+<div style="text-align:right">
+  <a style="text-align:right" href="/test">more...</a>
+</div>
+
+<% progress_values.forEach(function(progress) { %>
+  <div class="row">
+    <div><%= progress.name %></div><br />
+    <div class="col-md-12">
+      <div class="prg">
+        <div class="prg success-color" style="width: <%= progress.value %>%;">
+          <div class="success-label"><%= progress.value %>%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% }); %>

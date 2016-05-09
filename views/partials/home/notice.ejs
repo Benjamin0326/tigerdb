@@ -1,0 +1,11 @@
+<div style="text-align:right" class="row">
+  <a style="text-align:right" href="/notice">more...</a>
+</div>
+<br>
+<div class="list-group">
+  <% notice_values.forEach(function(notice_value) { %>
+    <div class="list-group-item">
+      <p class="list-group-item-text"><%= notice_value %></p>
+    </div>
+    <% }); %>
+</div>
