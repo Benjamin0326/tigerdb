@@ -11,34 +11,41 @@
 
       <div class="container" style="margin-top:30px">
           <div class="row">
-              <form role="form">
+              <form role="form" id="body" method="post" action="/enroll">
                   <div class="col-lg-6">
                       <!--<div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong></div>-->
                       <div class="form-group">
                           <label for="InputName">Enter Name</label>
                           <div class="input-group">
-                              <input type="text" class="form-control" name="InputName" id="InputName" placeholder="Enter Name" required>
+                              <input type="text" class="form-control" name="empname" id="InputName" placeholder="Enter Name" required>
                               <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                           </div>
                       </div>
                       <div class="form-group">
                           <label for="InputEmail">Enter Email</label>
                           <div class="input-group">
-                              <input type="email" class="form-control" id="InputEmailFirst" name="InputEmail" placeholder="Enter Email" required>
+                              <input type="email" class="form-control" id="Email" name="email" placeholder="Enter Email" required>
                               <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                           </div>
                       </div>
                       <div class="form-group">
-                          <label for="InputEmail">Confirm Email</label>
+                          <label for="InputEmail">Address</label>
                           <div class="input-group">
-                              <input type="email" class="form-control" id="InputEmailSecond" name="InputEmail" placeholder="Confirm Email" required>
+                              <input type="text" class="form-control" id="Address" name="address" placeholder="Enter Address" required>
                               <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                           </div>
                       </div>
                       <div class="form-group">
-                          <label for="InputMessage">Enter Message</label>
+                          <label for="InputEmail">Phone</label>
                           <div class="input-group">
-                              <textarea name="InputMessage" id="InputMessage" class="form-control" rows="5" required></textarea>
+                              <input type="text" class="form-control" id="Phone" name="phone" placeholder="Enter Phone" required>
+                              <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label for="InputEmail">Password</label>
+                          <div class="input-group">
+                              <input type="password" class="form-control" id="Password" name="password" placeholder="Enter Password" required>
                               <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                           </div>
                       </div>
@@ -57,11 +64,6 @@
               </div>-->
           </div>
       </div>
-
-
-
-
-
     </div>
   </body>
 </html>

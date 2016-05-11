@@ -1,15 +1,102 @@
 var express = require('express');
 var router = express.Router();
+var oracledb = require('oracledb');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'TigerDB' });
+  res.render('index', { title: 'welcome to TigerDB' });
+});
+
+router.post('/login', function(req, res, next) {
+  var email = req.body.email;
+  var password = req.body.password;
+  oracledb.getConnection(
+    {
+      user          : "system",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      console.log(email, password);
+      connection.execute(
+        "select password from EMPLOYEE where email='"+email+"'",
+        function(err, result)
+        {
+          console.log(err);
+          console.log(result.rows[0]);
+          if(result.rows[0]==password){
+            var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
+            var notice_values = ["title1", "title2", "title3"];
+            res.render('home', {progress_values:progress_values, notice_values:notice_values});
+          }
+          else{
+            res.render('index', { title: 'Incorrect Password' });
+          }
+
+        });
+    });
+
+  //console.log(email);
+  //res.render('index', { title: 'TigerDB' });
+});
+
+router.post('/enroll', function(req, res, next) {
+  var email = req.body.email;
+  var name = req.body.empname;
+  var address = req.body.address;
+  var phone = req.body.phone;
+  var password = req.body.password;
+
+  oracledb.getConnection(
+    {
+      user          : "system",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      console.log(name, address, phone, email, password);
+      connection.execute(
+        "insert into EMPLOYEE (EMPNAME, ADDRESS, PHONE, EMAIL, PASSWORD) VALUES('"+name+"', '"+address+"', '"+phone+"', '"+email+"', '"+password+"')",
+        function(err, result)
+        {
+          console.log(err);
+          console.log(result);
+          connection.commit(function(err){
+            if(err){
+              res.render('index', { title: 'Failed!!' });
+              return;
+            }
+          });
+          if(!err){
+            res.render('index', { title: 'Success!!' });
+          }
+          else{
+            res.render('index', { title: 'Failed!!' });
+          }
+
+        });
+    });
+
+  //console.log(email);
+  //res.render('index', { title: 'TigerDB' });
 });
 
 router.get('/home', function(req, res, next){
   var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
   var notice_values = ["title1", "title2", "title3"];
   res.render('home', {progress_values:progress_values, notice_values:notice_values});
+});
+
+router.get('/notice', function(req, res, next){
+  var notice_values=[{title:"title1", content:"It's title1's content (content1)"},
+                    {title:"title2", content:"It's title2's content (content2)"},
+                    {title:"title3", content:"It's title1's content (content3)"}];
+  res.render('notice', {notice_values:notice_values});
 });
 
 router.get('/signup', function(req, res, next){
@@ -26,13 +113,6 @@ router.get('/profile', function(req, res, next){
 
 router.get('/test', function(req, res, next){
   res.render('test');
-});
-
-router.get('/notice', function(req, res, next){
-  var notice_values=[{title:"title1", content:"It's title1's content (content1)"},
-                    {title:"title2", content:"It's title2's content (content2)"},
-                    {title:"title3", content:"It's title1's content (content3)"}];
-  res.render('notice', {notice_values:notice_values});
 });
 
 module.exports = router;
