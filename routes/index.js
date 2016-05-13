@@ -2,15 +2,20 @@ var express = require('express');
 var router = express.Router();
 var oracledb = require('oracledb');
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'welcome to TigerDB' });
 });
 
+router.get('/logout', function(req, res, next) {
+  req.session=null;
+  res.redirect('/');
+});
+
 router.post('/login', function(req, res, next) {
   var email = req.body.email;
   var password = req.body.password;
+
   oracledb.getConnection(
     {
       user          : "system",
@@ -22,15 +27,20 @@ router.post('/login', function(req, res, next) {
       if (err) { console.error(err.message); return; }
       console.log(email, password);
       connection.execute(
-        "select password from EMPLOYEE where email='"+email+"'",
+        "select * from EMPLOYEE where email='"+email+"'",
         function(err, result)
         {
           console.log(err);
+          console.log(result.rows[0][7]);
           console.log(result.rows[0]);
-          if(result.rows[0]==password){
+
+          if(result.rows[0][7]==password){
+            req.session.empno=result.rows[0][0];
+            req.session.empname=result.rows[0][1];
             var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
             var notice_values = ["title1", "title2", "title3"];
-            res.render('home', {progress_values:progress_values, notice_values:notice_values});
+            //res.render('home', {progress_values:progress_values, notice_values:notice_values});
+            res.redirect('home');
           }
           else{
             res.render('index', { title: 'Incorrect Password' });
@@ -87,17 +97,18 @@ router.post('/enroll', function(req, res, next) {
 });
 
 router.get('/home', function(req, res, next){
+  console.log(req.session.empname);
   var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
   var notice_values = ["title1", "title2", "title3"];
-  res.render('home', {progress_values:progress_values, notice_values:notice_values});
+  var empname = req.session.empname;
+  if(req.session===null)
+    res.redirect('/');
+  else
+    res.render('home', {progress_values:progress_values, notice_values:notice_values, empname:empname});
+
 });
 
-router.get('/notice', function(req, res, next){
-  var notice_values=[{title:"title1", content:"It's title1's content (content1)"},
-                    {title:"title2", content:"It's title2's content (content2)"},
-                    {title:"title3", content:"It's title1's content (content3)"}];
-  res.render('notice', {notice_values:notice_values});
-});
+
 
 router.get('/signup', function(req, res, next){
   res.render('signup');
