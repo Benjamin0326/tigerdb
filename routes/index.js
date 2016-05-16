@@ -4,7 +4,8 @@ var oracledb = require('oracledb');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'welcome to TigerDB' });
+  res.render('index', { title: 'welcome to TigerDB'});
+
 });
 
 router.get('/logout', function(req, res, next) {
@@ -101,10 +102,38 @@ router.get('/home', function(req, res, next){
   var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
   var notice_values = ["title1", "title2", "title3"];
   var empname = req.session.empname;
-  if(req.session===null)
-    res.redirect('/');
-  else
-    res.render('home', {progress_values:progress_values, notice_values:notice_values, empname:empname});
+
+  oracledb.maxRows=3;
+  oracledb.getConnection(
+    {
+      user          : "system",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "select n.title from notice n",
+        function(err, result)
+        {
+          console.log(err);
+          console.log(result.rows[0]);
+          if(req.session===null)
+            res.redirect('/');
+
+          if(err){
+            res.redirect('/');
+            return;
+          }
+          else{
+            res.render('home', {progress_values:progress_values, notice_values:result.rows, empname:empname});
+            return;
+          }
+        });
+    });
+
+
 
 });
 
