@@ -14,9 +14,8 @@ router.get('/', function(req, res, next){
     function(err, connection)
     {
       if (err) { console.error(err.message); return; }
-
       connection.execute(
-        "SELECT * from notice order by ntcdate desc",  // bind value for :id
+        "SELECT * from notice order by ntcno desc",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -24,6 +23,11 @@ router.get('/', function(req, res, next){
           res.render('notice', {empname:req.session.empname, notices:result.rows});
         });
     });
+});
+
+router.get('/write', function(req, res, next){
+  console.log(req.session.empname + " " + req.session.empno);
+  res.render('notice/write', {empname:req.session.empname});
 });
 
 router.get('/:id', function(req, res, next){
@@ -107,14 +111,12 @@ router.get('/delete/:id', function(req, res, next){
     });
 });
 
-router.get('/write', function(req, res, next){
-  res.render('notice/write', {empname:req.session.empname});
-});
+
 
 router.post('/write/commit', function(req, res, next){
   var title = req.body.ntctitle;
   var description = req.body.ntcdescription;
-  var now = moment().format("YYYYMMDD");
+  var now = moment().format("YYYYMMDDhhmmss");
 
   console.log(title + " " + description);
   oracledb.getConnection(
@@ -128,7 +130,7 @@ router.post('/write/commit', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "insert into NOTICE (TITLE, DES, WRITER, NTCDATE) VALUES('"+title+"', '"+description+"', '"+req.session.empno+"', '"+now+"')",
+        "insert into NOTICE (TITLE, DES, WRITER, NTCDATE) VALUES('"+title+"', '"+description+"', '"+req.session.empno+"', TO_DATE('"+now+"','yyyyMMddhh24miss'))",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
