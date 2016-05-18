@@ -34,20 +34,26 @@ router.post('/login', function(req, res, next) {
           console.log(err);
           console.log(result.rows[0][7]);
           console.log(result.rows[0]);
-          if(result.rows[0][3]==0){
-            res.render('index', { title: '가입 승인이 나지 않았습니다.' });
-          }
-          else if(result.rows[0][7]==password){
-            req.session.empno=result.rows[0][0];
-            req.session.empname=result.rows[0][1];
-            req.session.empauth=result.rows[0][3];
-            var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
-            var notice_values = ["title1", "title2", "title3"];
-            //res.render('home', {progress_values:progress_values, notice_values:notice_values});
-            res.redirect('home');
-          }
-          else{
-            res.render('index', { title: 'Incorrect Password' });
+          if(result.rows[0]!=null){
+            if(result.rows[0][7]==password){
+              if(result.rows[0][3]==0){
+                res.render('index', { title: '가입 승인이 나지 않았습니다.' });
+              }
+              else if(result.rows[0][7]==password){
+                req.session.empno=result.rows[0][0];
+                req.session.empname=result.rows[0][1];
+                req.session.empauth=result.rows[0][3];
+                var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
+                var notice_values = ["title1", "title2", "title3"];
+                res.redirect('home');
+              }
+              else{
+                res.render('index', { title: 'Incorrect Email/Password' });
+              }
+            }
+            else{
+                res.render('index', { title: 'Incorrect Email/Password' });
+              }
           }
         });
     });
@@ -143,15 +149,6 @@ router.get('/home', function(req, res, next){
 router.get('/signup', function(req, res, next){
   res.render('signup');
 });
-/*
-router.get('/phone', function(req, res, next){
-<<<<<<< HEAD
-  res.render('phone', {empname:req.session.empname});
-=======
-  res.render('phone', {emp:req.session});
->>>>>>> 88fc5ca29470822fab001e4dd92df657ac6e7a12
-});
-*/
 
 router.get('/profile', function(req, res, next){
   res.render('profile', {emp:req.session});

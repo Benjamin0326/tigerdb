@@ -19,7 +19,7 @@ router.get('/', function(req, res, next){
         {
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
-          res.render('phone', {empname:req.session.empname, phones:result.rows});
+          res.render('phone', {emp:req.session, phones:result.rows});
         });
     });
 });
