@@ -10,27 +10,23 @@
 
     <div class="container" style="margin-top:30px">
 
-    <div class="col-md-12">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="text-center">Bootstrap Editable Table <span class="fa fa-edit pull-right bigicon"></span></h4>
+      <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="text-center">Bootstrap Editable Table <span class="fa fa-edit pull-right bigicon"></span></h4>
+            </div>
+            <div class="panel-body text-center">
+                <div id="grid"></div>
+            </div>
         </div>
-        <div class="panel-body text-center">
-            <div id="grid"></div>
-        </div>
-    </div>
-</div>
-
+      </div>
     </div>
     <div class="container row">
         <input type="button" name="save" id="save" value="Save" class="btn btn-info pull-right comment_submit">
     </div>
-  <div class="comment">
-  </div>
-
-
   </body>
 </html>
+
 <script type="text/javascript">
   var editno=[];
   var griddata=[
@@ -38,16 +34,12 @@
       {
       "id": <%= people[0] %>,
       "isActive": true,
-      "age": 66,
       "address": "<%= people[4] %>",
       "name": "<%= people[1] %>",
       "phone": "<%= people[5] %>",
       "auth": "<%= people[3] %>",
-      "quantity": 332,
       "position": "<%= people[2] %>",
-      "month": "11 February 2014",
-      "email": "<%= people[6] %>",
-      "tags" : "testTags"
+      "email": "<%= people[6] %>"
   },
     <% }); %>
   ];
@@ -89,7 +81,12 @@
                     ]
                 }
             ],
-
+            events: {
+              getCustomEditorValue: function (e) {
+                  e.value = $("#test").swidget().value();
+                  $("#test").swidget().destroy();
+              }
+            },  
             editing: {
                 enabled: true,
                 mode: "popup",
@@ -117,12 +114,14 @@
     });
 
     $(function(){
+            var data = {};
             $(".comment_submit").click(function(){
                 grid = $("#grid").swidget().dataSource.data;
                 $.ajax({
                  method: "POST",
                  url: "/people/commit",
-                 data: { editdata:grid, editno:editno },
+                 data: {
+                  data : JSON.stringify(grid), editno:editno },
                  success: function(){
                      $(".comment").append("<p>저장되었습니다.</p>");
                  },
