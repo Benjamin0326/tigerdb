@@ -150,10 +150,6 @@ router.get('/signup', function(req, res, next){
   res.render('signup');
 });
 
-router.get('/phone', function(req, res, next){
-  res.render('phone', {emp:req.session});
-});
-
 router.get('/profile', function(req, res, next){
   res.render('profile', {emp:req.session});
 });

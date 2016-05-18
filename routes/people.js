@@ -24,5 +24,9 @@ router.get('/', function(req, res, next){
     });
 });
 
-
+router.post('/commit', function(req, res, next){
+  console.log("test");
+  var editdata = req.body;
+  console.log(editdata);
+});
 module.exports = router;

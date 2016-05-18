@@ -23,12 +23,16 @@
 
     </div>
     <div class="container row">
-      <div class="container col-md-11">
-      </div>
+        <input type="button" name="save" id="save" value="Save" class="btn btn-info pull-right comment_submit">
+    </div>
+  <div class="comment">
+  </div>
+
 
   </body>
 </html>
 <script type="text/javascript">
+  var editno=[];
   var griddata=[
     <% peoples.forEach(function(people) { %>
       {
@@ -50,6 +54,7 @@
         $("#grid").shieldGrid({
             dataSource: {
                 data: griddata,
+                selection: true,
                 schema: {
                     fields: {
                         id: { path: "id", type: Number },
@@ -59,7 +64,8 @@
                         phone: { path: "phone", type: String },
                         isActive: { path: "isActive", type: Boolean },
                         email: { path: "email", type: String },
-                        auth: { path: "auth", type: String }
+                        auth: { path: "auth", type: Number },
+                        tags : { path: "tags", type: String }
                     }
                 }
             },
@@ -73,6 +79,7 @@
                 { field: "address", title: "Address", width: "120px" },
                 { field: "phone", title: "Phone", width: "120px" },
                 { field: "email", title: "Email" },
+                { field: "tags", title: "Tags" },
                 { field: "auth", title: "Authority", width: "120px" },
                 {
                     width: 150,
@@ -90,6 +97,7 @@
                     "delete": {
                         enabled: true,
                         template: function (item) {
+                            editno.push(item.id);
                             return "Delete row with ID = " + item.id
                         }
                     }
@@ -99,4 +107,24 @@
 
 
     });
+
+    $(function(){
+            $(".comment_submit").click(function(){
+                grid = $("#grid").swidget().dataSource.data;
+                $.ajax({
+                 method: "POST",
+                 url: "/people/commit",
+                 data: { editdata:grid, editno:editno },
+                 success: function(){
+                     $(".comment").append("<p>저장되었습니다.</p>");
+                 },
+                 error: function(){
+                     alert("Error!!!");
+                 }
+                })
+                 .done(function( msg ) {
+                 });
+            });
+        });
+
 </script>
