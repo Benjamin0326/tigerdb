@@ -53,7 +53,6 @@ router.post('/login', function(req, res, next) {
           else{
             res.render('index', { title: 'Incorrect Password' });
           }
-
         });
     });
 
@@ -149,9 +148,10 @@ router.get('/signup', function(req, res, next){
   res.render('signup');
 });
 
-router.get('/phone', function(req, res, next){
+router.get('/signup', function(req, res, next){
   res.render('phone', {emp:req.session});
 });
+  
 
 router.get('/profile', function(req, res, next){
   res.render('profile', {emp:req.session});

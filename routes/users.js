@@ -68,7 +68,7 @@ router.get('/', function(req, res, next) {
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "SELECT * from employee",  // bind value for :id
+        "SELECT * from phone",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
