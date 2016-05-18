@@ -13,7 +13,7 @@
       <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="text-center">Bootstrap Editable Table <span class="fa fa-edit pull-right bigicon"></span></h4>
+                <h4 class="text-center">사원 관리 테이블 <span class="fa fa-edit pull-right bigicon"></span></h4>
             </div>
             <div class="panel-body text-center">
                 <div id="grid"></div>
@@ -23,6 +23,8 @@
     </div>
     <div class="container row">
         <input type="button" name="save" id="save" value="Save" class="btn btn-info pull-right comment_submit">
+    </div>
+    <div class="container row" id="logpartion">
     </div>
   </body>
 </html>
@@ -86,7 +88,7 @@
                   e.value = $("#test").swidget().value();
                   $("#test").swidget().destroy();
               }
-            },  
+            },
             editing: {
                 enabled: true,
                 mode: "popup",
@@ -117,19 +119,19 @@
             var data = {};
             $(".comment_submit").click(function(){
                 grid = $("#grid").swidget().dataSource.data;
+                var finaldata=grid.concat(editno);
                 $.ajax({
                  method: "POST",
                  url: "/people/commit",
                  data: {
-                  data : JSON.stringify(grid), editno:editno },
+                  data : JSON.stringify(finaldata)},
                  success: function(){
-                     $(".comment").append("<p>저장되었습니다.</p>");
                  },
                  error: function(){
-                     alert("Error!!!");
                  }
                 })
                  .done(function( msg ) {
+                   $("#logpartion").append("<p>완료 되었습니다..</p>");
                  });
             });
         });

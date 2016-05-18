@@ -25,9 +25,12 @@ router.get('/', function(req, res, next){
 });
 
 router.post('/commit', function(req, res, next){
+  console.log("testestestest");
   var editdata = JSON.parse(req.body.data);
+  console.log(editdata);
   var i = 0;
   var len = editdata.length;
+  console.log("length : " + len);
     oracledb.getConnection(
     {
       user          : "SYSTEM",
@@ -36,28 +39,47 @@ router.post('/commit', function(req, res, next){
     },
     function(err, connection)
     {
-      console.log('q');
       if (err) { console.error(err.message); return; }
       for(i=0; i<len; i++){
         var t_position = editdata[i].position;
         var t_auth = editdata[i].auth;
         var t_id = editdata[i].id;
-        console.log(t_id);
-        console.log(t_position);
-        console.log(t_auth);
-        connection.execute(
-          "UPDATE employee set position='"+t_position+"', auth='"+t_auth+"' where empno='"+t_id+"'",  // bind value for :id
-          function(err, result)
-          {
-            if (err) { console.error(err.message); return; }
-            connection.commit(function(err){
-              if(err){
-                res.send("실패했습니다.");
-                return;
-              }
+        if(t_id!=null){
+          console.log(t_id);
+          console.log(t_position);
+          console.log(t_auth);
+          connection.execute(
+            "UPDATE employee set position='"+t_position+"', auth='"+t_auth+"' where empno='"+t_id+"'",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              connection.commit(function(err){
+                if(err){
+                  res.send("실패했습니다.");
+                  return;
+                }
+              });
             });
-          });
         }
+        else{
+          console.log("it'will be delete part");
+          t_id=editdata[i];
+          console.log("delete : "+t_id);
+          connection.execute(
+            "delete from employee where empno='"+t_id+"'",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              connection.commit(function(err){
+                if(err){
+                  res.send("실패했습니다.");
+                  return;
+                }
+              });
+            });
+        }
+      }
+
     });
 });
 module.exports = router;
