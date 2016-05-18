@@ -15,7 +15,6 @@ router.get('/', function(req, res, next){
     function(err, connection)
     {
       if (err) { console.error(err.message); return; }
-
       connection.execute(
         "SELECT * from notice",  // bind value for :id
         function(err, result)

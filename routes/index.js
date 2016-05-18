@@ -30,22 +30,24 @@ router.post('/login', function(req, res, next) {
         "select * from EMPLOYEE where email='"+email+"'",
         function(err, result)
         {
-          console.log(err);
-          console.log(result.rows[0][7]);
-          console.log(result.rows[0]);
-
-          if(result.rows[0][7]==password){
-            req.session.empno=result.rows[0][0];
-            req.session.empname=result.rows[0][1];
-            var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
-            var notice_values = ["title1", "title2", "title3"];
-            //res.render('home', {progress_values:progress_values, notice_values:notice_values});
-            res.redirect('home');
-          }
-          else{
-            res.render('index', { title: 'Incorrect Password' });
-          }
-
+          //console.log(err);
+          //console.log(result.rows[0][7]);
+         // console.log(result.rows[0]);
+          if(result.rows[0]!=null){
+            if(result.rows[0][7]==password){
+              req.session.empno=result.rows[0][0];
+              req.session.empname=result.rows[0][1];
+              var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
+              var notice_values = ["title1", "title2", "title3"];
+              //res.render('home', {progress_values:progress_values, notice_values:notice_values});
+              res.redirect('home');
+            }
+            else{
+              res.render('index', { title: 'Incorrect Email/Password' });
+            }
+          }else{
+              res.render('index', { title: 'Incorrect Email/Password' });
+            }
         });
     });
 
@@ -113,10 +115,11 @@ router.get('/home', function(req, res, next){
 router.get('/signup', function(req, res, next){
   res.render('signup');
 });
-
+/*
 router.get('/phone', function(req, res, next){
-  res.render('phone');
+  res.render('phone', {empname:req.session.empname});
 });
+*/
 
 router.get('/profile', function(req, res, next){
   res.render('profile');

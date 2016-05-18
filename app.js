@@ -8,6 +8,8 @@ var session = require('express-session');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var notice = require('./routes/notice');
+var phone = require('./routes/phone');
+var people = require('./routes/people');
 
 var app = express();
 
@@ -33,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/notice', notice);
+app.use('/phone', phone);
 //app.use('/notices', notices);
 
 
@@ -67,5 +70,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
 module.exports = app;
+
+var server = app.listen(app.get('port'), function(){
+  console.log('open');
+});

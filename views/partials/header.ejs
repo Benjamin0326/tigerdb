@@ -1,11 +1,15 @@
 <div class="row container">
-  <div class="container col-md-10">
+  <div class="container col-md-2"></div>
+  <div class="container col-md-8">
     <ul class="nav nav-pills" role="tablist">
       <li role="presentation"><a href="/home">Home</a></li> <!-- <span class="badge">3</span> -->
       <li role="presentation"><a href="/profile">Profile</a></li>
       <li role="presentation"><a href="/Notice">Notice</a></li>
       <li role="presentation"><a href="/Test">Test</a></li>
-      <li role="presentation"><a href="/Phone">Phone</a></li>
+      <li role="presentation"><a href="/phone">Phone</a></li>
+      <% if(emp.empauth>2){%>
+      <li role="presentation"><a href="/people">People</a></li>
+      <% }%>
     </ul>
   </div>
   <div class="container col-md-2">
