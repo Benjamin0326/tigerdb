@@ -20,7 +20,7 @@ router.get('/edit', function(req, res, next) {
         {
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
-          res.render('users/edit', {empname:req.session.empname, userinfo:result.rows[0]});
+          res.render('users/edit', {emp:req.session, userinfo:result.rows[0]});
         });
     });
 });

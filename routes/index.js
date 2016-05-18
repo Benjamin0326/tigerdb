@@ -32,9 +32,13 @@ router.post('/login', function(req, res, next) {
         function(err, result)
         {
           console.log(err);
-          console.log(result.rows[0][7]);
-          console.log(result.rows[0]);
-          if(result.rows[0][3]==0){
+          if(result.rows[0]==null){
+            res.render('index', { title: '존재하지 않는 아이디입니다.' });
+            return;
+          }
+          //console.log(result.rows[0][7]);
+          //console.log(result.rows[0]);
+          else if(result.rows[0][3]==0){
             res.render('index', { title: '가입 승인이 나지 않았습니다.' });
           }
           else if(result.rows[0][7]==password){
