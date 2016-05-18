@@ -20,14 +20,14 @@ router.get('/', function(req, res, next){
         {
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
-          res.render('notice', {empname:req.session.empname, notices:result.rows});
+          res.render('notice', {emp:req.session, notices:result.rows});
         });
     });
 });
 
 router.get('/write', function(req, res, next){
   console.log(req.session.empname + " " + req.session.empno);
-  res.render('notice/write', {empname:req.session.empname});
+  res.render('notice/write', {emp:req.session});
 });
 
 router.get('/:id', function(req, res, next){
@@ -53,7 +53,7 @@ router.get('/:id', function(req, res, next){
             iswriter=true;
           }
 
-          res.render('notice/view', {empname:req.session.empname, notices:result.rows[0], iswriter:iswriter});
+          res.render('notice/view', {emp:req.session, notices:result.rows[0], iswriter:iswriter});
         });
     });
 });
@@ -77,7 +77,7 @@ router.get('/modify/:id', function(req, res, next){
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
 
-          res.render('notice/modify', {empname:req.session.empname, notices:result.rows[0]});
+          res.render('notice/modify', {emp:req.session, notices:result.rows[0]});
         });
     });
 });
