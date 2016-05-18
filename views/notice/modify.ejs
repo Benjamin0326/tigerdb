@@ -7,21 +7,24 @@
     <div class="header">
       <% include ../partials/header %>
     </div>
+
+
       <div class="container" style="margin-top:30px">
           <div class="row">
-              <form role="form" id="body" method="post" action="/notice/write/commit">
+              <form role="form" id="body" method="post" action="/notice/modify/commit/<%= notices[0] %>">
                   <div class="col-lg-12">
-                    <div class="form-group">
+                      <!--<div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong></div>-->
+                      <div class="form-group">
                           <label for="InputName">Enter Title</label>
                           <div class="input-group">
-                              <input type="text" class="form-control" name="ntctitle" id="InputName" placeholder="Title" required>
+                              <input type="text" class="form-control" name="ntctitle" id="InputName" value="<%= notices[1] %>" required>
                               <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                           </div>
                       </div>
                       <div class="form-group">
                           <label for="InputMessage">Enter Description</label>
                           <div class="input-group">
-                              <textarea name="ntcdescription" id="InputMessage" class="form-control" rows="18" required></textarea>
+                              <textarea name="ntcdescription" id="InputMessage" class="form-control" rows="18" required><%= notices[2] %></textarea>
                               <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                           </div>
                       </div>

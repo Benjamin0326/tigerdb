@@ -2,9 +2,10 @@
   <div class="container col-md-2"></div>
   <div class="container col-md-8">
     <ul class="nav nav-pills" role="tablist">
-      <li role="presentation"><a href="/home">Home</a></li> <!-- <span class="badge">3</span> -->
+      <li role="presentation"><a href="/home">Home</a></li>
       <li role="presentation"><a href="/profile">Profile</a></li>
       <li role="presentation"><a href="/Notice">Notice</a></li>
+      <li role="presentation"><a href="/schedule">Schedule</a></li>
       <li role="presentation"><a href="/Test">Test</a></li>
       <li role="presentation"><a href="/phone">Phone</a></li>
       <% if(emp.empauth>2){%>
@@ -14,7 +15,7 @@
   </div>
   <div class="container col-md-2">
     <ul class="nav nav-pills" role="tablist">
-      <li role="presentation"><a href="/users/edit"><%= empname %></a></li>
+      <li role="presentation"><a href="/users/edit"><%= emp.empname %></a></li>
       <li role="presentation"><a href="/">Logout</a></li>
     </ul>
   </div>
