@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/logout', function(req, res, next) {
-  req.session=null;
+  req.session.destroy();
   res.redirect('/');
 });
 
