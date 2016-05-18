@@ -2,10 +2,101 @@
 <html>
   <head>
     <% include partials/head %>
-  </head>  
+  </head>
   <body>
     <div class="header">
       <% include partials/header %>
     </div>
+
+    <div class="container" style="margin-top:30px">
+
+    <div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="text-center">Bootstrap Editable Table <span class="fa fa-edit pull-right bigicon"></span></h4>
+        </div>
+        <div class="panel-body text-center">
+            <div id="grid"></div>
+        </div>
+    </div>
+</div>
+
+    </div>
+    <div class="container row">
+      <div class="container col-md-11">
+      </div>
+
   </body>
 </html>
+<script type="text/javascript">
+  var griddata=[
+    <% peoples.forEach(function(people) { %>
+      {
+      "id": <%= people[0] %>,
+      "isActive": true,
+      "age": 66,
+      "address": "<%= people[4] %>",
+      "name": "<%= people[1] %>",
+      "phone": "<%= people[5] %>",
+      "auth": "<%= people[3] %>",
+      "quantity": 332,
+      "position": "<%= people[2] %>",
+      "month": "11 February 2014",
+      "email": "<%= people[6] %>"
+  },
+    <% }); %>
+  ];
+    $(document).ready(function () {
+        $("#grid").shieldGrid({
+            dataSource: {
+                data: griddata,
+                schema: {
+                    fields: {
+                        id: { path: "id", type: Number },
+                        address: { path: "address", type: String },
+                        name: { path: "name", type: String },
+                        position: { path: "position", type: String },
+                        phone: { path: "phone", type: String },
+                        isActive: { path: "isActive", type: Boolean },
+                        email: { path: "email", type: String },
+                        auth: { path: "auth", type: String }
+                    }
+                }
+            },
+            sorting: {
+                multiple: true
+            },
+            rowHover: false,
+            columns: [
+                { field: "name", title: "Person Name", width: "120px" },
+                { field: "position", title: "Position", width:"120px" },
+                { field: "address", title: "Address", width: "120px" },
+                { field: "phone", title: "Phone", width: "120px" },
+                { field: "email", title: "Email" },
+                { field: "auth", title: "Authority", width: "120px" },
+                {
+                    width: 150,
+                    title: "Update/Delete Column",
+                    buttons: [
+                        { commandName: "edit", caption: "Edit" },
+                        { commandName: "delete", caption: "Delete" }
+                    ]
+                }
+            ],
+            editing: {
+                enabled: true,
+                mode: "popup",
+                confirmation: {
+                    "delete": {
+                        enabled: true,
+                        template: function (item) {
+                            return "Delete row with ID = " + item.id
+                        }
+                    }
+                }
+            }
+        });
+
+
+    });
+</script>

@@ -38,6 +38,7 @@ app.use('/users', users);
 app.use('/notice', notice);
 app.use('/phone', phone);
 app.use('/schedule', schedule);
+app.use('/people', people);
 //app.use('/notices', notices);
 
 
