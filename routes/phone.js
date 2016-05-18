@@ -3,7 +3,6 @@ var oracledb = require('oracledb');
 var router = express.Router();
 
 router.get('/', function(req, res, next){
-  oracledb.maxRows=50;
   oracledb.getConnection(
     {
       user          : "SYSTEM",
@@ -29,6 +28,7 @@ router.get('/add', function(req, res, next){
   res.render('phone/add', {emp:req.session});
 });
 
+<<<<<<< HEAD
 router.get('/:id', function(req, res, next){
   var id = req.params.id;
   oracledb.getConnection(
