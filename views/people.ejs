@@ -39,7 +39,13 @@
       "phone": "<%= people[5] %>",
       "auth": "<%= people[3] %>",
       "position": "<%= people[2] %>",
+<<<<<<< HEAD
       "email": "<%= people[6] %>"
+=======
+      "month": "11 February 2014",
+      "email": "<%= people[6] %>",
+      "tags" : "testTags"
+>>>>>>> 62e20ad714c9f796e9cef4d580c6450f56200ade
   },
     <% }); %>
   ];
@@ -58,7 +64,7 @@
                         isActive: { path: "isActive", type: Boolean },
                         email: { path: "email", type: String },
                         auth: { path: "auth", type: Number },
-                        tags : { path: "tags", type: String }
+                        tags: { path: "tags", type: String }
                     }
                 }
             },
@@ -68,11 +74,10 @@
             rowHover: false,
             columns: [
                 { field: "name", title: "Person Name", width: "120px" },
-                { field: "position", title: "Position", width:"120px" },
-                { field: "address", title: "Address", width: "120px" },
+                { field: "position", title: "Position", width:"120px", editor: myCustomEditor },
+                { field: "address", title: "Address", width: "120px"},
                 { field: "phone", title: "Phone", width: "120px" },
                 { field: "email", title: "Email" },
-                { field: "tags", title: "Tags" },
                 { field: "auth", title: "Authority", width: "120px" },
                 {
                     width: 150,
@@ -83,6 +88,7 @@
                     ]
                 }
             ],
+
             editing: {
                 enabled: true,
                 mode: "popup",
@@ -97,8 +103,16 @@
                 }
             }
         });
-
-
+        function myCustomEditor(cell, item) {
+    $('<div id="test"/>')
+        .appendTo(cell)
+        .shieldDropDown({
+            dataSource: {
+                data: ["Intern", "Employee", "Researcher", "Senior Researcher", "Mager Researcher"]
+            },
+            value: !item["position"] ? null : item["position"].toString()
+        }).swidget().focus();
+}
     });
 
     $(function(){
