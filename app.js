@@ -12,6 +12,7 @@ var phone = require('./routes/phone');
 var people = require('./routes/people');
 var schedule = require('./routes/schedule');
 var bug = require('./routes/bug');
+var rent = require('./routes/rent');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use('/phone', phone);
 app.use('/schedule', schedule);
 app.use('/people', people);
 app.use('/bug', bug);
+app.use('/rent', rent);
 //app.use('/notices', notices);
 
 
