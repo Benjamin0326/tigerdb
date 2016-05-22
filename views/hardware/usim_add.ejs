@@ -94,7 +94,7 @@
                 var finaldata=grid.concat(editno);
                 $.ajax({
                  method: "POST",
-                 url: "/phone/add_commit",
+                 url: "/usim/add_commit",
                  data: {
                   data : JSON.stringify(finaldata)},
                  success: function(){
@@ -103,7 +103,7 @@
                  }
                 })
                  .done(function( msg ) {
-                  location.href='/phone';
+                  location.href='/usim';
                  });
             });
         });

@@ -3,10 +3,7 @@ var oracledb = require('oracledb');
 var router = express.Router();
 
 router.get('/', function(req, res, next){
-  console.log('here');
-  res.render('usim,', {emp:req.session});
-  //oracledb.maxRows=100;
-  /*
+  oracledb.maxRows=100;
   oracledb.getConnection(
     {
       user          : "SYSTEM",
@@ -22,25 +19,25 @@ router.get('/', function(req, res, next){
         {
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
-          res.render('usim,', {emp:req.session, usims:result.rows});
+          res.render('usim', {emp:req.session, usims:result.rows});
         });
     });
-*/
 });
-/*
+
 router.get('/usim_add', function(req, res){
   console.log('here');
   res.render('hardware/usim_add', {emp:req.session});
-})
+});
 
 router.post('/add_commit', function(req, res, next){
   
   var data = JSON.parse(req.body.data); 
   console.log(data)
   
-  var phonename = data[0].phonename;
-  var manu = data[0].manufacture;
-  var osver = data[0].osver;
+  var stat = data[0].station;
+  var usimno = data[0].usimno;
+  var phoneno = data[0].phoneno;
+  var desc = data[0].desc;
   
   oracledb.getConnection(
     {
@@ -53,7 +50,7 @@ router.post('/add_commit', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "insert into phone (PHONENAME, MANUFACTURE, OSVER, STATE) VALUES('"+phonename+"', '"+manu+"', '"+osver+"', 0)",
+        "insert into usim (STATION, USIMNO, PHONENO, DESCRIPTION, STATE) VALUES('"+stat+"', '"+usimno+"', '"+phoneno+"',  '"+desc+"', 0)",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -63,13 +60,12 @@ router.post('/add_commit', function(req, res, next){
               return;
             }
           });
-          res.redirect('/phone');
+          res.redirect('/usim');
         });
     });
 });
 
 router.post('/commit', function(req, res, next){
-  console.log("test phone");
   var editdata = JSON.parse(req.body.data);
   console.log(editdata);
   var i = 0;
@@ -85,16 +81,17 @@ router.post('/commit', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       for(i=0; i<len; i++){
+        console.log(editdata[i]);
         var t_id = editdata[i].id;
-        var t_phonename = editdata[i].phonename;
-        var t_manu = editdata[i].manufacture;
-        var t_os = editdata[i].osver;
+        var t_stat = editdata[i].station;
+        var t_usimno = editdata[i].usimno;
+        var t_phoneno = editdata[i].phoneno;
+        var t_desc = editdata[i].desc;
         var t_state = editdata[i].state;
-        var t_renter = editdata[i].renter;
 
         if(t_id!=null){
           connection.execute(
-            "UPDATE phone set phonename='"+t_phonename+"', manufacture='"+t_manu+"', osver='"+t_os+"', state='"+t_state+"', renter='"+t_renter+"' where phoneno='"+t_id+"'",  // bind value for :id
+            "UPDATE USIM set station='"+t_stat+"', usimno='"+t_usimno+"', phoneno='"+t_phoneno+"', description='"+t_desc+"', state='"+t_state+"' where usimidx='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -111,7 +108,7 @@ router.post('/commit', function(req, res, next){
           t_id=editdata[i];
           console.log("delete : "+t_id);
           connection.execute(
-            "delete from phone where phoneno='"+t_id+"'",  // bind value for :id
+            "delete from usim where usimidx='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -127,5 +124,5 @@ router.post('/commit', function(req, res, next){
 
     });
 });
-*/
+
 module.exports = router;

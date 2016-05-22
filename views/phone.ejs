@@ -18,10 +18,12 @@
           </div>
         </div>
       </div>
+      <% if(emp.empauth>1){%>
       <div class="container row">
         <input type="button" name="save" id="save" value="Save" class="btn btn-info pull-right phone_save" style="margin-left:10px; margin-right:10px">
         <input type="button" name="add" id="add" value="Add" class="btn btn-info pull-right" onclick="location.href='/phone/phone_add'">
       </div>
+      <% } %>
     </div>
   </body>
 </html>
