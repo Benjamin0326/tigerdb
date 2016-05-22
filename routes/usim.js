@@ -91,6 +91,7 @@ router.post('/commit', function(req, res, next){
         var t_state = editdata[i].state;
 
         if(t_id!=null){
+          t_state=t_state[1];
           connection.execute(
             "UPDATE USIM set station='"+t_stat+"', usimno='"+t_usimno+"', phoneno='"+t_phoneno+"', description='"+t_desc+"', state='"+t_state+"' where usimidx='"+t_id+"'",  // bind value for :id
             function(err, result)
@@ -109,7 +110,7 @@ router.post('/commit', function(req, res, next){
           t_id=editdata[i];
           console.log("delete : "+t_id);
           connection.execute(
-            "delete from usim where usimidx='"+t_id+"'",  // bind value for :id
+            "update usim set state=2 where state=0 and usimidx='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }

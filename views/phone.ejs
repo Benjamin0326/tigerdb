@@ -32,15 +32,16 @@
   var editno=[];
   var griddata=[
     <% phones.forEach(function(phone) { %>
+      <% if(phone[4]==0 || phone[4]==1 || phone[4]==2){ %>
       {
       "id": <%= phone[0] %>,
       "isActive": true,
       "phonename": "<%= phone[1] %>",
       "manufacture": "<%= phone[2] %>",
       "osver": "<%= phone[3] %>",
-      "state": "<%= phone[4] %>",
-      "renter": "<%= phone[5] %>",
+      "state": "<% if(phone[4]==0){ %>(0)대출가능<% }else if(phone[4]==1){ %>(1)대출중<% }else{ %>(2)대출불가능<% }; %>",
   },
+    <% }; %>
     <% }); %>
   ];
     $(document).ready(function () {
@@ -54,9 +55,8 @@
                         phonename: { path: "phonename", type: String },
                         manufacture: { path: "manufacture", type: String },
                         osver: { path: "osver", type: String },
-                        state: { path: "state", type: Number },
-                        isActive: { path: "isActive", type: Boolean },
-                        renter: { path: "renter", type: String }
+                        state: { path: "state"},
+                        isActive: { path: "isActive", type: Boolean }
                     }
                 }
             },
@@ -69,8 +69,7 @@
                 { field: "phonename", title: "Phone Name", width: "120px" },
                 { field: "manufacture", title: "manufacture", width:"120px"},
                 { field: "osver", title: "osver", width: "80px"},
-                { field: "state", title: "state", width: "80px" },
-                { field: "renter", title: "renter", width: "80px" },
+                { field: "state", title: "state", width: "80px", editable: false },
                 {
                     width: 150,
                     title: "Update/Delete Column",

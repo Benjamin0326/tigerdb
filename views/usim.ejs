@@ -32,6 +32,7 @@
   var editno=[];
   var griddata=[
     <% usims.forEach(function(usim) { %>
+      <% if(usim[5]==0 || usim[5]==1 || usim[5]==2){ %>
       {
       "id": <%= usim[0] %>,
       "isActive": true,
@@ -39,8 +40,9 @@
       "usimno": "<%= usim[2] %>",
       "phoneno": "<%= usim[3] %>",
       "desc": "<%= usim[4] %>",
-      "state": "<%= usim[5] %>"
+      "state": "<% if(usim[5]==0){ %>(0)대출가능<% }else if(usim[5]==1){ %>(1)대출중<% }else{ %>(2)대출불가능<% }; %>"
   },
+    <% }; %>
     <% }); %>
   ];
     $(document).ready(function () {
@@ -56,7 +58,7 @@
                         phoneno: { path: "phoneno", type: String },
                         desc: { path: "desc", type: String },
                         isActive: { path: "isActive", type: Boolean },
-                        state: { path: "state", type: Number }
+                        state: { path: "state" }
                     }
                 }
             },
@@ -70,7 +72,7 @@
                 { field: "usimno", title: "USIM Number", width:"120px"},
                 { field: "phoneno", title: "Phone Number", width: "80px"},
                 { field: "desc", title: "Description", width: "80px" },
-                { field: "state", title: "State", width: "80px" },
+                { field: "state", title: "State", width: "80px", editable: false },
                 {
                     width: 150,
                     title: "Update/Delete Column",
