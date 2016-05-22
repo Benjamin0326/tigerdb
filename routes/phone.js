@@ -49,7 +49,7 @@ router.post('/add_commit', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "insert into phone (PHONENAME, MANUFACTURE, OSVER, STATE) VALUES('"+phonename+"', '"+manu+"', '"+osver+"', 0)",
+        "insert into phone (PHONENAME, MANUFACTURE, OSVER, STATUS) VALUES('"+phonename+"', '"+manu+"', '"+osver+"', 0)",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -70,6 +70,7 @@ router.post('/commit', function(req, res, next){
   console.log(editdata);
   var i = 0;
   var len = editdata.length;
+  var flag = false;
   console.log("length : " + len);
     oracledb.getConnection(
     {
@@ -77,7 +78,7 @@ router.post('/commit', function(req, res, next){
       password      : "0305",
       connectString : "localhost/DBSERVER"
     },
-    function(err, connection)
+    function(err, connection, res)
     {
       if (err) { console.error(err.message); return; }
       for(i=0; i<len; i++){
@@ -90,13 +91,14 @@ router.post('/commit', function(req, res, next){
 
         if(t_id!=null){
           connection.execute(
-            "UPDATE phone set phonename='"+t_phonename+"', manufacture='"+t_manu+"', osver='"+t_os+"', state='"+t_state+"', renter='"+t_renter+"' where phoneno='"+t_id+"'",  // bind value for :id
+            "UPDATE phone set phonename='"+t_phonename+"', manufacture='"+t_manu+"', osver='"+t_os+"', status='"+t_state+"', renter='"+t_renter+"' where phoneno='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
               connection.commit(function(err){
                 if(err){
                   res.send("실패했습니다.");
+                  flag = true;
                   return;
                 }
               });
@@ -120,8 +122,9 @@ router.post('/commit', function(req, res, next){
             });
         }
       }
-
     });
+  if(!flag)
+    res.send("update success");
 });
 
 module.exports = router;

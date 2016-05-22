@@ -54,7 +54,7 @@
                         phonename: { path: "phonename", type: String },
                         manufacture: { path: "manufacture", type: String },
                         osver: { path: "osver", type: String },
-                        state: { path: "state", type: Number },
+                        state: { path: "state", type: Number},
                         isActive: { path: "isActive", type: Boolean },
                         renter: { path: "renter", type: String }
                     }
@@ -69,7 +69,7 @@
                 { field: "phonename", title: "Phone Name", width: "120px" },
                 { field: "manufacture", title: "manufacture", width:"120px"},
                 { field: "osver", title: "osver", width: "80px"},
-                { field: "state", title: "state", width: "80px" },
+                { field: "state", title: "state", width: "80px"},
                 { field: "renter", title: "renter", width: "80px" },
                 {
                     width: 150,
@@ -101,7 +101,6 @@
             }
         });
     });
-
     $(function(){
             var data = {};
             $(".phone_save").click(function(){
@@ -113,12 +112,12 @@
                  data: {
                   data : JSON.stringify(finaldata)},
                  success: function(){
+                  alert('update success');
                  },
                  error: function(){
                  }
                 })
                  .done(function( msg ) {
-                   $("#logpartion").append("<p>완료 되었습니다..</p>");
                  });
             });
         });

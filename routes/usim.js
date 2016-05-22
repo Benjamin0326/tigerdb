@@ -71,6 +71,7 @@ router.post('/commit', function(req, res, next){
   console.log(editdata);
   var i = 0;
   var len = editdata.length;
+  var flag = false;
   console.log("length : " + len);
     oracledb.getConnection(
     {
@@ -99,6 +100,7 @@ router.post('/commit', function(req, res, next){
               connection.commit(function(err){
                 if(err){
                   res.send("실패했습니다.");
+                  flag = true;
                   return;
                 }
               });
@@ -122,8 +124,9 @@ router.post('/commit', function(req, res, next){
             });
         }
       }
-
     });
+  if(!flag)
+    res.send('success');
 });
 
 module.exports = router;
