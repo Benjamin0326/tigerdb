@@ -30,14 +30,14 @@ router.get('/phone_add', function(req, res){
 })
 
 router.post('/add_commit', function(req, res, next){
-  
-  var data = JSON.parse(req.body.data); 
+
+  var data = JSON.parse(req.body.data);
   console.log(data)
-  
+
   var phonename = data[0].phonename;
   var manu = data[0].manufacture;
   var osver = data[0].osver;
-  
+
   oracledb.getConnection(
     {
       user          : "SYSTEM",
