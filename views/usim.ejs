@@ -11,7 +11,7 @@
       <div class="col-md-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="text-center">스마트폰 관리 테이블 <span class="fa fa-edit pull-right bigicon"></span></h4>
+            <h4 class="text-center">USIM 관리 테이블<span class="fa fa-edit pull-right bigicon"></span></h4>
           </div>
           <div class="panel-body text-center">
             <div id="grid"></div>
@@ -29,15 +29,15 @@
 <script type="text/javascript">
   var editno=[];
   var griddata=[
-    <% phones.forEach(function(phone) { %>
+    <% usims.forEach(function(usim) { %>
       {
-      "id": <%= phone[0] %>,
+      "id": <%= usim[0] %>,
       "isActive": true,
-      "phonename": "<%= phone[1] %>",
-      "manufacture": "<%= phone[2] %>",
-      "osver": "<%= phone[3] %>",
-      "state": "<%= phone[4] %>",
-      "renter": "<%= phone[5] %>",
+      "station": "<%= usim[1] %>",
+      "usimno": "<%= usim[2] %>",
+      "phoneno": "<%= usim[3] %>",
+      "desc": "<%= usim[4] %>",
+      "state": "<%= usim[5] %>"
   },
     <% }); %>
   ];
@@ -49,12 +49,12 @@
                 schema: {
                     fields: {
                         id: { path: "id", type: Number },
-                        phonename: { path: "phonename", type: String },
-                        manufacture: { path: "manufacture", type: String },
-                        osver: { path: "osver", type: String },
-                        state: { path: "state", type: Number },
+                        station: { path: "station", type: String },
+                        usimno: { path: "usimno", type: String },
+                        phoneno: { path: "phoneno", type: String },
+                        desc: { path: "desc", type: String },
                         isActive: { path: "isActive", type: Boolean },
-                        renter: { path: "renter", type: String }
+                        state: { path: "state", type: Number }
                     }
                 }
             },
@@ -64,11 +64,11 @@
             rowHover: false,
             columns: [
                 { field: "id", title: "id", width: "50px" },
-                { field: "phonename", title: "Phone Name", width: "120px" },
-                { field: "manufacture", title: "manufacture", width:"120px"},
-                { field: "osver", title: "osver", width: "80px"},
-                { field: "state", title: "state", width: "80px" },
-                { field: "renter", title: "renter", width: "80px" },
+                { field: "station", title: "Station Info", width: "120px" },
+                { field: "usimno", title: "USIM Number", width:"120px"},
+                { field: "phoneno", title: "Phone Number", width: "80px"},
+                { field: "desc", title: "Description", width: "80px" },
+                { field: "state", title: "State", width: "80px" },
                 {
                     width: 150,
                     title: "Update/Delete Column",
@@ -102,12 +102,12 @@
 
     $(function(){
             var data = {};
-            $(".phone_save").click(function(){
+            $(".usim_save").click(function(){
                 grid = $("#grid").swidget().dataSource.data;
                 var finaldata=grid.concat(editno);
                 $.ajax({
                  method: "POST",
-                 url: "/phone/commit",
+                 url: "/usim/commit",
                  data: {
                   data : JSON.stringify(finaldata)},
                  success: function(){

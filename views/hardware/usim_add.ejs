@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+  </head>
+  <body>
+    <div class="header">
+      <% include ../partials/header %>
+    </div>
+    <div class="container" style="margin-top:30px">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="text-center">USIM 추가<span class="fa fa-edit pull-right bigicon"></span></h4>
+            </div>
+            <div class="panel-body text-center">
+              <div id="grid">
+              </div>
+            </div>
+              <input type="submit" name="submit" id="submit" value="Add" class="btn btn-info pull-right comment_submit" style="margin-top:10px;">
+          </div>
+        </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript">
+  var editno=[];
+  var griddata=[{
+   "station": "",
+   "usimno": "",
+   "phoneno": "",
+   "desc": ""
+  }];
+    $(document).ready(function () {
+        $("#grid").shieldGrid({
+            dataSource: {
+                data: griddata,
+                selection: true,
+                schema: {
+                    fields: {
+                        id: { path: "id", type: Number },
+                        station: { path: "station", type: String },
+                        usimno: { path: "usimno", type: String },
+                        phoneno: { path: "phoneno", type: String },
+                        desc: { path: "desc", type: String },
+                        isActive: { path: "isActive", type: Boolean }
+                    }
+                }
+            },
+            sorting: {
+                multiple: true
+            },
+            rowHover: false,
+            columns: [
+                { field: "station", title: "Station Info", width: "120px" },
+                { field: "usimno", title: "USIM Number", width:"120px"},
+                { field: "phoneno", title: "Phone Number", width: "80px"},
+                { field: "desc", title: "Description", width: "80px" },
+                {
+                    width: 150,
+                    title: "Add Column",
+                    buttons: [
+                        { commandName: "edit", caption: "Edit" }
+                    ]
+                }
+            ],
+            events: {
+              getCustomEditorValue: function (e) {
+                  e.value = $("#test").swidget().value();
+                  $("#test").swidget().destroy();
+              }
+            },
+            editing: {
+                enabled: true,
+                mode: "popup",
+                confirmation: {
+                    "delete": {
+                        enabled: true,
+                        template: function (item) {
+                            editno.push(item.id);
+                            return "Delete row with ID = " + item.id
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    $(function(){
+            var data = {};
+            $(".comment_submit").click(function(){
+                grid = $("#grid").swidget().dataSource.data;
+                var finaldata=grid.concat(editno);
+                $.ajax({
+                 method: "POST",
+                 url: "/phone/add_commit",
+                 data: {
+                  data : JSON.stringify(finaldata)},
+                 success: function(){
+                 },
+                 error: function(){
+                 }
+                })
+                 .done(function( msg ) {
+                  location.href='/phone';
+                 });
+            });
+        });
+
+</script>

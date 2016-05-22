@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var notice = require('./routes/notice');
 var phone = require('./routes/phone');
+var usim = require('./routes/usim');
 var people = require('./routes/people');
 var schedule = require('./routes/schedule');
 var bug = require('./routes/bug');
@@ -41,6 +42,7 @@ app.use('/phone', phone);
 app.use('/schedule', schedule);
 app.use('/people', people);
 app.use('/bug', bug);
+app.use('/usim', usim);
 //app.use('/notices', notices);
 
 
