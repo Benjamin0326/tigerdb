@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+  </head>
+  <body>
+    <div class="header">
+      <% include ../partials/header %>
+    </div>
+    <div class="container row" style="margin-top:30px">
+
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4 class="col-md-10"><%= info[1]%></h4><p class="col-md-2"><%= info[10]%></p>
+          <p class="col-md-6"></p><p>Type : <%= info[7] %> / Status : <% if(info[6]==0){ %>New<% }else if(info[6]==1){ %>Recognized<% }else if(info[6]==2){ %>In Progress<% }else if(info[6]==3){ %>Resolved<% }else if(info[6]==4){ %>Closed<% }; %></p>
+          <p class="col-md-10"></p><p>Phone : <%= info[8] %> - <%= info[9] %></p>
+        </div>
+        <div class="panel-body">
+          <%= info[2]%><br><br><p class="col-md-10"></p><%= info[4].toString().substr(0,16) %>
+        </div>
+        <% if (iswriter) { %>
+          <div class="panel-footer">
+            <a href="/bug/modify/<%= info[0] %>">수정</a>
+            <a href="/bug/delete/<%= info[0] %>">삭제</a>
+            <a href="/bug %>">목록</a>
+          </div>
+        <% }else{ %>
+          <div class="panel-footer">
+            <a href="/bug %>">목록</a>
+          </div>
+        <% } %>
+
+      </div>
+
+
+    </div>
+
+  </body>
+</html>

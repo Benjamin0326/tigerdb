@@ -164,7 +164,7 @@ router.post('/modify/commit/:id', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "update notice set TITLE='"+title+"', DES='"+description+"', NTCDATE='"+now+"' where ntcno='"+id+"'",
+        "update notice set TITLE='"+title+"', DES='"+description+"', NTCDATE=TO_DATE('"+now+"','yyyyMMddhh24miss') where ntcno='"+id+"'",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }

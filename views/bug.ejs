@@ -15,16 +15,13 @@
           <div class="list-group-item">
             <h4 class="list-group-item-text"><a href="bug/<%= bug[0] %>" style="color:black"><%= bug[1] %></a></h4>
             <br>
-            <p class="list-group-item-text">Status = <%= bug[6] %> / Type = <%= bug[7] %></p>
+            <p class="list-group-item-text">Status = <% if(bug[6]==0){ %>New<% }else if(bug[6]==1){ %>Recognized<% }else if(bug[6]==2){ %>In Progress<% }else if(bug[6]==3){ %>Resolved<% }else if(bug[6]==4){ %>Closed<% }; %>
+               / Type = <%= bug[7] %></p>
             <p class="list-group-item-text" style="text-algin:right; margin-left:700px"><%= bug[4].toString().substr(0,16) %></p>
           </div>
           <% }); %>
       </div>
     </div>
-
-
-
-
 
   </body>
 </html>
