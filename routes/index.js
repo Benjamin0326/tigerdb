@@ -108,7 +108,6 @@ router.post('/enroll', function(req, res, next) {
 router.get('/home', function(req, res, next){
   console.log(req.session.empname);
   var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
-  var notice_values = ["title1", "title2", "title3"];
   var empname = req.session.empname;
 
   oracledb.getConnection(
@@ -122,7 +121,7 @@ router.get('/home', function(req, res, next){
       if (err) { console.error(err.message); return; }
       oracledb.maxRows=5;
       connection.execute(
-        "select * from notice n",
+        "select * from notice",
         function(err, result)
         {
           console.log(err);
@@ -130,8 +129,20 @@ router.get('/home', function(req, res, next){
           if(req.session===null)
             res.redirect('/');
           else{
-            res.render('home', {progress_values:progress_values, notice_values:result.rows, emp:req.session});
-            return;
+            var notice_values=result.rows;
+            connection.execute(
+              "select * from bug",
+              function(err, result)
+              {
+                console.log(err);
+                console.log(result.rows[0]);
+                if(req.session===null)
+                  res.redirect('/');
+                else{
+                  var bug_values=result.rows;
+                  res.render('home', {progress_values:progress_values, bug_values:bug_values, notice_values:notice_values, emp:req.session});
+                }
+              });
           }
         });
     });

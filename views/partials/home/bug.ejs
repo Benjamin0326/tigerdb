@@ -1,0 +1,12 @@
+<p>버그</p>
+<div style="text-align:right" class="row">
+  <a style="text-align:right" href="/bug">more...</a>
+</div>
+<br>
+<div class="list-group">
+  <% bug_values.forEach(function(bug_value) { %>
+    <div class="list-group-item">
+      <a href="/bug/<%= bug_value[0] %>"><p class="list-group-item-text" style="color:black"><%= bug_value[1] %></p></a>
+    </div>
+    <% }); %>
+</div>
