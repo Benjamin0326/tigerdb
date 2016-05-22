@@ -1,46 +1,36 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <% include partials/head %>
+    <% include ../partials/head %>
   </head>
   <body>
     <div class="header">
-      <% include partials/header %>
+      <% include ../partials/header %>
     </div>
     <div class="container" style="margin-top:30px">
-      <div class="col-md-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="text-center">자원 관리 테이블 <span class="fa fa-edit pull-right bigicon"></span></h4>
-          </div>
-          <div class="panel-body text-center">
-            <div id="grid"></div>
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="text-center">스마트폰 추가<span class="fa fa-edit pull-right bigicon"></span></h4>
+            </div>
+            <div class="panel-body text-center">
+              <div id="grid">
+              </div>
+            </div>
+              <input type="submit" name="submit" id="submit" value="Add" class="btn btn-info pull-right comment_submit" style="margin-top:10px;">
           </div>
         </div>
-      </div>
-      <div class="container row">
-        <input type="button" name="save" id="save" value="Save" class="btn btn-info pull-right phone_save" style="margin-left:10px; margin-right:10px">
-        <input type="button" name="add" id="add" value="Add" class="btn btn-info pull-right" onclick="location.href='/phone/phone_add'">
-      </div>
     </div>
   </body>
 </html>
 
 <script type="text/javascript">
   var editno=[];
-  var griddata=[
-    <% phones.forEach(function(phone) { %>
-      {
-      "id": <%= phone[0] %>,
-      "isActive": true,
-      "phonename": "<%= phone[1] %>",
-      "manufacture": "<%= phone[2] %>",
-      "osver": "<%= phone[3] %>",
-      "state": "<%= phone[4] %>",
-      "renter": "<%= phone[5] %>",
-  },
-    <% }); %>
-  ];
+  var griddata=[{
+    "phonename" : "",
+    "manufacture" : "",
+    "osver" : ""
+  }];
     $(document).ready(function () {
         $("#grid").shieldGrid({
             dataSource: {
@@ -52,9 +42,7 @@
                         phonename: { path: "phonename", type: String },
                         manufacture: { path: "manufacture", type: String },
                         osver: { path: "osver", type: String },
-                        state: { path: "state", type: Number },
-                        isActive: { path: "isActive", type: Boolean },
-                        renter: { path: "renter", type: String }
+                        isActive: { path: "isActive", type: Boolean }
                     }
                 }
             },
@@ -63,18 +51,14 @@
             },
             rowHover: false,
             columns: [
-                { field: "id", title: "id", width: "50px" },
                 { field: "phonename", title: "Phone Name", width: "120px" },
                 { field: "manufacture", title: "manufacture", width:"120px"},
                 { field: "osver", title: "osver", width: "80px"},
-                { field: "state", title: "state", width: "80px" },
-                { field: "renter", title: "renter", width: "80px" },
                 {
                     width: 150,
-                    title: "Update/Delete Column",
+                    title: "Add Column",
                     buttons: [
-                        { commandName: "edit", caption: "Edit" },
-                        { commandName: "delete", caption: "Delete" }
+                        { commandName: "edit", caption: "Edit" }
                     ]
                 }
             ],
@@ -102,12 +86,12 @@
 
     $(function(){
             var data = {};
-            $(".phone_save").click(function(){
+            $(".comment_submit").click(function(){
                 grid = $("#grid").swidget().dataSource.data;
                 var finaldata=grid.concat(editno);
                 $.ajax({
                  method: "POST",
-                 url: "/phone/commit",
+                 url: "/phone/add_commit",
                  data: {
                   data : JSON.stringify(finaldata)},
                  success: function(){
@@ -116,7 +100,7 @@
                  }
                 })
                  .done(function( msg ) {
-                   $("#logpartion").append("<p>완료 되었습니다..</p>");
+                  location.href='/phone';
                  });
             });
         });
