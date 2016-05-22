@@ -111,7 +111,6 @@ router.get('/home', function(req, res, next){
   var notice_values = ["title1", "title2", "title3"];
   var empname = req.session.empname;
 
-  oracledb.maxRows=3;
   oracledb.getConnection(
     {
       user          : "system",
@@ -121,27 +120,21 @@ router.get('/home', function(req, res, next){
     function(err, connection)
     {
       if (err) { console.error(err.message); return; }
+      oracledb.maxRows=5;
       connection.execute(
-        "select n.title from notice n",
+        "select * from notice n",
         function(err, result)
         {
           console.log(err);
           console.log(result.rows[0]);
           if(req.session===null)
             res.redirect('/');
-
-          if(err){
-            res.redirect('/');
-            return;
-          }
           else{
             res.render('home', {progress_values:progress_values, notice_values:result.rows, emp:req.session});
             return;
           }
         });
     });
-
-
 });
 
 

@@ -5,7 +5,7 @@
 <div class="list-group">
   <% notice_values.forEach(function(notice_value) { %>
     <div class="list-group-item">
-      <p class="list-group-item-text"><%= notice_value %></p>
+      <a href="/notice/<%= notice_value[0] %>"><p class="list-group-item-text" style="color:black"><%= notice_value[1] %></p></a>
     </div>
     <% }); %>
 </div>

@@ -87,11 +87,11 @@ router.post('/commit', function(req, res, next){
         var t_manu = editdata[i].manufacture;
         var t_os = editdata[i].osver;
         var t_state = editdata[i].state;
-        var t_renter = editdata[i].renter;
 
         if(t_id!=null){
+          t_state=t_state[1];
           connection.execute(
-            "UPDATE phone set phonename='"+t_phonename+"', manufacture='"+t_manu+"', osver='"+t_os+"', status='"+t_state+"', renter='"+t_renter+"' where phoneno='"+t_id+"'",  // bind value for :id
+            "UPDATE phone set phonename='"+t_phonename+"', manufacture='"+t_manu+"', osver='"+t_os+"', status='"+t_state+"' where phoneno='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -109,7 +109,7 @@ router.post('/commit', function(req, res, next){
           t_id=editdata[i];
           console.log("delete : "+t_id);
           connection.execute(
-            "delete from phone where phoneno='"+t_id+"'",  // bind value for :id
+            "update phone set status=2 where status=0 and phoneno='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
