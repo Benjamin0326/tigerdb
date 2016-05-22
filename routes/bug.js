@@ -22,11 +22,115 @@ router.get('/', function(req, res, next){
         {
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
-          res.render('bug', {emp:req.session, bugs:result.rows});
+          var bugs=result.rows;
+          connection.execute(
+            "SELECT * from phone",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              var phones=result.rows;
+              res.render('bug', {emp:req.session, bugs:bugs, phones:phones});
+            });
         });
     });
 });
 
+router.get('/phone/:id', function(req, res, next){
+  var id = req.params.id;
+  oracledb.maxRows=50;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from bug where phone = '"+id+"' order by bugdate desc ",  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          var bugs=result.rows;
+          connection.execute(
+            "SELECT * from phone",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              var phones=result.rows;
+              res.render('bug', {emp:req.session, bugs:bugs, phones:phones});
+            });
+        });
+    });
+});
+
+router.get('/status/:id', function(req, res, next){
+  var id = req.params.id;
+  oracledb.maxRows=50;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from bug where status = '"+id+"' order by bugdate desc ",  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          var bugs=result.rows;
+          connection.execute(
+            "SELECT * from phone",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              var phones=result.rows;
+              res.render('bug', {emp:req.session, bugs:bugs, phones:phones});
+            });
+        });
+    });
+});
+
+router.get('/type/:id', function(req, res, next){
+  var id = req.params.id;
+  oracledb.maxRows=50;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from bug where type = '"+id+"' order by bugdate desc ",  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          var bugs=result.rows;
+          connection.execute(
+            "SELECT * from phone",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              var phones=result.rows;
+              res.render('bug', {emp:req.session, bugs:bugs, phones:phones});
+            });
+        });
+    });
+});
 
 router.get('/modify/:id', function(req, res, next){
   var id = req.params.id;
