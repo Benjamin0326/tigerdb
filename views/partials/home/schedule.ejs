@@ -1,0 +1,13 @@
+<p>일정</p>
+<div style="text-align:right" class="row">
+  <a style="text-align:right" href="/schedule">more...</a>
+</div>
+<br>
+<div class="list-group">
+  <% schedule_values.forEach(function(schedule_value) { %>
+    <div class="list-group-item">
+      <p class="list-group-item-text"><%= schedule_value[1] %></p>
+      <p class="list-group-item-text"><%= schedule_value[4].toString().substr(0,16) %> ~ <%= schedule_value[5].toString().substr(0,16) %></p>
+    </div>
+    <% }); %>
+</div>

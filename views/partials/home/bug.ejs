@@ -6,7 +6,8 @@
 <div class="list-group">
   <% bug_values.forEach(function(bug_value) { %>
     <div class="list-group-item">
-      <a href="/bug/<%= bug_value[0] %>"><p class="list-group-item-text" style="color:black"><%= bug_value[1] %></p></a>
+      <a href="/bug/<%= bug_value[0] %>"><p class="list-group-item-text" style="color:<% if(bug_value[7]=='Critical'){ %>red<% }else if(bug_value[7]=='Major'){ %>blue<% }else{ %>black<% }; %>"><span>(<%= bug_value[7] %>) </span><span style="color:black"><%= bug_value[1] %></span>
+        <span style="float:right;color:black">Status : <% if(bug_value[6]==0){ %>New<% }else if(bug_value[6]==1){ %>Recognized<% }else if(bug_value[6]==2){ %>In Progress<% }else if(bug_value[6]==3){ %>Resolved<% }else if(bug_value[6]==4){ %>Closed<% }; %></span></p></a>
     </div>
     <% }); %>
 </div>

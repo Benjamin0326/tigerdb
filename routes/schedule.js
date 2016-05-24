@@ -8,6 +8,8 @@ var DatePicker = require('react-datepicker');
 
 router.get('/', function(req, res, next){
   oracledb.maxRows=50;
+  var now = moment().format("YYYYMMDDhhmmss");
+  now = now-1000000;
   oracledb.getConnection(
     {
       user          : "SYSTEM",
@@ -17,8 +19,9 @@ router.get('/', function(req, res, next){
     function(err, connection)
     {
       if (err) { console.error(err.message); return; }
+      console.log("SELECT * from schedule where enddate>=TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate ");
       connection.execute(
-        "SELECT * from schedule order by enddate",  // bind value for :id
+        "SELECT * from schedule where enddate>=TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate ",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -92,5 +95,27 @@ router.post('/delete', function(req, res, next){
     });
 });
 
+router.get('/total', function(req, res, next){
+  oracledb.maxRows=50;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      console.log("SELECT * from schedule order by enddate ");
+      connection.execute(
+        "SELECT * from schedule order by enddate ",  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          res.render('schedule/total', {emp:req.session, schedules:result.rows});
+        });
+    });
+});
 
 module.exports = router;

@@ -37,6 +37,7 @@ router.post('/add_commit', function(req, res, next){
   var phonename = data[0].phonename;
   var manu = data[0].manufacture;
   var osver = data[0].osver;
+  var group = data[0].group;
 
   oracledb.getConnection(
     {
@@ -47,9 +48,9 @@ router.post('/add_commit', function(req, res, next){
     function(err, connection)
     {
       if (err) { console.error(err.message); return; }
-
+      console.log("insert into phone (PHONENAME, MANUFACTURE, OSVER, STATUS, PHONEGROUP) VALUES('"+phonename+"', '"+manu+"', '"+osver+"', 0, '"+group+"')");
       connection.execute(
-        "insert into phone (PHONENAME, MANUFACTURE, OSVER, STATUS) VALUES('"+phonename+"', '"+manu+"', '"+osver+"', 0)",
+        "insert into phone (PHONENAME, MANUFACTURE, OSVER, STATUS, PHONEGROUP) VALUES('"+phonename+"', '"+manu+"', '"+osver+"', 0, '"+group+"')",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -87,11 +88,12 @@ router.post('/commit', function(req, res, next){
         var t_manu = editdata[i].manufacture;
         var t_os = editdata[i].osver;
         var t_state = editdata[i].state;
+        var t_group = editdata[i].group;
 
         if(t_id!=null){
           t_state=t_state[1];
           connection.execute(
-            "UPDATE phone set phonename='"+t_phonename+"', manufacture='"+t_manu+"', osver='"+t_os+"', status='"+t_state+"' where phoneno='"+t_id+"'",  // bind value for :id
+            "UPDATE phone set phonename='"+t_phonename+"', manufacture='"+t_manu+"', osver='"+t_os+"', status='"+t_state+"', PHONEGROUP='"+t_group+"' where phoneno='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }

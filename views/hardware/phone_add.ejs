@@ -29,7 +29,8 @@
   var griddata=[{
     "phonename" : "",
     "manufacture" : "",
-    "osver" : ""
+    "osver" : "",
+    "group" : ""
   }];
     $(document).ready(function () {
         $("#grid").shieldGrid({
@@ -42,6 +43,7 @@
                         phonename: { path: "phonename", type: String },
                         manufacture: { path: "manufacture", type: String },
                         osver: { path: "osver", type: String },
+                        group: { path: "group", type: String },
                         isActive: { path: "isActive", type: Boolean }
                     }
                 }
@@ -54,6 +56,7 @@
                 { field: "phonename", title: "Phone Name", width: "120px" },
                 { field: "manufacture", title: "manufacture", width:"120px"},
                 { field: "osver", title: "osver", width: "80px"},
+                { field: "group", title: "Phone Group", width: "120px"},
                 {
                     width: 150,
                     title: "Add Column",
