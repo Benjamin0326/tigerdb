@@ -25,6 +25,44 @@ router.get('/testcase', function(req, res, next){
         });
     });
 });
+router.get('/testset/add', function(req, res, next){
+  oracledb.maxRows=100;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from manualcase",  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          var testcases=result.rows;
+          connection.execute(
+            "SELECT * from testproj",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              var projects=result.rows;
+              connection.execute(
+                "SELECT * from employee",  // bind value for :id
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  console.log(result.rows);
+                  var testers=result.rows;
+                  res.render('test/testset_add', {emp:req.session, testcases:testcases, projects:projects, testers:testers});
+                });
+            });
+        });
+    });
+});
 
 router.get('/testset', function(req, res, next){
 
@@ -100,45 +138,6 @@ router.get('/testcase/add', function(req, res, next){
   res.render('test/testcase_add', {emp:req.session});
 });
 
-router.get('/testset/add', function(req, res, next){
-  oracledb.maxRows=100;
-  oracledb.getConnection(
-    {
-      user          : "SYSTEM",
-      password      : "0305",
-      connectString : "localhost/DBSERVER"
-    },
-    function(err, connection)
-    {
-      if (err) { console.error(err.message); return; }
-      connection.execute(
-        "SELECT * from  manualcase",  // bind value for :id
-        function(err, result)
-        {
-          if (err) { console.error(err.message); return; }
-          console.log(result.rows);
-          var testcases=result.rows;
-          connection.execute(
-            "SELECT * from testproj",  // bind value for :id
-            function(err, result)
-            {
-              if (err) { console.error(err.message); return; }
-              console.log(result.rows);
-              var projects=result.rows;
-              connection.execute(
-                "SELECT * from employee",  // bind value for :id
-                function(err, result)
-                {
-                  if (err) { console.error(err.message); return; }
-                  console.log(result.rows);
-                  var testers=result.rows;
-                  res.render('test/testset_add', {emp:req.session, testcases:testcases, projects:projects, testers:testers});
-                });
-            });
-        });
-    });
-
-});
 
 router.post('/testcase/add/commit', function(req, res, next){
   var summary = req.body.tcsummary;
