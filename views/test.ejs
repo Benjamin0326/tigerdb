@@ -2,14 +2,103 @@
 <html>
   <head>
     <% include partials/head %>
+    <style>
+.panel-heading span {
+    margin-top: -20px;
+    font-size: 15px;
+}
+.row {
+    margin-top: 40px;
+    padding: 0 10px;
+}
+.clickable {
+    cursor: pointer;
+}    
+</style>
   </head>
   <body>
     <div class="header">
       <% include partials/header %>
     </div>
-    <div class="container" style="margin-top:30px">
-      <% include partials/test/test_form %>
+    <div class="container" style="width:1000px">
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><center>In Progress Project</center></h3>
+              <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+            </div>
+            <div class="panel-body">
+              <table class="table">
+                <tr>
+                  <th>Index</th>
+                  <th>Category</th>
+                  <th>Name</th>
+                  <th>Manager</th>
+                  <th>StartDate</th>
+                  <th>EndDate</th>
+                </tr>
+                <tr>
+                  <td>ss</td>
+                  <td>hi</td>
+                  <td>hello</td>
+                  <td>wow</td>
+                  <td>fuck</td>
+                  <td>shit</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><center>Completed Project</center></h3>
+              <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+            </div>
+            <div class="panel-body">
+              <table class="table">
+                <tr>
+                  <th>Index</th>
+                  <th>Category</th>
+                  <th>Name</th>
+                  <th>Manager</th>
+                  <th>StartDate</th>
+                  <th>EndDate</th>
+                </tr>
+                <tr>
+                  <td>ss</td>
+                  <td>hi</td>
+                  <td>hello</td>
+                  <td>wow</td>
+                  <td>fuck</td>
+                  <td>shit</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top:0px">
+          <input type="button" name="add" id="add" value="Add" class="btn btn-info pull-right" onclick="location.href='/test/project_add'">
+        </div>
     </div>
-
   </body>
 </html>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('.panel-heading span.clickable').on("click", function (e) {
+            if ($(this).hasClass('panel-collapsed')) {
+                // expand the panel
+                $(this).parents('.panel').find('.panel-body').slideDown();
+                $(this).removeClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            }
+            else {
+                // collapse the panel
+                $(this).parents('.panel').find('.panel-body').slideUp();
+                $(this).addClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            }
+        });
+    });
+</script>

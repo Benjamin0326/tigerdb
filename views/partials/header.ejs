@@ -8,10 +8,10 @@
       <li role="presentation"><a href="/phone">Phone</a></li>
       <li role="presentation"><a href="/usim">USIM</a></li>
       <li role="presentation"><a href="/bug">Bug</a></li>
-      <% if(emp.empauth>2){%>
+      <% if(emp.empauth>=2){%>
       <li role="presentation"><a href="/rent">Rent</a></li>
       <% }%>
-      <% if(emp.empauth>3){%>
+      <% if(emp.empauth>=3){%>
       <li role="presentation"><a href="/people">People</a></li>
       <% }%>
     </ul>
@@ -23,3 +23,4 @@
     </ul>
   </div>
 </div>
+<hr style="width:1100px">
