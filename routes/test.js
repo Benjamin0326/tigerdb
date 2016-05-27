@@ -4,7 +4,7 @@ var moment = require('moment');
 var router = express.Router();
 
 router.get('/', function(req, res, next){
-  oracledb.maxRows=100;	
+  oracledb.maxRows=100;
   if(req.session.empauth>3){
     oracledb.getConnection(
     {
@@ -24,11 +24,96 @@ router.get('/', function(req, res, next){
         });
     });
   }else if(req.session.empauth>2){
-    res.render('test', {emp:req.session});
+    oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from  testproj t, employee e where t.manager=e.empno and t.manager="+req.session.empno,  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          res.render('test', {emp:req.session, project:result.rows});
+        });
+    });
   }else{
     res.render('test', {emp:req.session});
   }
 });
+
+router.get('/assign/:id', function(req, res, next){
+  var id = req.params.id;
+  oracledb.maxRows=100;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from testproj where projectno="+id,  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          projs = result.rows[0];
+          connection.execute(
+            "SELECT * from employee",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              testers = result.rows;
+              res.render('project/assign', {emp:req.session, projs:projs, testers:testers});
+            });
+        });
+    });
+});
+
+router.post('/assign/commit', function(req, res, next){
+  var now = moment().format("YYYYMMDDhhmmss");
+  var projno = req.body.projno;
+  var testtype = req.body.testtype;
+  var tester = req.body.tester;
+  var description = req.body.projdescription;
+  testtype = testtype.substr(1,testtype.toString().indexOf(")")-1);
+  tester = tester.substr(1,tester.toString().indexOf(")")-1);
+
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "insert into PROJECTJOB (TESTPROJ, TESTTYPE, TESTER, DESCRIPTION, STARTDATE) VALUES("+projno+", "+testtype+", "+tester+", '"+description+"', TO_DATE('"+now+"','yyyyMMddhh24miss'))",
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          connection.commit(function(err){
+            if(err){
+              res.send("실패했습니다.");
+              return;
+            }
+          });
+          console.log(result.rows);
+        });
+      res.redirect('/test');
+    });
+});
+
 
 router.get('/testcase', function(req, res, next){
   oracledb.maxRows=100;

@@ -30,7 +30,15 @@ router.get('/', function(req, res, next){
               if (err) { console.error(err.message); return; }
               console.log(result.rows);
               var phones=result.rows;
-              res.render('bug', {emp:req.session, bugs:bugs, phones:phones});
+              connection.execute(
+                "SELECT distinct phonegroup from phone",  // bind value for :id
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  console.log(result.rows);
+                  var phonegroups=result.rows;
+                  res.render('bug', {emp:req.session, bugs:bugs, phones:phones, phonegroups:phonegroups});
+                });
             });
         });
     });
@@ -62,7 +70,15 @@ router.get('/phone/:id', function(req, res, next){
               if (err) { console.error(err.message); return; }
               console.log(result.rows);
               var phones=result.rows;
-              res.render('bug', {emp:req.session, bugs:bugs, phones:phones});
+              connection.execute(
+                "SELECT distinct phonegroup from phone",  // bind value for :id
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  console.log(result.rows);
+                  var phonegroups=result.rows;
+                  res.render('bug', {emp:req.session, bugs:bugs, phones:phones, phonegroups:phonegroups});
+                });
             });
         });
     });
@@ -94,7 +110,15 @@ router.get('/phonegroup/:id', function(req, res, next){
               if (err) { console.error(err.message); return; }
               console.log(result.rows);
               var phones=result.rows;
-              res.render('bug', {emp:req.session, bugs:bugs, phones:phones});
+              connection.execute(
+                "SELECT distinct phonegroup from phone",  // bind value for :id
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  console.log(result.rows);
+                  var phonegroups=result.rows;
+                  res.render('bug', {emp:req.session, bugs:bugs, phones:phones, phonegroups:phonegroups});
+                });
             });
         });
     });
@@ -126,7 +150,15 @@ router.get('/status/:id', function(req, res, next){
               if (err) { console.error(err.message); return; }
               console.log(result.rows);
               var phones=result.rows;
-              res.render('bug', {emp:req.session, bugs:bugs, phones:phones});
+              connection.execute(
+                "SELECT distinct phonegroup from phone",  // bind value for :id
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  console.log(result.rows);
+                  var phonegroups=result.rows;
+                  res.render('bug', {emp:req.session, bugs:bugs, phones:phones, phonegroups:phonegroups});
+                });
             });
         });
     });
@@ -158,7 +190,15 @@ router.get('/type/:id', function(req, res, next){
               if (err) { console.error(err.message); return; }
               console.log(result.rows);
               var phones=result.rows;
-              res.render('bug', {emp:req.session, bugs:bugs, phones:phones});
+              connection.execute(
+                "SELECT distinct phonegroup from phone",  // bind value for :id
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  console.log(result.rows);
+                  var phonegroups=result.rows;
+                  res.render('bug', {emp:req.session, bugs:bugs, phones:phones, phonegroups:phonegroups});
+                });
             });
         });
     });
