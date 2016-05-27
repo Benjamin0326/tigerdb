@@ -1,8 +1,52 @@
 var express = require('express');
 var oracledb = require('oracledb');
-var router = express.Router();
 var moment = require('moment');
+var router = express.Router();
 
+router.get('/', function(req, res, next){
+  oracledb.maxRows=100;
+  if(req.session.empauth>3){
+    oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from  testproj",  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          res.render('test', {emp:req.session, project:result.rows});
+        });
+    });
+  }else if(req.session.empauth>2){
+    oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from  testproj where manager="+req.session.empno,  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          res.render('test', {emp:req.session, project:result.rows});
+        });
+    });
+  }else{
+    res.render('test', {emp:req.session});
+  }
+});
 
 router.get('/testcase', function(req, res, next){
   oracledb.maxRows=100;
@@ -25,6 +69,7 @@ router.get('/testcase', function(req, res, next){
         });
     });
 });
+
 router.get('/testset/add', function(req, res, next){
   oracledb.maxRows=100;
   oracledb.getConnection(
@@ -60,29 +105,6 @@ router.get('/testset/add', function(req, res, next){
                   res.render('test/testset_add', {emp:req.session, testcases:testcases, projects:projects, testers:testers});
                 });
             });
-        });
-    });
-});
-
-router.get('/testset', function(req, res, next){
-
-  oracledb.maxRows=100;
-  oracledb.getConnection(
-    {
-      user          : "SYSTEM",
-      password      : "0305",
-      connectString : "localhost/DBSERVER"
-    },
-    function(err, connection)
-    {
-      if (err) { console.error(err.message); return; }
-      connection.execute(
-        "SELECT DISTINCT s.setno, s.title, t.projname, e.empname from manualset s, testproj t, employee e where s.testproj=t.projectno and e.empno=s.tester",  // bind value for :id
-        function(err, result)
-        {
-          if (err) { console.error(err.message); return; }
-          console.log(result.rows);
-          res.render('test/testset', {emp:req.session, testsets:result.rows});
         });
     });
 });
@@ -302,6 +324,95 @@ router.get('/testset/delete/:id', function(req, res, next){
           });
 
           res.redirect('/test/testset');
+        });
+    });
+});
+
+router.get('/testset', function(req, res, next){
+  oracledb.maxRows=100;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT DISTINCT s.setno, s.title, t.projname, e.empname from manualset s, testproj t, employee e where s.testproj=t.projectno and e.empno=s.tester",  // bind value for :id
+
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          res.render('test/testset', {emp:req.session, testsets:result.rows});
+
+        });
+    });
+});
+
+
+router.get('/project/add', function(req, res){
+  oracledb.maxRows=100;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from employee where auth>2",  // bind value for :id
+       function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+
+          var manager=result.rows;
+          connection.execute("SELECT DISTINCT phonegroup from PHONE",
+          function(err, result){
+            if(err) { console.error(err.message); return; }
+            console.log(result.rows);
+            res.render('project/add', {emp:req.session, managers:manager, group:result.rows});
+          });
+        });
+    });
+});
+
+router.post('/project/add/commit', function(req, res, next){
+  var group = req.body.group;
+  var title = req.body.projname;
+  var tmanager = req.body.manager;
+  var manager = parseInt(tmanager.substr(tmanager.indexOf("(")+1, tmanager.length-1));
+  var desc = req.body.description;
+  var tmpstart = req.body.startdate;
+  var sdate = tmpstart.toString().substr(6,4)+tmpstart.toString().substr(0,2)+tmpstart.toString().substr(3,2);
+  console.log(sdate);
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+
+      connection.execute(
+        "insert into TESTPROJ (PROJNAME, STARTDATE, PHONEGROUP, MANAGER, DESCRIPTION) VALUES('"+title+"', '"+sdate+"', '"+group+"', '"+manager+"','"+desc+"')",
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          connection.commit(function(err){
+            if(err){
+              res.send("실패했습니다.");
+              return;
+            }
+          });
+          res.redirect('/test');
         });
     });
 });

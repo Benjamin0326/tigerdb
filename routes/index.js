@@ -53,6 +53,8 @@ router.post('/login', function(req, res, next) {
             else{
                 res.render('index', { title: 'Incorrect Email/Password' });
               }
+          }else{
+            res.render('index', { title: 'Incorrect Email/Password' });
           }
         });
     });
@@ -168,10 +170,6 @@ router.get('/signup', function(req, res, next){
 
 router.get('/profile', function(req, res, next){
   res.render('profile', {emp:req.session});
-});
-
-router.get('/test', function(req, res, next){
-  res.render('test', {emp:req.session});
 });
 
 module.exports = router;

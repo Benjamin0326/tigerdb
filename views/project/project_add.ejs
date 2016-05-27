@@ -1,50 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <% include partials/head %>
+    <% include ../partials/head %>
   </head>
   <body>
     <div class="header">
-      <% include partials/header %>
+      <% include ../partials/header %>
     </div>
     <div class="container" style="margin-top:30px">
       <div class="col-md-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h4 class="text-center">스마트폰 관리 테이블 <span class="fa fa-edit pull-right bigicon"></span></h4>
+            <h4 class="text-center">Project Management<span class="fa fa-edit pull-right bigicon"></span></h4>
           </div>
           <div class="panel-body text-center">
             <div id="grid"></div>
           </div>
         </div>
       </div>
-      <% if(emp.empauth>1){%>
       <div class="container row">
         <input type="button" name="save" id="save" value="Save" class="btn btn-info pull-right phone_save" style="margin-left:10px; margin-right:10px">
-        <input type="button" name="add" id="add" value="Add" class="btn btn-info pull-right" onclick="location.href='/phone/phone_add'">
       </div>
-      <% } %>
     </div>
   </body>
 </html>
-
 <script type="text/javascript">
   var editno=[];
-  var griddata=[
-    <% phones.forEach(function(phone) { %>
-      <% if(phone[4]==0 || phone[4]==1 || phone[4]==2){ %>
-      {
-      "id": <%= phone[0] %>,
-      "isActive": true,
-      "phonename": "<%= phone[1] %>",
-      "manufacture": "<%= phone[2] %>",
-      "osver": "<%= phone[3] %>",
-      "state": "<% if(phone[4]==0){ %>(0)대출가능<% }else if(phone[4]==1){ %>(1)대출중<% }else{ %>(2)대출불가능<% }; %>",
-      "group": "<%= phone[6] %>"
-  },
-    <% }; %>
-    <% }); %>
-  ];
+  var griddata=[{
+    "projname" : "",
+    "projmanager" : "",
+    "startdate" : "",
+    "category" : ""
+  }];
     $(document).ready(function () {
         $("#grid").shieldGrid({
             dataSource: {
@@ -53,12 +40,10 @@
                 schema: {
                     fields: {
                         id: { path: "id", type: Number },
-                        phonename: { path: "phonename", type: String },
-                        manufacture: { path: "manufacture", type: String },
-                        osver: { path: "osver", type: String },
-                        group: { path: "group", type: String },
-                        state: { path: "state"},
-                        isActive: { path: "isActive", type: Boolean }
+                        projname: { path: "projname", type: String },
+                        projmanager: { path: "projmanager", type: String },
+                        startdate: { path: "startdate", type: String },
+                        category: { path: "category", type: String }
                     }
                 }
             },
@@ -67,18 +52,15 @@
             },
             rowHover: false,
             columns: [
-                { field: "id", title: "id", width: "50px" },
-                { field: "phonename", title: "Phone Name", width: "120px" },
-                { field: "manufacture", title: "manufacture", width:"120px"},
-                { field: "osver", title: "osver", width: "80px"},
-                { field: "group", title: "Phone Group", width: "120px"},
-                { field: "state", title: "state", width: "80px", editable: false },
+                { field: "projname", title: "Phone Name", width: "120px" },
+                { field: "projmanager", title: "projmanager", width:"120px", editor: myCustomEditor},
+                { field: "startdate", title: "startdate", width: "80px"},
+                { field: "category", title: "category", width: "80px"},
                 {
                     width: 150,
-                    title: "Update/Delete Column",
+                    title: "Add Column",
                     buttons: [
-                        { commandName: "edit", caption: "Edit" },
-                        { commandName: "delete", caption: "Delete" }
+                        { commandName: "edit", caption: "Edit" }
                     ]
                 }
             ],
@@ -103,23 +85,34 @@
             }
         });
     });
+    function myCustomEditor(cell, item) {
+    $('<div id="test"/>')
+        .appendTo(cell)
+        .shieldDropDown({
+            dataSource: {
+                data: ["Intern", "Employee", "Researcher", "Senior Researcher", "Major Researcher", "Master"]
+            },
+            value: !item["position"] ? null : item["position"].toString()
+        }).swidget().focus();
+        }
+    });
     $(function(){
             var data = {};
-            $(".phone_save").click(function(){
+            $(".comment_submit").click(function(){
                 grid = $("#grid").swidget().dataSource.data;
                 var finaldata=grid.concat(editno);
                 $.ajax({
                  method: "POST",
-                 url: "/phone/commit",
+                 url: "/project/add_commit",
                  data: {
                   data : JSON.stringify(finaldata)},
                  success: function(){
-                  alert('update success');
                  },
                  error: function(){
                  }
                 })
                  .done(function( msg ) {
+                  location.href='/project';
                  });
             });
         });
