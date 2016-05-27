@@ -16,7 +16,7 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from  testproj",  // bind value for :id
+        "SELECT * from  testproj t, employee e where t.manager=e.empno",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -24,7 +24,7 @@ router.get('/', function(req, res, next){
           res.render('test', {emp:req.session, project:result.rows});
         });
     });
-  }else if(emp.empauth>2){
+  }else if(req.session.empauth>2){
     res.render('test', {emp:req.session});
   }else{
     res.render('test', {emp:req.session});

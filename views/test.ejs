@@ -21,7 +21,6 @@
       <% include partials/header %>
     </div>
     <% if(emp.empauth>3){ %>
-
     <div class="container" style="width:1000px">
         <div class="row">
           <div class="panel panel-default">
@@ -40,14 +39,16 @@
                   <th>EndDate</th>
                 </tr>
                 <% project.forEach(function(item){ %>
+                <%    if(item[3]==null){ %>
                 <tr>
                   <td><%= item[0] %></td>
                   <td><%= item[4] %></td>
                   <td><%= item[1] %></td>
-                  <td><%= item[5] %></td>
+                  <td><%= item[8] %> (<%= item[5] %>)</td>
                   <td><%= item[2].toString().substr(0, 16) %></td>
-                  <td><%= item[3] %></td>
+                  <td>-</td>
                 </tr>
+                <%  } %>
                 <% });%>
               </table>
             </div>
@@ -69,14 +70,18 @@
                   <th>StartDate</th>
                   <th>EndDate</th>
                 </tr>
+                <% project.forEach(function(item){  %>
+                <% if(item[3]!=null){ %>
                 <tr>
-                  <td>ss</td>
-                  <td>hi</td>
-                  <td>hello</td>
-                  <td>wow</td>
-                  <td>fuck</td>
-                  <td>shit</td>
+                  <td><%= item[0] %></td>
+                  <td><%= item[4] %></td>
+                  <td><%= item[1] %></td>
+                  <td><%= item[5] %></td>
+                  <td><%= item[2].toString().substr(0, 16) %></td>
+                  <td><%= item[3].toString().substr(0, 16) %></td>
                 </tr>
+                <% }  %>
+                <% });%>
               </table>
             </div>
           </div>
