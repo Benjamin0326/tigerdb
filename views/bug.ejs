@@ -11,13 +11,19 @@
     <div class="container" style="margin-top:30px">
       <a href="/bug/report"><button class="btn btn-primary">Report Bug</button></a>
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           Phones :
         <% phones.forEach(function(phone) { %>
           <a href="/bug/phone/<%= phone[0] %>"><%= phone[1] %>(<%= phone[3] %>)</a>
         <% }); %>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+          Phone Group :
+        <% phones.forEach(function(phone) { %>
+          <a href="/bug/phonegroup/<%= phone[5] %>"><%= phone[5] %></a>
+        <% }); %>
+        </div>
+        <div class="col-md-3">
           Status :
           <a href="/bug/status/0">New</a>
           <a href="/bug/status/1">Recognized</a>
@@ -25,7 +31,7 @@
           <a href="/bug/status/3">Resolved</a>
           <a href="/bug/status/4">Closed</a>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           Type :
           <a href="/bug/type/Critical">Critical</a>
           <a href="/bug/type/Major">Major</a>

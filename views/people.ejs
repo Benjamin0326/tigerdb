@@ -126,12 +126,12 @@
                  data: {
                   data : JSON.stringify(finaldata)},
                  success: function(){
+                   alert('update success');
                  },
                  error: function(){
                  }
                 })
                  .done(function( msg ) {
-                   $("#logpartion").append("<p>완료 되었습니다..</p>");
                  });
             });
         });

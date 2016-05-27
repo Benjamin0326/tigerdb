@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var oracledb = require('oracledb');
+var moment = require('moment');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -43,8 +44,6 @@ router.post('/login', function(req, res, next) {
                 req.session.empno=result.rows[0][0];
                 req.session.empname=result.rows[0][1];
                 req.session.empauth=result.rows[0][3];
-                var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
-                var notice_values = ["title1", "title2", "title3"];
                 res.redirect('home');
               }
               else{
@@ -54,6 +53,8 @@ router.post('/login', function(req, res, next) {
             else{
                 res.render('index', { title: 'Incorrect Email/Password' });
               }
+          }else{
+            res.render('index', { title: 'Incorrect Email/Password' });
           }
         });
     });
@@ -107,8 +108,6 @@ router.post('/enroll', function(req, res, next) {
 
 router.get('/home', function(req, res, next){
   console.log(req.session.empname);
-  var progress_values = [{name:"test1", value:30}, {name:"test2", value:44}, {name:"test3", value:100}, {name:"test4", value:73}];
-  var notice_values = ["title1", "title2", "title3"];
   var empname = req.session.empname;
 
   oracledb.getConnection(
@@ -122,7 +121,7 @@ router.get('/home', function(req, res, next){
       if (err) { console.error(err.message); return; }
       oracledb.maxRows=5;
       connection.execute(
-        "select * from notice n",
+        "select * from notice order by ntcdate desc",
         function(err, result)
         {
           console.log(err);
@@ -130,8 +129,34 @@ router.get('/home', function(req, res, next){
           if(req.session===null)
             res.redirect('/');
           else{
-            res.render('home', {progress_values:progress_values, notice_values:result.rows, emp:req.session});
-            return;
+            var notice_values=result.rows;
+            connection.execute(
+              "select * from bug",
+              function(err, result)
+              {
+                console.log(err);
+                console.log(result.rows[0]);
+                if(req.session===null)
+                  res.redirect('/');
+                else{
+                  var bug_values=result.rows;
+                  var now = moment().format("YYYYMMDDhhmmss");
+                  now = now-1000000;
+                  connection.execute(
+                    "SELECT * from schedule where enddate>=TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate ",
+                    function(err, result)
+                    {
+                      console.log(err);
+                      console.log(result.rows[0]);
+                      if(req.session===null)
+                        res.redirect('/');
+                      else{
+                        var schedule_values=result.rows;
+                        res.render('home', {bug_values:bug_values, notice_values:notice_values, schedule_values:schedule_values, emp:req.session});
+                      }
+                    });
+                }
+              });
           }
         });
     });
@@ -145,10 +170,6 @@ router.get('/signup', function(req, res, next){
 
 router.get('/profile', function(req, res, next){
   res.render('profile', {emp:req.session});
-});
-
-router.get('/test', function(req, res, next){
-  res.render('test', {emp:req.session});
 });
 
 module.exports = router;

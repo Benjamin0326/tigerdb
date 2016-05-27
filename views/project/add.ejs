@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+  </head>
+  <body>
+    <div class="header">
+      <% include ../partials/header %>
+    </div>
+     <div class="container" id="container1" style="margin-top:30px">
+       <form id="body" action="add/commit" method="POST">
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><center>New Project</center></h3>
+            </div>
+            <div class="panel-body">
+              <table class="table">
+                <tr>
+                    <th style="width:150px">Phone Group</th>
+                    <th style="width:200px">Project Name</th>
+                    <th style="width:150px">Manager</th>
+                    <th style="width:350px">Description</th>
+                    <th style="width:150px">Start Date</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <select class="form-control" name="group" id="sel1">
+                          <% group.forEach(function(item) { %>
+                            <option><%= item[0] %></option>
+                          <% }); %>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" name="projname" id="InputName" placeholder="Title" required> 
+                    </td>
+                    <td>
+                      <select class="form-control" name="manager" id="sel1">
+                          <% managers.forEach(function(item) { %>
+                            <option><%= item[1] %> (<%=item[0]%>)</option>
+                          <% }); %>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" name="description" id="InputName" placeholder="Description" required> 
+                    </td>
+                    <td>
+                      <input name="startdate" type="text" id="datepicker" class="form-control">
+                    </td>
+                  </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <input type="submit" name="add" id="add" value="Add" class="btn btn-info pull-right">
+        </form>
+    </div>
+  </body>
+</html>
+<script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+  </script>
