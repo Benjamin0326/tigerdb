@@ -3,7 +3,6 @@ var oracledb = require('oracledb');
 var router = express.Router();
 
 router.get('/', function(req, res, next){
-  console.log('here');
   oracledb.maxRows=100;
   oracledb.getConnection(
     {
@@ -26,7 +25,6 @@ router.get('/', function(req, res, next){
 });
 
 router.get('/usim_add', function(req, res){
-  console.log('here');
   res.render('hardware/usim_add', {emp:req.session});
 });
 

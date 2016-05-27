@@ -8,7 +8,7 @@
       <% include partials/header %>
     </div>
     <div class="container" style="margin-top:30px">
-      <form id="body" action="schedule/add" method="POST">
+      <form id="body" action="schedule/add" onsubmit="return validate()" method="POST">
       <div class="container">
         <div class="form-group col-md-6">
             <input name="schtitle" type="text" class="form-control" id="exampleInputPassword1" placeholder="제목을 입력해주세요.">
@@ -58,4 +58,24 @@
     $( "#datepicker" ).datepicker();
     $( "#datepicker2" ).datepicker();
   });
+
+  function validate(){
+    var title = document.forms["body"]["schtitle"].value;
+    var sdate = document.forms["body"]["startdate"].value;
+    var edate = document.forms["body"]["enddate"].value;
+    var desc = document.forms["body"]["schcontent"].value;
+
+    if(title==null || title==""){
+      alert("Title must be filled out");
+      return false;
+    }
+    if(sdate==null || sdate==""){
+      alert("Start date must be filled out");
+      return false;
+    }
+    if(edate==null || edate==""){
+      alert("End date be filled out");
+      return false;
+    }
+  }
   </script>

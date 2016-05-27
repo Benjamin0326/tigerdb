@@ -77,8 +77,10 @@
                     width: 150,
                     title: "Update/Delete Column",
                     buttons: [
+                    <% if(emp.empauth>1){ %>
                         { commandName: "edit", caption: "Edit" },
                         { commandName: "delete", caption: "Delete" }
+                        <% } %>
                     ]
                 }
             ],

@@ -60,7 +60,6 @@ router.post('/add', function(req, res, next){
               return;
             }
           });
-          console.log(result.rows);
           res.redirect('/schedule');
         });
     });
