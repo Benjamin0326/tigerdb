@@ -20,7 +20,6 @@ router.get('/', function(req, res, next){
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
-          console.log(result.rows);
           res.render('test', {emp:req.session, project:result.rows});
         });
     });
@@ -358,9 +357,77 @@ router.get('/project/add', function(req, res){
           connection.execute("SELECT DISTINCT phonegroup from PHONE",
           function(err, result){
             if(err) { console.error(err.message); return; }
-            console.log(result.rows);
-            res.render('project/add', {emp:req.session, managers:manager, group:result.rows});
+           res.render('project/add', {emp:req.session, managers:manager, group:result.rows});
           });
+        });
+    });
+});
+
+router.get('/project/:id', function(req, res){
+  var id = req.params.id;
+  oracledb.maxRows=100;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from testproj where projectno="+id,  // bind value for :id
+       function(err, result)
+        {
+          var projinfo = result.rows[0];
+          if (err) { console.error(err.message); return; }
+
+          connection.execute("SELECT DISTINCT phonegroup from PHONE",
+          function(err, result){
+            if(err) { console.error(err.message); return; }
+            var group = result.rows;
+
+            connection.execute(
+              "SELECT * from employee where auth>2",  // bind value for :id
+              function(err, result){
+                if(err) { console.error(err.message); return; }
+                res.render('project/update', {emp:req.session, results:projinfo, groups:group, managers: result.rows});
+              });  
+          });
+        });
+    });
+});
+
+router.post('/project/update/commit', function(req, res){
+  var group = req.body.group;
+  var title = req.body.projname;
+  var tmanager = req.body.manager;
+  var manager = parseInt(tmanager.substr(tmanager.indexOf("(")+1, tmanager.length-1));
+  var desc = req.body.description;
+  var tmpstart = req.body.enddate;
+  var sdate = tmpstart.toString().substr(6,4)+tmpstart.toString().substr(0,2)+tmpstart.toString().substr(3,2);
+  oracledb.maxRows=100;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "update testproj set projname='"+title+"', phonegroup='"+group+"', description='"+desc+"', manager='"+manager+"', enddate='"+sdate+"' where projectno="+req.body.hidden,
+       function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          connection.commit(function(err){
+            if(err){
+              res.status(500).send({ error: err.message });
+              res.direct('/test');
+            }
+          });
+          res.redirect('/test')
         });
     });
 });

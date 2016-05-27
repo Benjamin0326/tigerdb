@@ -1,25 +1,30 @@
 <div class="container">
-  <div class="container col-md-10">
-    <ul class="nav nav-pills" role="tablist">
-      <li role="presentation"><a href="/home">Home</a></li>
-      <li role="presentation"><a href="/notice">Notice</a></li>
-      <li role="presentation"><a href="/schedule">Schedule</a></li>
-      <li role="presentation"><a href="/test">Test</a></li>
-      <li role="presentation"><a href="/phone">Phone</a></li>
-      <li role="presentation"><a href="/usim">USIM</a></li>
-      <li role="presentation"><a href="/bug">Bug</a></li>
+<div class="container col-md-10">
+<ul class="nav nav-pills">
+  <li class="dropdown"><a href="/home">Home</a></li>
+  <li class="dropdown"><a href="/notice">Notice</a></li>
+  <li class="dropdown"><a href="/schedule">Schedule</a></li>
+  <li class="dropdown"><a href="/test">Test</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown">Hardware
+    <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><a href="/phone">Phone</a></li>
+      <li><a href="/usim">Usim</a></li>
       <% if(emp.empauth>=2){%>
-      <li role="presentation"><a href="/rent">Rent</a></li>
-      <% }%>
-      <% if(emp.empauth>=3){%>
-      <li role="presentation"><a href="/people">People</a></li>
-      <% }%>
+      <li><a href="/rent">Rent</a></li>
+      <% }%> 
     </ul>
-  </div>
-  <div class="container col-md-2">
-    <ul class="nav nav-pills" role="tablist">
-      <li role="presentation"><a href="/users/edit"><%= emp.empname %></a></li>
-      <li role="presentation"><a href="/">Logout</a></li>
+  </li>
+   <% if(emp.empauth>=3){%>
+  <li class="dropdown"><a href="/people">People</a></li>
+  <% }%>
+</ul>
+</div>
+<div class="container col-md-2">
+    <ul class="nav nav-pills">
+      <li class="dropdown"><a href="/users/edit"><%= emp.empname %></a></li>
+      <li class="dropdown"><a href="/">Logout</a></li>
     </ul>
   </div>
 </div>

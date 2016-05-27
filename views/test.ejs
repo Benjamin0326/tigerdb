@@ -31,22 +31,20 @@
             <div class="panel-body">
               <table class="table">
                 <tr>
-                  <th>Index</th>
                   <th>Category</th>
                   <th>Name</th>
                   <th>Manager</th>
                   <th>StartDate</th>
-                  <th>EndDate</th>
+                  <th style="width:300px">Description</th>
                 </tr>
                 <% project.forEach(function(item){ %>
                 <%    if(item[3]==null){ %>
-                <tr>
-                  <td><%= item[0] %></td>
+                <tr class="clickable" data-href="/test/project/<%= item[0] %>">
                   <td><%= item[4] %></td>
                   <td><%= item[1] %></td>
                   <td><%= item[8] %> (<%= item[5] %>)</td>
                   <td><%= item[2].toString().substr(0, 16) %></td>
-                  <td>-</td>
+                  <td><%= item[6]%></td>
                 </tr>
                 <%  } %>
                 <% });%>
@@ -63,7 +61,6 @@
             <div class="panel-body">
               <table class="table">
                 <tr>
-                  <th>Index</th>
                   <th>Category</th>
                   <th>Name</th>
                   <th>Manager</th>
@@ -73,7 +70,6 @@
                 <% project.forEach(function(item){  %>
                 <% if(item[3]!=null){ %>
                 <tr>
-                  <td><%= item[0] %></td>
                   <td><%= item[4] %></td>
                   <td><%= item[1] %></td>
                   <td><%= item[5] %></td>
@@ -115,4 +111,7 @@
             }
         });
     });
+$('tr[data-href]').on("click", function() {
+    document.location = $(this).data('href');
+});
 </script>
