@@ -73,7 +73,15 @@ router.get('/assign/:id', function(req, res, next){
               if (err) { console.error(err.message); return; }
               console.log(result.rows);
               testers = result.rows;
-              res.render('project/assign', {emp:req.session, projs:projs, testers:testers});
+              connection.execute(
+                "SELECT * from projectjob p, employee e where p.tester=e.empno and testproj="+id,  // bind value for :id
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  console.log(result.rows);
+                  projectjobs = result.rows;
+                  res.render('project/assign', {emp:req.session, projs:projs, testers:testers, projectjobs:projectjobs});
+                });
             });
         });
     });
@@ -477,7 +485,7 @@ router.get('/project/:id', function(req, res){
               function(err, result){
                 if(err) { console.error(err.message); return; }
                 res.render('project/update', {emp:req.session, results:projinfo, groups:group, managers: result.rows});
-              });  
+              });
           });
         });
     });

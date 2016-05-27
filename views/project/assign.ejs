@@ -45,7 +45,7 @@
           <div class="form-group col-md-4">
             <label for="InputName">Description</label>
               <div class="input-group">
-                  <input type="text" class="form-control" name="description" id="InputName" placeholder="Enter Description">
+                  <input type="text" class="form-control" name="projdescription" id="InputName" placeholder="Enter Description">
                   <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
               </div>
           </div>
@@ -78,6 +78,38 @@
           </div>
         </div>
       </div>
+
+      <div class="row" style="margin-top:50px">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><center><%= projs[1] %> TEST 할당 상황</center></h3>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+          </div>
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <th>Index</th>
+                <th>Test Type</th>
+                <th>Tester</th>
+                <th>Description</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+              </tr>
+              <% projectjobs.forEach(function(proj){ %>
+              <tr>
+                <td><%= proj[0] %></td>
+                <td>(<%= proj[1] %>) <% if(proj[1]==0){ %>에러리스트<% }else if(proj[1]==1){ %>메뉴얼리스트<% }else if(proj[1]==2){ %>체크리스트<% }; %></td>
+                <td>(<%= proj[7] %>) <%= proj[8] %>[<%= proj[13] %>]</td>
+                <td><% if(proj[3]!='undefined'){ %><%= proj[3] %><% }else{ %>None<% }; %></td>
+                <td><%= proj[4].toString().substr(0, 16) %></td>
+                <td><% if(proj[5]!=null){ %><%= proj[5].toString().substr(0, 16) %><% }else{ %> - <% }; %></td>
+              </tr>
+              <% }); %>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
   </body>
 </html>
