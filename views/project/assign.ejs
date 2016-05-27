@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+    <style>
+      .panel-heading span {
+          margin-top: -20px;
+          font-size: 15px;
+      }
+      .row {
+          margin-top: 40px;
+          padding: 0 10px;
+      }
+      .clickable {
+          cursor: pointer;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <% include ../partials/header %>
+    </div>
+    <div class="container" style="margin-top:30px">
+      <h4><%= projs[1] %> 업무할당</h4>
+      <form role="form" id="body" method="post" action="/test/assign/commit">
+        <input type="hidden" name="projno" value="<%= projs[0] %>">
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="sel1">Test Type</label>
+            <select class="form-control" name="testtype" id="sel1">
+              <option>(0) 에러리스트</option>
+              <option onchange="alert('shit')">(1) 메뉴얼리스트</option>
+              <option>(2) 체크리스트</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="sel1">Tester</label>
+            <select class="form-control" name="tester" id="sel1">
+              <% testers.forEach(function(tester) { %>
+                <option>(<%= tester[0] %>)<%= tester[1] %>[<%= tester[6] %>]</option>
+              <% }); %>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="InputName">Description</label>
+              <div class="input-group">
+                  <input type="text" class="form-control" name="description" id="InputName" placeholder="Enter Description">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+              </div>
+          </div>
+        </div>
+        <input type="submit" name="submit" id="submit" value="업무 할당" class="btn btn-info pull-right">
+      </form>
+      <div class="row" style="margin-top:50px">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><center><%= projs[1] %> 정보</center></h3>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+          </div>
+          <div class="panel-body">
+            <table class="table">
+              <tr>
+                <th>Index</th>
+                <th>Category</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>StartDate</th>
+              </tr>
+              <tr>
+                <td><%= projs[0] %></td>
+                <td><%= projs[4] %></td>
+                <td><%= projs[1] %></td>
+                <td><%= projs[6] %></td>
+                <td><%= projs[2].toString().substr(0, 16) %></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('.panel-heading span.clickable').on("click", function (e) {
+            if ($(this).hasClass('panel-collapsed')) {
+                // expand the panel
+                $(this).parents('.panel').find('.panel-body').slideDown();
+                $(this).removeClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            }
+            else {
+                // collapse the panel
+                $(this).parents('.panel').find('.panel-body').slideUp();
+                $(this).addClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            }
+        });
+    });
+    $('tr[data-href]').on("click", function() {
+    document.location = $(this).data('href');
+  });
+</script>
