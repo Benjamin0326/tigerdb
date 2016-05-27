@@ -6,7 +6,6 @@ var moment = require('moment');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'welcome to TigerDB'});
-
 });
 
 router.get('/logout', function(req, res, next) {
