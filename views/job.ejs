@@ -97,7 +97,7 @@
               <td colspan="3" style="font-size:20pt;"><%= job[1] %></td>
 
               <% if(job[5]) {%>
-              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary">Start Testing</a>
+              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" disabled="disabled">Start Testing</a>
               </td>
               <%} else {%>
               <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary"  onclick="popTesting('/job/testing?testtype=<%=job[3]%>&projnum=<%=job[0]%>');" >Start Testing</a>
@@ -107,9 +107,14 @@
           </tr>
           <tr><td colspan="3"><%= job[6] %> (<%= job[2].toString().substr(0,16) %>)</td>
               <% if(job[5]) {%>
-              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary">Ended</a></td>
+              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" disabled="disabled">Ended</a></td>
               <%} else {%>
-              <td style="text-align:right;"><a href="/job/endjob?projnum=<%=job[0]%>&testtype=<%=job[3]%>" class="btn btn-default" class="btn btn-lg btn-primary">End Testing</a></td>
+                <% if(job[7]!=null){ %>
+                  <td style="text-align:right;"><a href="/job/endjob?projnum=<%=job[0]%>&testtype=<%=job[3]%>" class="btn btn-default" class="btn btn-lg btn-primary">End Testing</a></td>
+                <% }else{ %>
+                    <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" disabled="disabled">End Testing</a></td>
+                  <% } %>
+
               <%}%>
           </tr>
               <% if(job[3] == 0){%>
