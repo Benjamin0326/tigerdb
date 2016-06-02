@@ -374,6 +374,38 @@ router.get('/testcase/delete/:id', function(req, res, next){
     });
 });
 
+router.get('/projectjob/delete/:testproj/:testtype/:tester', function(req, res, next){
+  var testproj = req.params.testproj;
+  var testtype = req.params.testtype;
+  var tester = req.params.tester;
+  console.log("projectjob delete testing",testproj, testtype, tester);
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+
+      connection.execute(
+        "delete from projectjob where testproj="+testproj+" and testtype="+testtype+" and tester="+tester,  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          connection.commit(function(err){
+            if(err){
+              res.send("실패했습니다.");
+              return;
+            }
+          });
+
+          res.redirect('/test/assign/'+testproj);
+        });
+    });
+});
+
 router.get('/testset/delete/:id', function(req, res, next){
   var id = req.params.id;
   oracledb.getConnection(
