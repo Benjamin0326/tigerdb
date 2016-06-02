@@ -15,6 +15,7 @@ var bug = require('./routes/bug');
 var rent = require('./routes/rent');
 var usim = require('./routes/usim');
 var test = require('./routes/test');
+var job = require('./routes/job');
 
 var app = express();
 
@@ -47,6 +48,7 @@ app.use('/bug', bug);
 app.use('/rent', rent);
 app.use('/usim', usim);
 app.use('/test', test);
+app.use('/job', job);
 //app.use('/usim', usim);
 //app.use('/notices', notices);
 
