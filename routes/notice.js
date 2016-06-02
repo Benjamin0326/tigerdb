@@ -15,7 +15,7 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from notice order by ntcdate desc",  // bind value for :id
+        "SELECT * from notice n, employee e where n.writer=e.empno order by ntcdate desc",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }

@@ -19,19 +19,28 @@ router.get('/', function(req, res, next){
     function(err, connection)
     {
       if (err) { console.error(err.message); return; }
-      console.log("SELECT * from schedule where enddate>=TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate ");
       connection.execute(
-        "SELECT * from schedule where enddate>=TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate ",  // bind value for :id
+        "SELECT * from schedule s, employee e where s.writer=e.empno AND enddate>=TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
-          console.log(result.rows);
-          res.render('schedule', {emp:req.session, schedules:result.rows});
+          var schedule = result.rows;
+          connection.execute(
+            "SELECT * from schedule s, employee e where s.writer=e.empno AND enddate<TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate DESC ",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              res.render('schedule', {emp:req.session, schedules:schedule, total:result.rows});
+            });
         });
     });
 });
 
-router.post('/add', function(req, res, next){
+router.get('/add', function(req, res){
+  res.render('schedule/add', {emp:req.session});
+});
+
+router.post('/add/commit', function(req, res, next){
   var title = req.body.schtitle;
   var description = req.body.schcontent;
   var tmpstart = req.body.startdate;
@@ -90,29 +99,6 @@ router.post('/delete', function(req, res, next){
           });
 
           res.redirect('/schedule');
-        });
-    });
-});
-
-router.get('/total', function(req, res, next){
-  oracledb.maxRows=50;
-  oracledb.getConnection(
-    {
-      user          : "SYSTEM",
-      password      : "0305",
-      connectString : "localhost/DBSERVER"
-    },
-    function(err, connection)
-    {
-      if (err) { console.error(err.message); return; }
-      console.log("SELECT * from schedule order by enddate ");
-      connection.execute(
-        "SELECT * from schedule order by enddate ",  // bind value for :id
-        function(err, result)
-        {
-          if (err) { console.error(err.message); return; }
-          console.log(result.rows);
-          res.render('schedule/total', {emp:req.session, schedules:result.rows});
         });
     });
 });

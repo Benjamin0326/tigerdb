@@ -45,12 +45,14 @@ router.post('/commit', function(req, res, next){
         var t_position = editdata[i].position;
         var t_auth = editdata[i].auth;
         var t_id = editdata[i].id;
+        var t_name = editdata[i].name;
+        var t_address = editdata[i].address;
         if(t_id!=null){
           console.log(t_id);
           console.log(t_position);
           console.log(t_auth);
           connection.execute(
-            "UPDATE employee set position='"+t_position+"', auth='"+t_auth+"' where empno='"+t_id+"'",  // bind value for :id
+            "UPDATE employee set empname='"+t_name+"', position='"+t_position+"', auth='"+t_auth+"', address='"+t_address+"' where empno='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }

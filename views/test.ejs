@@ -73,7 +73,7 @@
                 <tr>
                   <td><%= item[4] %></td>
                   <td><%= item[1] %></td>
-                  <td><%= item[5] %></td>
+                  <td><%= item[8] %> (<%= item[5] %>)</td>
                   <td><%= item[2].toString().substr(0, 16) %></td>
                   <td><%= item[3].toString().substr(0, 16) %></td>
                 </tr>
@@ -84,7 +84,7 @@
           </div>
         </div>
         <div class="row" style="margin-top:0px">
-          <input type="button" name="add" id="add" value="Add" class="btn btn-info pull-right" onclick="location.href='/test/project/add'">
+          <input type="button" name="add" id="add" value="New Project" class="btn btn-info pull-right" onclick="location.href='/test/project/add'">
         </div>
     <% }else if(emp.empauth>2){ %>
     <div class="container" style="margin-top:30px">
@@ -138,7 +138,7 @@
               <tr>
                 <td><%= item[4] %></td>
                 <td><%= item[1] %></td>
-                <td><%= item[5] %></td>
+                <td><%= item[8] %> (<%= item[5] %>)</td>
                 <td><%= item[2].toString().substr(0, 16) %></td>
                 <td><%= item[3].toString().substr(0, 16) %></td>
               </tr>

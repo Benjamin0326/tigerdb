@@ -7,30 +7,26 @@
     <div class="header">
       <% include ../partials/header %>
     </div>
-    <div class="container row" style="margin-top:30px">
-
-
-      <div class="panel panel-default">
-        <div class="panel-heading"><h4 class="col-md-10"><%= notices[1]%></h4><br><p class="col-md-10"></p><p><%= notices[5]%></p></div>
-        <div class="panel-body">
-          <p style="white-space:pre-line"><%= notices[2]%></p><br><br><p class="col-md-10"></p><%= notices[4].toString().substr(0,16) %>
+    <div class="container">
+      <div class="container row" style="margin-top:30px">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="col-md-10"><%= notices[1]%></h4><br><p class="col-md-10"></p><p><%= notices[5]%></p></div>
+          <div class="panel-body">
+            <p style="white-space:pre-line"><%= notices[2]%></p><br><br><p class="col-md-10"></p><%= notices[4].toString().substr(0,16) %>
+          </div>
+          <% if (iswriter) { %>
+            <div class="panel-footer">
+              <a href="/notice/modify/<%= notices[0] %>">수정</a>
+              <a href="/notice/delete/<%= notices[0] %>">삭제</a>
+              <a href="/notice %>">목록</a>
+            </div>
+          <% }else{ %>
+            <div class="panel-footer">
+              <a href="/notice %>">목록</a>
+            </div>
+          <% } %>
         </div>
-        <% if (iswriter) { %>
-          <div class="panel-footer">
-            <a href="/notice/modify/<%= notices[0] %>">수정</a>
-            <a href="/notice/delete/<%= notices[0] %>">삭제</a>
-            <a href="/notice %>">목록</a>
-          </div>
-        <% }else{ %>
-          <div class="panel-footer">
-            <a href="/notice %>">목록</a>
-          </div>
-        <% } %>
-
       </div>
-
-
     </div>
-
   </body>
 </html>

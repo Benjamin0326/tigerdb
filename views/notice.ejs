@@ -2,28 +2,73 @@
 <html>
   <head>
     <% include partials/head %>
+  <style>
+    .panel-heading span {
+      margin-top: -20px;
+      font-size: 15px;
+    }
+    .row {
+        margin-top: 40px;
+        padding: 0 10px;
+    }
+    .clickable {
+    cursor: pointer;
+    }
+  </style>
   </head>
   <body>
       <div class="header">
       <% include partials/header %>
     </div>
-    <div class="container" style="margin-top:30px">
-      <div class="list-group">
-        <% notices.forEach(function(notice) { %>
-          <div class="list-group-item">
-            <h4 class="list-group-item-text"><a href="notice/<%= notice[0] %>" style="color:black"><%= notice[1] %></a></h4>
-            <p class="list-group-item-text" style="text-algin:right; margin-left:700px"><%= notice[4].toString().substr(0,16) %></p>
+    <div class="container">
+      <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><center>Notice</center></h3>
+              <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+            </div>
+            <div class="panel-body">
+              <table class="table">
+                <tr>
+                  <th style="width:150px">Title</th>
+                  <th style="width:350px">Content</th>
+                  <th style="width:100px">Writer</th>
+                  <th style="width:150px">Date</th>
+                </tr>
+                <% notices.forEach(function(notice){ %>
+                <tr>
+                  <td><%= notice[1] %></td>
+                  <td><%= notice[2] %></td>
+                  <td><%= notice[6] %></td>
+                  <td><%= notice[4].toString().substr(0,16) %></td>
+                </tr>
+                <% });%>
+              </table>
+            </div>
           </div>
-          <% }); %>
+      </div>
+      <div class="row" style="margin-top:0px" align="right">
+        <input type="button" name="add" id="add" value="New Schedule" class="btn btn-info pull-right" onclick="location.href='/notice/write'">
       </div>
     </div>
-    <div class="container row">
-      <div class="container col-md-11">
-      </div>
-      <div class="conatiner col-md-1">
-        <a href="notice/write">공지 등록</a>
-      </div>
-    </div>
-
   </body>
 </html>
+
+<script type="text/javascript">
+  jQuery(function ($) {
+        $('.panel-heading span.clickable').on("click", function (e) {
+            if ($(this).hasClass('panel-collapsed')) {
+                // expand the panel
+                $(this).parents('.panel').find('.panel-body').slideDown();
+                $(this).removeClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            }
+            else {
+                // collapse the panel
+                $(this).parents('.panel').find('.panel-body').slideUp();
+                $(this).addClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            }
+        });
+    });
+</script>
