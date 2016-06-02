@@ -20,7 +20,7 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT J.TESTPROJ, T.PROJNAME, T.STARTDATE, J.TESTTYPE, J.STARTDATE, J.ENDDATE, J.DESCRIPTION FROM TESTPROJ T, PROJECTJOB J WHERE J.TESTER='"+ req.session.empno+"' AND J.TESTPROJ = T.PROJECTNO ",  // bind value for :id
+        "SELECT J.TESTPROJ, T.PROJNAME, T.STARTDATE, J.TESTTYPE, J.STARTDATE, J.ENDDATE, J.DESCRIPTION, J.REPORT FROM TESTPROJ T, PROJECTJOB J WHERE J.TESTER='"+ req.session.empno+"' AND J.TESTPROJ = T.PROJECTNO ",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -36,7 +36,6 @@ router.get('/', function(req, res, next){
           });
         });
     });
-
 });
 
 router.get('/testing', function(req, res, next){
@@ -63,7 +62,7 @@ router.get('/testing', function(req, res, next){
       {
         if (err) { console.error(err.message); return; }
         connection.execute(
-          "SELECT BUGNO, SUMMARY, DESCRIPTION FROM BUG",  // bind value for :id
+          "SELECT DISTINCT B.BUGNO, B.SUMMARY, B.DESCRIPTION FROM BUG B, PHONE P, TESTPROJ T WHERE B.PHONE=P.PHONENO AND P.PHONEGROUP=T.PHONEGROUP",  // bind value for :id
           function(err, result)
           {
             if (err) { console.error(err.message); return; }
@@ -125,7 +124,7 @@ router.get('/describe', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "UPDATE PROJECTJOB SET DESCRIPTION='"+des+"' where TESTPROJ='"+projnum+"' AND TESTTYPE ='"+testtype+"' AND TESTER='"+req.session.empno+"'",  // bind value for :id
+        "UPDATE PROJECTJOB SET REPORT='"+des+"' where TESTPROJ='"+projnum+"' AND TESTTYPE ='"+testtype+"' AND TESTER='"+req.session.empno+"'",  // bind value for :id
 
         function(err, result)
         {

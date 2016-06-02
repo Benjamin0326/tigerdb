@@ -105,7 +105,7 @@
               <%}%>
 
           </tr>
-          <tr><td colspan="3"><%= job[2].toString().substr(0,16) %></td>
+          <tr><td colspan="3"><%= job[6] %> (<%= job[2].toString().substr(0,16) %>)</td>
               <% if(job[5]) {%>
               <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary">Ended</a></td>
               <%} else {%>
@@ -133,7 +133,7 @@
                 <div class="collapse" id="describeForm<%= i %>" >
                   <div class="well" >
                     <form action="/job/describe" method="GET">
-                      <input type="text" name="description" style="width:80%;height:50px" value="<%= job[6] %>">
+                      <input type="text" name="description" style="width:80%;height:50px" value="<%= job[7] %>">
                       <input type="submit" class="btn btn-default" class="btn btn-lg btn-primary" value="submit"/>   <!-- description 제출 -->
                       <input type="hidden" name="projnum" value="<%= job[0]%>" />
                       <input type="hidden" name="testtype" value="<%= job[3]%>"/>
@@ -141,7 +141,7 @@
                   </div>
                 </div>
               </td>
-              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm">Describe</a></td>
+              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm">Report Result</a></td>
           </tr>
 
           <tr><td colspan="5">
