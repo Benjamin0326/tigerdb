@@ -88,21 +88,23 @@
           <div class="panel-body">
             <table class="table">
               <tr>
-                <th>Index</th>
                 <th>Test Type</th>
                 <th>Tester</th>
                 <th>Description</th>
                 <th>StartDate</th>
                 <th>EndDate</th>
+                <th>삭제</th>
               </tr>
               <% projectjobs.forEach(function(proj){ %>
               <tr>
-                <td><%= proj[0] %></td>
+                <!--<td><%= proj[0] %></td>-->
                 <td>(<%= proj[1] %>) <% if(proj[1]==0){ %>에러리스트<% }else if(proj[1]==1){ %>메뉴얼리스트<% }else if(proj[1]==2){ %>체크리스트<% }; %></td>
                 <td>(<%= proj[7] %>) <%= proj[8] %>[<%= proj[13] %>]</td>
                 <td><% if(proj[3]!='undefined'){ %><%= proj[3] %><% }else{ %>None<% }; %></td>
                 <td><%= proj[4].toString().substr(0, 16) %></td>
                 <td><% if(proj[5]!=null){ %><%= proj[5].toString().substr(0, 16) %><% }else{ %> - <% }; %></td>
+                <td><a href="/test/projectjob/delete/<%= proj[0] %>/<%= proj[1] %>/<%= proj[2] %>"><button class="btn btn-primary">삭제</button></a>
+                </td>
               </tr>
               <% }); %>
             </table>
