@@ -94,6 +94,7 @@
                 <th>StartDate</th>
                 <th>EndDate</th>
                 <th>삭제</th>
+                <th>결과확인</th>
               </tr>
               <% projectjobs.forEach(function(proj){ %>
               <tr>
@@ -103,8 +104,8 @@
                 <td><% if(proj[3]!='undefined'){ %><%= proj[3] %><% }else{ %>None<% }; %></td>
                 <td><%= proj[4].toString().substr(0, 16) %></td>
                 <td><% if(proj[5]!=null){ %><%= proj[5].toString().substr(0, 16) %><% }else{ %> - <% }; %></td>
-                <td><a href="/test/projectjob/delete/<%= proj[0] %>/<%= proj[1] %>/<%= proj[2] %>"><button class="btn btn-primary">삭제</button></a>
-                </td>
+                <td><a href="/test/projectjob/delete/<%= proj[0] %>/<%= proj[1] %>/<%= proj[2] %>"><button class="btn btn-primary">삭제</button></a></td>
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<%=proj[0]%><%=proj[1]%><%=proj[2]%>">Report 확인</button></td>
               </tr>
               <% }); %>
             </table>
@@ -113,6 +114,29 @@
       </div>
 
     </div>
+
+    <% projectjobs.forEach(function(proj){ %>
+      <div id="myModal<%=proj[0]%><%=proj[1]%><%=proj[2]%>" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">(<%= proj[1] %>) <% if(proj[1]==0){ %>에러리스트<% }else if(proj[1]==1){ %>메뉴얼리스트<% }else if(proj[1]==2){ %>체크리스트<% }; %></h4>
+              <p class="modal-title">Tester : (<%= proj[7] %>) <%= proj[8] %>[<%= proj[13] %>]</p>
+            </div>
+            <div class="modal-body">
+              <p style="white-space:pre-line"><% if(proj[6]==null){ %>보고된 Report가 없습니다.<% }else{ %><%= proj[6] %><% }; %></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+
+
   </body>
 </html>
 
