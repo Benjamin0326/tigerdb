@@ -12,7 +12,8 @@
         <div class="panel panel-default">
           <div class="panel-heading"><h4 class="col-md-8"><%= info[1]%></h4><p class="col-md-1"><%= info[10]%></p>
             <p class="col-md-8"></p><p>Type : <%= info[7] %> / Status : <% if(info[6]==0){ %>New<% }else if(info[6]==1){ %>Recognized<% }else if(info[6]==2){ %>In Progress<% }else if(info[6]==3){ %>Resolved<% }else if(info[6]==4){ %>Closed<% }; %></p>
-            <p class="col-md-5"></p><p>Phone : <%= info[8] %> - <%= info[9] %> (<%= info[11] %>)</p>
+            <p class="col-md-5"></p><p>Phone : <%= info[8] %> - <%= info[9] %> (<%= info[11] %>)</p><p class="col-md-3"></p>
+            <p>Category : <% if(info[12]==1){ %>UI<% }else if(info[12]==2){ %>기능<% }else if(info[12]==3){ %>보안<% }else if(info[12]==4){ %>네트워크<% }else if(info[12]==5){ %>기타<% }; %> / Project : <%= info[14] %></p>
           </div>
           <div class="panel-body">
             <p style="white-space:pre-line"><%= info[2] %></p><br><br><p class="col-md-10"></p><%= info[4].toString().substr(0,16) %>

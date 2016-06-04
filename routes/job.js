@@ -30,7 +30,13 @@ router.get('/', function(req, res, next){
             function(err,result){
               if (err) { console.error(err.message); return;}
               var phones=result.rows;
-            res.render('job', {emp:req.session, jobs:job, phones:phones});
+              connection.execute(
+                "SELECT * from testproj",
+                function(err,result){
+                  if (err) { console.error(err.message); return;}
+                  var testprojs=result.rows;
+                res.render('job', {emp:req.session, jobs:job, phones:phones, testprojs:testprojs});
+              });
           });
         });
     });
@@ -226,4 +232,3 @@ router.get('/endjob', function(req, res, next){
 });
 
 module.exports = router;
-
