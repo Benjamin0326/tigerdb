@@ -67,8 +67,9 @@
           </div>
         </div>
         <input type="submit" name="add" id="add" value="Update" class="btn btn-info pull-right">
-      </form>
+        </form>
     
+    <% if(results[0][7]!=null){ %>
       <div class="row" style="margin-top:50px">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -100,29 +101,28 @@
           </div>
         </div>
       </div>
-    </div>
-    <% results.forEach(function(proj){ %>
-    <div id="myModal<%=proj[7]%><%=proj[8]%><%=proj[9]%>" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">(<%= proj[8] %>) <% if(proj[8]==0){ %>에러리스트<% }else if(proj[8]==1){ %>메뉴얼리스트<% }else if(proj[8]==2){ %>체크리스트<% }; %></h4>
-            <p class="modal-title">Tester : (<%= proj[14] %>) <%= proj[15] %>[<%= proj[20] %>]</p>
-          </div>
-          <div class="modal-body">
-            <p style="white-space:pre-line"><% if(proj[13]==null){ %>보고된 Report가 없습니다.<% }else{ %><%= proj[13] %><% }; %></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <% results.forEach(function(proj){ %>
+      <div id="myModal<%=proj[7]%><%=proj[8]%><%=proj[9]%>" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">(<%= proj[8] %>) <% if(proj[8]==0){ %>에러리스트<% }else if(proj[8]==1){ %>메뉴얼리스트<% }else if(proj[8]==2){ %>체크리스트<% }; %></h4>
+              <p class="modal-title">Tester : (<%= proj[14] %>) <%= proj[15] %>[<%= proj[20] %>]</p>
+            </div>
+            <div class="modal-body">
+              <p style="white-space:pre-line"><% if(proj[13]==null){ %>보고된 Report가 없습니다.<% }else{ %><%= proj[13] %><% }; %></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
           </div>
         </div>
       </div>
+      <% }); %>
+    <% }; %>
     </div>
-    <% }); %>
-
-
   </body>
 </html>
 <script>
