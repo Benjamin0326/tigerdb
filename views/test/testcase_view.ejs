@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+    <style>
+      .side{
+        flex : 1;
+      }
+      .title{
+        flex : 8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <% include ../partials/header %>
+    </div>
+    <div class="container">
+      <div class="container row" style="margin-top:30px">
+        <div class="panel panel-default">
+          <div class="panel-heading" style="display:flex;height:50px">
+            <div class="side" style="width:10px;padding-top:5px">
+              <font size="4"><b>[ TC No. <%= detail[0]%> ] </b></font>
+            </div>
+            <div class="title">
+              <font size="5"><b><%= detail[1]%></b></font>
+            </div>
+          </div>
+          <div class="panel-body">
+            <p style="white-space:pre-line"><%= detail[2] %></p>
+          </div>
+          <div class="panel-footer">
+            <font size="4">[E.R] 
+              <% if(detail[3]==1){ %>
+              PASS
+              <% }else{ %>
+              FAIL
+              <% } %>
+            </font>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="margin-top:0px" align="right">
+        <input type="button" name="add" id="add" value="update" class="btn btn-info pull" onclick="location.href='/test/testcase/modify/<%= detail[0] %>'">
+        <input type="button" name="add" id="add" value="delete" class="btn btn-info pull" style="margin-right:15px" onclick="location.href='/test/testcase/delete/<%= detail[0] %>'">
+      </div>
+    </div>
+  </body>
+</html>

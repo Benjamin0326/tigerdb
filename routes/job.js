@@ -8,8 +8,6 @@ var moment = require('moment');
 router.get('/', function(req, res, next){
   oracledb.maxRows=50;
 
-   console.log(req.session.empauth);
-
   oracledb.getConnection(
     {
       user          : "SYSTEM",

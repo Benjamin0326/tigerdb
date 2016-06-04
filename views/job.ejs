@@ -7,207 +7,182 @@
         window.open(url,"width=400, height=300");
       }
    </script>
+   <style>
+      #align {
+      margin-top : 100px;
+      text-align:center;
+      width:100%;
+      padding-top : 25px;
+      }
+
+      #content {
+          border-radius: 10px;
+          width:100%;
+          text-align : left;
+          margin-bottom: 25px;
+          padding-left: 25px;
+          padding-right: 25px;
+      }
+
+      #ProjectNum{
+           display:inline-block;
+          width: 10%;
+          height: 50px;
+          font-size : 20pt;
+      }
+
+      #ProjectName{
+          display:inline-block;
+          width: 40%;
+          border:0px red solid;
+          height: 50px;
+          font-size : 20pt;
+      }
+
+      #TestName{
+          display:inline-block;
+          border:0px blue solid;
+          width: 100%;
+      }
+
+      #describeForm{
+        vertical-align:middle;
+        padding-top:10px;
+      }
+    </style>
   </head>
   <body>
-<style>
-    #align {
-    margin-top : 100px;
-    text-align:center;
-    width:100%;
-
-
-    padding-top : 25px;
-    }
-
-    #content {
-        border-radius: 10px;
-
-        width:100%;
-        text-align : left;
-        margin-bottom: 25px;
-        padding-left: 25px;
-        padding-right: 25px;
-    }
-
-    #ProjectNum{
-         display:inline-block;
-        width: 10%;
-        height: 50px;
-        font-size : 20pt;
-    }
-
-    #ProjectName{
-        display:inline-block;
-        width: 40%;
-        border:0px red solid;
-        height: 50px;
-        font-size : 20pt;
-    }
-
-    #TestName{
-        display:inline-block;
-        border:0px blue solid;
-
-        width: 100%;
-
-
-    }
-
-    #describeForm{
-      vertical-align:middle;
-      padding-top:10px;
-    }
-
-</style>
-
-
-
     <div class="header">
       <% include partials/header %>
     </div>
-
-
     <% var i = 0 %>
-    <% if(emp.empauth<2){%>
-
-
-      <div id ="align" class="container">
-          <% jobs.forEach(function(job) { %>
+    <% if(emp.empauth<2){ %>
+    <div id ="align" class="container">
+      <% if(jobs[0]==null){ %>
+            no job
+      <% }else{ %>
+        <% jobs.forEach(function(job){ %>
           <% if(!job[5]) {%>
-          <div id ="content" class="container" style="border:2px black solid;background-color:white" >
+            <div id ="content" class="container" style="border:2px black solid;background-color:white" >
           <%}else{%>
-          <div id ="content" class="container" style="border:1px black solid;background-color:gray"  >
+            <div id ="content" class="container" style="border:1px black solid;background-color:gray"  >
           <%}%>
 
-
-          <table border="0px" width="100%" style="margin-bottom:10px;margin-top:10px">
-          <tr><td rowspan="3" width="5%" style="font-size:16pt;text-align:center">#<%= job[0] %></td>
-              <td colspan="3" style="font-size:20pt;"><%= job[1] %></td>
-
-              <% if(job[5]) {%>
-              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" disabled="disabled">Start Testing</a>
-              </td>
-              <%} else {%>
-              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary"  onclick="popTesting('/job/testing?testtype=<%=job[3]%>&projnum=<%=job[0]%>');" >Start Testing</a>
-              </td>
-              <%}%>
-          </tr>
-          <tr><td colspan="3"><%= job[6] %> (<%= job[2].toString().substr(0,16) %>)</td>
-              <% if(job[5]) {%>
-              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" disabled="disabled">Ended</a></td>
-              <%} else {%>
-                <% if(job[7]!=null){ %>
-                  <td style="text-align:right;"><a href="/job/endjob?projnum=<%=job[0]%>&testtype=<%=job[3]%>" class="btn btn-default" class="btn btn-lg btn-primary">End Testing</a></td>
-                <% }else{ %>
-                    <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" disabled="disabled">End Testing</a></td>
-                  <% } %>
-              <%}%>
-          </tr>
-              <% if(job[3] == 0){%>
-              <% var type = "Error List Testing"; %>
-              <% } else if(job[3] == 1){ %>
-              <% var type = "Manual Testing"; %>
-              <% } else if(job[3] == 2){ %>
-              <% var type = "Check List Testing"; %>
-              <% } else { %>
-              <% var type = "unvalid value";} %>
-          <tr><td width="26%">Test type : <%= type %></td>
-              <td width="35%">시작일자 : <%= job[4].toString().substr(0,16) %></td>
-              <% if(job[5]) {%>
-              <td width="35%">종료일자 : <%= job[5].toString().substr(0,16) %></td>
-              <%}else{%>
-              <td width="35%">종료일자 : </td>
-              <%}%>
-              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary"  data-toggle="collapse" href="#bugForm<%= i%>" aria-expanded="false" aria-controls="bugForm">Report Bug</a></td>
-          </tr>
-          <tr><td colspan="4" >
-                <div class="collapse" id="describeForm<%= i %>" >
-                  <div class="well" >
-                    <form action="/job/describe" method="GET">
-                      <input type="text" name="description" style="width:80%;height:50px" value="<%= job[7] %>">
-                      <input type="submit" class="btn btn-default" class="btn btn-lg btn-primary" value="submit"/>   <!-- description 제출 -->
-                      <input type="hidden" name="projnum" value="<%= job[0]%>" />
-                      <input type="hidden" name="testtype" value="<%= job[3]%>"/>
-                    </form>
-                  </div>
-                </div>
-              </td>
-              <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm">Report Result</a></td>
-          </tr>
-
-          <tr><td colspan="5">
-                <div class="collapse" id="bugForm<%= i%>" style="width:100%">
-                      <div class="well">
-                        <div class="container" style="width:100%;margin-top:30px">
-                            <form role="form" id="body" method="post" action="/bug/report/commit">
-                              <div class="form-group">
-                                <label for="InputName">Summary</label>
-                                  <div class="input-group">
-                                      <input type="text" class="form-control" name="bugsummary" id="InputName" placeholder="Enter Summary" required>
-                                      <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                                  </div>
-                              </div>
-                              <div class="form-group col-md-6">
-                                <label for="sel1">Phone</label>
-                                <select class="form-control" name="phone" id="sel1">
-                                                 <% phones.forEach(function(phone) { %>
-                                    <option>(<%= phone[0] %>)<%= phone[1] %> -  <%= phone[3] %></option>
-                                  <% }); %>
-                                </select>
-                              </div>
-                              <div class="form-group col-md-6">
-                                <label for="sel1">Type</label>
-                                <select class="form-control" name="bugtype" id="sel1">
-                                    <option>Critical</option>
-                                    <option>Major</option>
-                                    <option>Minor</option>
-                                </select>
-                              </div>
-                              <div class="form-group">
-                                <label for="InputMessage">Description</label>
-                                <div class="input-group">
-                                  <textarea id="InputMessage" name="bugdescription" class="form-control" rows="10" required></textarea>
-                                  <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-                                </div>
-                              </div>
-                              <input type="submit" name="submit" id="submit" value="Report Bug" class="btn btn-info pull-right">
-                            </form>
-                          </div>
-
+            <table border="0px" width="100%" style="margin-bottom:10px;margin-top:10px">
+              <tr><td rowspan="3" width="5%" style="font-size:16pt;text-align:center">#<%= job[0] %></td>
+                  <td colspan="3" style="font-size:20pt;"><%= job[1] %></td>
+                  <% if(job[5]) {%>
+                    <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" disabled="disabled">Start Testing</a>
+                    </td>
+                  <%} else {%>
+                    <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary"  onclick="popTesting('/job/testing?testtype=<%=job[3]%>&projnum=<%=job[0]%>');" >Start Testing</a>
+                    </td>
+                  <%}%>
+              </tr>
+              <tr><td colspan="3"><%= job[6] %> (<%= job[2].toString().substr(0,16) %>)</td>
+                  <% if(job[5]) {%>
+                    <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" disabled="disabled">Ended</a></td>
+                  <%} else {%>
+                    <% if(job[7]!=null){ %>
+                      <td style="text-align:right;"><a href="/job/endjob?projnum=<%=job[0]%>&testtype=<%=job[3]%>" class="btn btn-default" class="btn btn-lg btn-primary">End Testing</a></td>
+                    <% }else{ %>
+                        <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" disabled="disabled">End Testing</a></td>
+                      <% } %>
+                  <%}%>
+              </tr>
+                  <% if(job[3] == 0){%>
+                    <% var type = "Error List Testing"; %>
+                  <% } else if(job[3] == 1){ %>
+                    <% var type = "Manual Testing"; %>
+                  <% } else if(job[3] == 2){ %>
+                    <% var type = "Check List Testing"; %>
+                  <% } else { %>
+                    <% var type = "unvalid value";
+                    } %>
+              <tr><td width="26%">Test type : <%= type %></td>
+                  <td width="35%">시작일자 : <%= job[4].toString().substr(0,16) %></td>
+                  <% if(job[5]) {%>
+                  <td width="35%">종료일자 : <%= job[5].toString().substr(0,16) %></td>
+                  <%}else{%>
+                  <td width="35%">종료일자 : </td>
+                  <%}%>
+                  <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary"  data-toggle="collapse" href="#bugForm<%= i%>" aria-expanded="false" aria-controls="bugForm">Report Bug</a></td>
+              </tr>
+              <tr><td colspan="4" >
+                    <div class="collapse" id="describeForm<%= i %>" >
+                      <div class="well" >
+                        <form action="/job/describe" method="GET">
+                          <input type="text" name="description" style="width:80%;height:50px" value="<%= job[7] %>">
+                          <input type="submit" class="btn btn-default" class="btn btn-lg btn-primary" value="submit"/>   <!-- description 제출 -->
+                          <input type="hidden" name="projnum" value="<%= job[0]%>" />
+                          <input type="hidden" name="testtype" value="<%= job[3]%>"/>
+                        </form>
                       </div>
                     </div>
-
-            </td>
-
-          </tr>
-
-          </table>
+                  </td>
+                  <td style="text-align:right;"><a class="btn btn-default" class="btn btn-lg btn-primary" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm">Report Result</a></td>
+              </tr>
+              <tr><td colspan="5">
+                    <div class="collapse" id="bugForm<%= i%>" style="width:100%">
+                      <div class="well">
+                        <div class="container" style="width:100%;margin-top:30px">
+                          <form role="form" id="body" method="post" action="/bug/report/commit">
+                            <div class="form-group">
+                              <label for="InputName">Summary</label>
+                              <div class="input-group">
+                                <input type="text" class="form-control" name="bugsummary" id="InputName" placeholder="Enter Summary" required>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                              </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="sel1">Phone</label>
+                              <select class="form-control" name="phone" id="sel1">
+                                <% phones.forEach(function(phone) { %>
+                                  <option>(<%= phone[0] %>)<%= phone[1] %> -  <%= phone[3] %></option>
+                                <% }); %>
+                              </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="sel1">Type</label>
+                              <select class="form-control" name="bugtype" id="sel1">
+                                <option>Critical</option>
+                                <option>Major</option>
+                                <option>Minor</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="InputMessage">Description</label>
+                              <div class="input-group">
+                                <textarea id="InputMessage" name="bugdescription" class="form-control" rows="10" required></textarea>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                              </div>
+                            </div>
+                            <input type="submit" name="submit" id="submit" value="Report Bug" class="btn btn-info pull-right">
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                </td>
+              </tr>
+            </table>
+            </div>
+            <% i = i+1; %>
           </div>
-          <% i = i+1; %>
-
-          <% } ); %>
-      </div>
-
-
-    <%} else {%>
+        <% } ); %>
+      <% } %>
+    <%}else {%>
       Tester 가 아닙니다.
-
     <%}%>
+    </div>
 
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-      <div class="modal-content">
+      <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-content"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
       </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    </div>
-
-</div>
-
-
-
   </body>
 </html>
 

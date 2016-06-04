@@ -165,7 +165,7 @@ router.get('/testset/add', function(req, res, next){
           console.log(result.rows);
           var testcases=result.rows;
           connection.execute(
-            "SELECT * from testproj where enddate is null",  // bind value for :id
+            "SELECT * from testproj where enddate is null and manager="+req.session.empno,  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -234,6 +234,29 @@ router.get('/testcase/modify/:id', function(req, res, next){
 router.get('/testcase/add', function(req, res, next){
   oracledb.maxRows=100;
   res.render('test/testcase_add', {emp:req.session});
+});
+
+router.get('/testcase/:id', function(req, res, next){
+  var id = req.params.id;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+
+      connection.execute(
+        "SELECT * from manualcase where caseno='"+id+"'",  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          res.render('test/testcase_view', {emp:req.session, detail:result.rows[0]});
+        });
+    });
 });
 
 
@@ -448,8 +471,8 @@ router.get('/testset', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT DISTINCT s.setno, s.title, t.projname, e.empname from manualset s, testproj t, employee e where s.testproj=t.projectno and e.empno=s.tester",  // bind value for :id
-
+        //"SELECT DISTINCT s.setno, s.title, t.projname, e.empname from manualset s, testproj t, employee e where s.testproj=t.projectno and e.empno=s.tester",  // bind value for :id
+        "SELECT DISTINCT s.setno, s.title, t.projname, t.phonegroup, e.empname from manualset s, testproj t, employee e where s.testproj=t.projectno and e.empno=s.tester",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -506,13 +529,13 @@ router.get('/project/:id', function(req, res){
        function(err, result)
         {
           var projinfo = result.rows;
-          console.log(projinfo);
+          //console.log(projinfo[0]);
           if (err) { console.error(err.message); return; }
 
           connection.execute("SELECT DISTINCT phonegroup from PHONE",
           function(err, result){
             if(err) { console.error(err.message); return; }
-            var group = result.rows;
+            var group = result.rows[0];
 
             connection.execute(
               "SELECT * from employee where auth>2",  // bind value for :id
