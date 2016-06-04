@@ -502,10 +502,11 @@ router.get('/project/:id', function(req, res){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from testproj where projectno="+id,  // bind value for :id
+        "SELECT * from testproj t, projectjob p , employee e where e.empno=p.tester and t.projectno=p.testproj and t.projectno="+id,  // bind value for :id
        function(err, result)
         {
-          var projinfo = result.rows[0];
+          var projinfo = result.rows;
+          console.log(projinfo);
           if (err) { console.error(err.message); return; }
 
           connection.execute("SELECT DISTINCT phonegroup from PHONE",

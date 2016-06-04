@@ -32,7 +32,7 @@
                       </select>
                     </td>
                     <td>
-                      <input type="text" class="form-control" name="projname" id="InputName" value="<%= results[1]%>">
+                      <input type="text" class="form-control" name="projname" id="InputName" value="<%= results[0][1]%>">
                     </td>
                     <td>
                       <select class="form-control" name="manager" id="sel1">
@@ -42,11 +42,11 @@
                       </select>
                     </td>
                     <td>
-                      <input type="text" class="form-control" name="description" id="InputName" value="<%= results[6]%>">
+                      <input type="text" class="form-control" name="description" id="InputName" value="<%= results[0][6]%>">
                     </td>
                     <td>
                       <input name="enddate" type="text" id="datepicker" class="form-control">
-                      <input name="hidden" type="hidden" id="hidden" class="form-control" value="<%= results[0]%>">
+                      <input name="hidden" type="hidden" id="hidden" class="form-control" value="<%= results[0][0]%>">
                     </td>
                   </tr>
               </table>
@@ -56,6 +56,61 @@
         <input type="submit" name="add" id="add" value="Update" class="btn btn-info pull-right">
         </form>
     </div>
+
+    <div class="row" style="margin-top:50px">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><center><%= results[0][8] %> TEST 할당 상황</center></h3>
+          <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+        </div>
+        <div class="panel-body">
+          <table class="table">
+            <tr>
+              <th>Test Type</th>
+              <th>Tester</th>
+              <th>Description</th>
+              <th>StartDate</th>
+              <th>EndDate</th>
+              <th>결과확인</th>
+            </tr>
+            <% results.forEach(function(proj){ %>
+            <tr>
+              <!--<td><%= proj[0] %></td>-->
+              <td>(<%= proj[8] %>) <% if(proj[8]==0){ %>에러리스트<% }else if(proj[8]==1){ %>메뉴얼리스트<% }else if(proj[8]==2){ %>체크리스트<% }; %></td>
+              <td>(<%= proj[14] %>) <%= proj[15] %>[<%= proj[20] %>]</td>
+              <td><% if(proj[10]!='undefined'){ %><%= proj[10] %><% }else{ %>None<% }; %></td>
+              <td><%= proj[11].toString().substr(0, 16) %></td>
+              <td><% if(proj[12]!=null){ %><%= proj[12].toString().substr(0, 16) %><% }else{ %> - <% }; %></td>
+              <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<%=proj[7]%><%=proj[8]%><%=proj[9]%>">Report 확인</button></td>
+            </tr>
+            <% }); %>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <% results.forEach(function(proj){ %>
+    <div id="myModal<%=proj[7]%><%=proj[8]%><%=proj[9]%>" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">(<%= proj[8] %>) <% if(proj[8]==0){ %>에러리스트<% }else if(proj[8]==1){ %>메뉴얼리스트<% }else if(proj[8]==2){ %>체크리스트<% }; %></h4>
+            <p class="modal-title">Tester : (<%= proj[14] %>) <%= proj[15] %>[<%= proj[20] %>]</p>
+          </div>
+          <div class="modal-body">
+            <p style="white-space:pre-line"><% if(proj[13]==null){ %>보고된 Report가 없습니다.<% }else{ %><%= proj[13] %><% }; %></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }); %>
+
+
   </body>
 </html>
 <script>

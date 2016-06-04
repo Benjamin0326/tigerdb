@@ -12,30 +12,42 @@
       <a href="/bug/report"><button class="btn btn-primary">Report Bug</button></a>
       <div class="row">
         <div class="col-md-3">
-          Phones :
+         <a class="dropdown-toggle" data-toggle="dropdown">Phones
+         <span class="caret"></span></a>
+         <ul class="dropdown-menu">
         <% phones.forEach(function(phone) { %>
-          <a href="/bug/phone/<%= phone[0] %>"><%= phone[1] %>(<%= phone[3] %>)</a>
+          <li><a href="/bug/phone/<%= phone[0] %>"><%= phone[1] %>(<%= phone[3] %>)</a></li>
         <% }); %>
+          </ul>
         </div>
         <div class="col-md-3">
-          Phone Group :
+          <a class="dropdown-toggle" data-toggle="dropdown">Phone Group
+         <span class="caret"></span></a>
+         <ul class="dropdown-menu">
         <% phonegroups.forEach(function(phonegroup) { %>
-          <a href="/bug/phonegroup/<%= phonegroup[0] %>"><%= phonegroup[0] %></a>
+          <li><a href="/bug/phonegroup/<%= phonegroup[0] %>"><%= phonegroup[0] %></a></li>
         <% }); %>
+          </ul>
         </div>
         <div class="col-md-3">
-          Status :
-          <a href="/bug/status/0">New</a>
-          <a href="/bug/status/1">Recognized</a>
-          <a href="/bug/status/2">In Progress</a>
-          <a href="/bug/status/3">Resolved</a>
-          <a href="/bug/status/4">Closed</a>
+          <a class="dropdown-toggle" data-toggle="dropdown">Status
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+         <li> <a href="/bug/status/0">New</a></li>
+         <li> <a href="/bug/status/1">Recognized</a></li>
+         <li> <a href="/bug/status/2">In Progress</a></li>
+         <li> <a href="/bug/status/3">Resolved</a></li>
+         <li> <a href="/bug/status/4">Closed</a></li>
+         </ul>
         </div>
         <div class="col-md-3">
-          Type :
-          <a href="/bug/type/Critical">Critical</a>
-          <a href="/bug/type/Major">Major</a>
-          <a href="/bug/type/Minor">Minor</a>
+          <a class="dropdown-toggle" data-toggle="dropdown">Type
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          <li><a href="/bug/type/Critical">Critical</a></li>
+          <li><a href="/bug/type/Major">Major</a></li>
+          <li><a href="/bug/type/Minor">Minor</a></li>
+          </ul>
         </div>
       </div>
       <div class="list-group" style="margin-top:10px">
