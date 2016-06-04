@@ -23,33 +23,36 @@
         <div class="panel panel-default">
           <div class="panel-heading" style="display:flex;height:50px">
             <div>
-              <font size="4"><b><%= notices[1]%></b></font>
+              <font size="4"><b><%= schedules[1]%></b></font>
             </div>
           </div>
           <div class="panel-body">
             <div class="top" style="display:flex;height:50px">
               <div class="info">
-                <font size="2">작성자 : <%= notices[5]%></font>
+                <font size="2">작성자 : <%= schedules[6]%></font>
               </div>
               <div class="info">
-                <font size="2">이메일 : <%= notices[6]%></font>
+                <font size="2">이메일 : <%= schedules[7]%></font>
               </div>
               <div class="info">
-                <font size="2">작성일 : <%= notices[4].toString().substr(0,16) %></font>
+                <font size="2">시작일 : <%= schedules[4].toString().substr(0,16) %></font>
+              </div>
+              <div class="info">
+                <font size="2">종료일 : <%= schedules[5].toString().substr(0,16) %></font>
               </div>
             </div>
             <div>
-              <p style="white-space:pre-line"><%= notices[2] %></p>
+              <p style="white-space:pre-line"><%= schedules[2] %></p>
             </div>
           </div>
         </div>
       </div>
       <div class="row" style="margin-top:0px" align="right">
       <% if (iswriter) { %>
-        <input type="button" name="add" id="add" value="update" class="btn btn-info pull" style="margin-right:5px" onclick="location.href='/notice/modify/<%= notices[0] %>'">
-        <input type="button" name="add" id="add" value="delete" class="btn btn-info pull" style="margin-right:5px" onclick="location.href='/notice/delete/<%= notices[0] %>'">
+        <input type="button" name="add" id="add" value="update" class="btn btn-info pull" style="margin-right:5px" onclick="location.href='/schedule/modify/<%= schedules[0] %>'">
+        <input type="button" name="add" id="add" value="delete" class="btn btn-info pull" style="margin-right:5px" onclick="location.href='/schedule/delete/<%= schedules[0] %>'">
       <% }  %>
-        <input type="button" style="margin-right:15px" value="목록" class="btn btn-info pull" onclick="location.href='/notice'">
+        <input type="button" style="margin-right:15px" value="목록" class="btn btn-info pull" onclick="location.href='/schedule'">
       </div> 
     </div>
   </body>

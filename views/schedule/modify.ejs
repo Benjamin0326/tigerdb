@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+  </head>
+  <body>
+    <div class="header">
+      <% include ../partials/header %>
+    </div>
+     <div class="container">
+       <form id="body" action="/schedule/modify/commit/<%= schedules[0] %>" method="POST" onsubmit="return validate()">
+        <div class="row">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><center>Update Schedule</center></h3>
+            </div>
+            <div class="panel-body">
+              <table class="table">
+                <tr>
+                    <th style="width:150px">Title</th>
+                    <th style="width:350px">Content</th>
+                    <th style="width:150px">Start Date</th>
+                    <th style="width:150px">End Date</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input name="schtitle" type="text" class="form-control" id="exampleInputPassword1" value="<%=schedules[1]%>">
+                    </td>
+                    <td>
+                      <textarea name="schcontent" class="form-control" rows="3" id="comment"><%=schedules[2]%></textarea>
+                    </td>
+                    <td>
+                      <input name="startdate" type="text" id="datepicker" class="form-control" value="<%=schedules[4]%>">
+                    </td>
+                    <td>
+                      <input name="enddate" type="text" id="datepicker2" class="form-control" value="<%=schedules[5]%>">
+                    </td>
+                  </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <input type="submit" name="add" id="add" value="Update" class="btn btn-info pull-right">
+        </form>
+    </div>
+  </body>
+</html>
+<script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+    $( "#datepicker2" ).datepicker();
+  });
+
+  function validate(){
+    var title = document.forms["body"]["schtitle"].value;
+    var sdate = document.forms["body"]["startdate"].value;
+    var edate = document.forms["body"]["enddate"].value;
+    var desc = document.forms["body"]["schcontent"].value;
+
+    if(title==null || title==""){
+      alert("Title must be filled out");
+      return false;
+    }
+    if(sdate==null || sdate==""){
+      alert("Start date must be filled out");
+      return false;
+    }
+    if(edate==null || edate==""){
+      alert("End date be filled out");
+      return false;
+    }
+  }
+  </script>

@@ -8,7 +8,7 @@
       font-size: 15px;
     }
     .row {
-        margin-top: 40px;
+        margin-top: 20px;
         padding: 0 10px;
     }
     .clickable {
@@ -30,15 +30,15 @@
             <div class="panel-body">
               <table class="table">
                 <tr>
-                  <th style="width:150px">Title</th>
-                  <th style="width:350px">Content</th>
+                  <th style="width:150px">Notice No</th>
+                  <th style="width:350px">Title</th>
                   <th style="width:100px">Writer</th>
                   <th style="width:150px">Date</th>
                 </tr>
                 <% notices.forEach(function(notice){ %>
-                <tr>
+                <tr data-href="/notice/<%= notice[0] %>" class="clickable">
+                  <td><%= notice[0] %></td>
                   <td><%= notice[1] %></td>
-                  <td style="white-space:pre-line"><%= notice[2] %></td>
                   <td><%= notice[6] %></td>
                   <td><%= notice[4].toString().substr(0,16) %></td>
                 </tr>
@@ -71,4 +71,7 @@
             }
         });
     });
+  $('tr[data-href]').on("click", function() {
+    document.location = $(this).data('href');
+});
 </script>

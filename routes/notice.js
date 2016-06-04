@@ -43,7 +43,7 @@ router.get('/:id', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "SELECT n.ntcno, n.title, n.des, n.writer, n.ntcdate, e.empname from notice n, employee e where n.ntcno='"+id+"' and n.writer=e.empno",  // bind value for :id
+        "SELECT n.ntcno, n.title, n.des, n.writer, n.ntcdate, e.empname, e.email from notice n, employee e where n.ntcno='"+id+"' and n.writer=e.empno",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }

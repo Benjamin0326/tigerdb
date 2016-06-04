@@ -8,7 +8,7 @@
       font-size: 15px;
     }
     .row {
-        margin-top: 40px;
+        margin-top: 20px;
         padding: 0 10px;
     }
     .clickable {
@@ -37,7 +37,7 @@
                   <th style="width:150px">End Date</th>
                 </tr>
                 <% schedules.forEach(function(schedule){ %>
-                <tr>
+                <tr data-href="/schedule/<%= schedule[0] %>" class="clickable">
                   <td><%= schedule[1] %></td>
                   <td><%= schedule[7] %></td>
                   <td style="white-space:pre-line"><%= schedule[2] %></td>
@@ -124,4 +124,7 @@
             }
         });
     });
+  $('tr[data-href]').on("click", function() {
+    document.location = $(this).data('href');
+});
   </script>
