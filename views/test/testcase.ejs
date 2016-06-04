@@ -15,7 +15,7 @@
               <h4 class="list-group-item-text"><span class="col-md-10"><%= tc[1] %></span>
                 <span style="color:<% if(tc[3]==1){ %>blue<% }else if(tc[3]==0){ %>red<% }; %>"><% if(tc[3]==1){ %>PASS<% }else if(tc[3]==0){ %>FAIL<% }; %></span></h4>
               <br>
-              <p class="list-group-item-text"><%= tc[2] %></p>
+              <p class="list-group-item-text" style="white-space:pre-line"><%= tc[2] %></p>
               <br>
               <p class="list-group-item-text"><a href="/test/testcase/modify/<%= tc[0] %>">수정</a><a href="/test/testcase/delete/<%= tc[0] %>" style="margin-left:10px">삭제</a></p>
             </div>
