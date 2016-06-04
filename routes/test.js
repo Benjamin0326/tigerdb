@@ -542,10 +542,11 @@ router.get('/project/:id', function(req, res){
           if (err) { console.error(err.message); return; }
 
           connection.execute("SELECT DISTINCT phonegroup from PHONE",
+          //connection.execute("SELECT phonegroup from testproj where projectno="+id,  
           function(err, result){
             if(err) { console.error(err.message); return; }
-            var group = result.rows[0];
-
+            var group = result.rows;
+            console.log('group : '+group);
             connection.execute(
               "SELECT * from employee where auth>2",  // bind value for :id
               function(err, result){

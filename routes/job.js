@@ -18,7 +18,7 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT J.TESTPROJ, T.PROJNAME, T.STARTDATE, J.TESTTYPE, J.STARTDATE, J.ENDDATE, J.DESCRIPTION, J.REPORT FROM TESTPROJ T, PROJECTJOB J WHERE J.TESTER='"+ req.session.empno+"' AND J.TESTPROJ = T.PROJECTNO ",  // bind value for :id
+        "SELECT J.TESTPROJ, T.PROJNAME, T.STARTDATE, J.TESTTYPE, J.STARTDATE, J.ENDDATE, J.DESCRIPTION, J.REPORT, E.EMPNAME FROM TESTPROJ T, PROJECTJOB J, EMPLOYEE E WHERE J.TESTER='"+ req.session.empno+"' AND J.TESTPROJ = T.PROJECTNO AND T.MANAGER=E.EMPNO",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -195,7 +195,7 @@ router.get('/endjob', function(req, res, next){
   var tester = req.session.empno;
   var now = moment().format("YYYYMMDD");
 
-   console.log(req.session.empauth);
+  console.log(req.session.empauth);
 
   oracledb.getConnection(
     {

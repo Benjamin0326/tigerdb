@@ -40,7 +40,11 @@
                     <td>
                       <select class="form-control" name="group" id="sel1">
                           <% groups.forEach(function(item) { %>
+                            <% if(item[0]==results[0][4]){ %>
+                              <option selected><%= results[0][4] %></option>
+                            <% }else{ %>
                             <option><%= item[0] %></option>
+                            <% } %>
                           <% }); %>
                       </select>
                     </td>
