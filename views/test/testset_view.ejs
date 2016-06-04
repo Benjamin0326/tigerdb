@@ -7,27 +7,26 @@
     <div class="header">
       <% include ../partials/header %>
     </div>
-    <div class="container row" style="margin-top:30px">
-      <div class="panel panel-default">
-        <div class="panel-heading"><h4 class="col-md-9"><%= infos[0][1]%></h4><p>TESTER : <%= infos[0][7] %></p><br></div>
-        <div class="panel-body">
-          <p style="white-space:pre-line">[PROJECT]</p>
-          <p style="white-space:pre-line"><%= infos[0][6] %></p><br>
-          <p style="white-space:pre-line">[DESCRIPTION]</p>
-          <p style="white-space:pre-line"><%= infos[0][2] %></p><br>
-          <p style="white-space:pre-line">[수행해야 할 TestCase]</p>
-          <% infos.forEach(function(info){ %>
-            <p style="white-space:pre-line">(ER : <% if(info[5]==1){ %>PASS<% }else if(info[5]==0){ %>FAIL<% }; %>) <%= info[3] %></p>
-          <% }); %>
-        </div>
-          <div class="panel-footer">
-            <a href="/test/testset/delete/<%= infos[0][0] %>">삭제</a>
-            <a href="/test/testset %>">목록</a>
+    <div class="container">
+      <div class="container row" style="margin-top:30px">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="col-md-9"><%= infos[0][1]%></h4><p>TESTER : <%= infos[0][7] %></p><br></div>
+          <div class="panel-body">
+            <p style="white-space:pre-line">[PROJECT]</p>
+            <p style="white-space:pre-line"><%= infos[0][6] %></p><br>
+            <p style="white-space:pre-line">[DESCRIPTION]</p>
+            <p style="white-space:pre-line"><%= infos[0][2] %></p><br>
+            <p style="white-space:pre-line">[수행해야 할 TestCase]</p>
+            <% infos.forEach(function(info){ %>
+              <p style="white-space:pre-line">(ER : <% if(info[5]==1){ %>PASS<% }else if(info[5]==0){ %>FAIL<% }; %>) <%= info[3] %></p>
+            <% }); %>
           </div>
+            <div class="panel-footer">
+              <a href="/test/testset/delete/<%= infos[0][0] %>">삭제</a>
+              <a href="/test/testset %>">목록</a>
+            </div>
+        </div>
       </div>
-
-
     </div>
-
   </body>
 </html>

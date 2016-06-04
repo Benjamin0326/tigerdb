@@ -68,7 +68,7 @@ router.get('/assign/:id', function(req, res, next){
           console.log(result.rows);
           projs = result.rows[0];
           connection.execute(
-            "SELECT * from employee",  // bind value for :id
+            "SELECT * from employee where auth < 2",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -165,14 +165,14 @@ router.get('/testset/add', function(req, res, next){
           console.log(result.rows);
           var testcases=result.rows;
           connection.execute(
-            "SELECT * from testproj",  // bind value for :id
+            "SELECT * from testproj where enddate is null",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
               console.log(result.rows);
               var projects=result.rows;
               connection.execute(
-                "SELECT * from employee",  // bind value for :id
+                "SELECT * from employee where auth < 2",  // bind value for :id
                 function(err, result)
                 {
                   if (err) { console.error(err.message); return; }
