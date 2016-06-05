@@ -516,6 +516,76 @@ router.post('/report/commit', function(req, res, next){
     });
 });
 
+router.get('/stat', function(req, res, next){
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT count(*), e.empno, e.empname, e.position, e.email from employee e, bug b where e.empno=b.reporter group by e.empno, e.empname, e.position, e.email",  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          var empstats=result.rows;
+          connection.execute(
+            "SELECT count(*), p.projectno, p.projname, p.phonegroup, p.manager from testproj p, bug b where p.projectno=b.testproj group by p.projectno, p.projname, p.phonegroup, p.manager",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              var projstats=result.rows;
+              connection.execute(
+                "SELECT count(*), p.phonegroup from phone p, bug b where b.phone=p.phoneno group by p.phonegroup",  // bind value for :id
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  console.log(result.rows);
+                  var phonegroups=result.rows;
+                  connection.execute(
+                    "SELECT count(*), p.phonegroup from phone p, bug b where b.phone=p.phoneno group by p.phonegroup",  // bind value for :id
+                    function(err, result)
+                    {
+                      if (err) { console.error(err.message); return; }
+                      console.log(result.rows);
+                      var phonegroups=result.rows;
+                      connection.execute(
+                        "SELECT count(*), type from bug group by type",  // bind value for :id
+                        function(err, result)
+                        {
+                          if (err) { console.error(err.message); return; }
+                          console.log(result.rows);
+                          var types=result.rows;
+                          connection.execute(
+                            "SELECT count(*), status from bug group by status",  // bind value for :id
+                            function(err, result)
+                            {
+                              if (err) { console.error(err.message); return; }
+                              console.log(result.rows);
+                              var status=result.rows;
+                              connection.execute(
+                                "SELECT count(*), category from bug group by category",  // bind value for :id
+                                function(err, result)
+                                {
+                                  if (err) { console.error(err.message); return; }
+                                  console.log(result.rows);
+                                  var categories=result.rows;
+                                  res.render('bug/stat', {emp:req.session, empstats:empstats, projstats:projstats, phonegroups:phonegroups, types:types, status:status, categories:categories});
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+
 router.get('/:id', function(req, res, next){
   var id = req.params.id;
   oracledb.getConnection(

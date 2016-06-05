@@ -5,7 +5,14 @@
   <li class="dropdown"><a href="/notice">Notice</a></li>
   <li class="dropdown"><a href="/schedule">Schedule</a></li>
   <li class="dropdown"><a href="/test">Test</a></li>
-  <li class="dropdown"><a href="/bug">Bug</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown">Bug
+    <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><a href="/bug">Bug</a></li>
+      <li><a href="/bug/stat">Statistics</a></li>
+    </ul>
+  </li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown">Hardware
     <span class="caret"></span></a>
@@ -14,7 +21,7 @@
       <li><a href="/usim">Usim</a></li>
       <% if(emp.empauth>=2){%>
       <li><a href="/rent">Rent</a></li>
-      <% }%> 
+      <% }%>
     </ul>
   </li>
    <% if(emp.empauth>=3){%>
