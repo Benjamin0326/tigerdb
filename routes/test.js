@@ -48,6 +48,71 @@ router.get('/', function(req, res, next){
   }
 });
 
+
+router.get('/project/report/:id', function(req, res, next){
+  var id = req.params.id;
+  oracledb.maxRows=100;
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from testproj t, employee e where t.manager=e.empno and projectno="+id,  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          projs = result.rows[0];
+          connection.execute(
+            "SELECT p.testtype, p.description, p.startdate, p.enddate, p.report, e.empno, e.empname, e.position, e.email from employee e, projectjob p where e.empno=p.tester and p.testproj = "+id+" order by p.testtype",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              reports = result.rows;
+              connection.execute(
+                "SELECT count(*), status from bug where testproj="+id+" group by status",  // bind value for :id
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  console.log(result.rows);
+                  status = result.rows;
+                  connection.execute(
+                    "SELECT count(*), type from bug where testproj="+id+" group by type",  // bind value for :id
+                    function(err, result)
+                    {
+                      if (err) { console.error(err.message); return; }
+                      console.log(result.rows);
+                      types = result.rows;
+                      connection.execute(
+                        "SELECT count(*), category from bug where testproj="+id+" group by category",  // bind value for :id
+                        function(err, result)
+                        {
+                          if (err) { console.error(err.message); return; }
+                          console.log(result.rows);
+                          categories = result.rows;
+                          connection.execute(
+                            "SELECT * from manualset s, manualcase c where testproj="+id+" and s.caseno=c.caseno",  // bind value for :id
+                            function(err, result)
+                            {
+                              if (err) { console.error(err.message); return; }
+                              console.log(result.rows);
+                              ts = result.rows;
+                              res.render('project/report', {emp:req.session, projs:projs, reports:reports, status:status, types:types, categories:categories, ts:ts});
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+
 router.get('/assign/:id', function(req, res, next){
   var id = req.params.id;
   oracledb.maxRows=100;
@@ -542,7 +607,7 @@ router.get('/project/:id', function(req, res){
           if (err) { console.error(err.message); return; }
 
           connection.execute("SELECT DISTINCT phonegroup from PHONE",
-          //connection.execute("SELECT phonegroup from testproj where projectno="+id,  
+          //connection.execute("SELECT phonegroup from testproj where projectno="+id,
           function(err, result){
             if(err) { console.error(err.message); return; }
             var group = result.rows;

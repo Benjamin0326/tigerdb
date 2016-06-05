@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+    <style>
+        .panel-heading span {
+          margin-top: -20px;
+          font-size: 15px;
+        }
+        .row {
+            margin-top: 20px;
+            padding: 0 10px;
+        }
+        .clickable {
+        cursor: pointer;
+        }
+        .side{
+          flex : 2;
+        }
+        .title{
+          flex : 8;
+        }
+        .info{
+          flex : 2;
+        }
+    </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+
+        var data1 = new google.visualization.DataTable();
+        data1.addColumn('string', 'Type');
+        data1.addColumn('number', 'Bug');
+        data1.addRows([
+          <% types.forEach(function(stat) { %>
+            ['<%= stat[1] %>', <%= stat[0] %>],
+          <% }); %>
+        ]);
+
+        var data2 = new google.visualization.DataTable();
+        data2.addColumn('string', 'Status');
+        data2.addColumn('number', 'Bug');
+        data2.addRows([
+          <% status.forEach(function(stat) { %>
+            ['<% if(stat[1]==0){ %>New<% }else if(stat[1]==1){ %>Recognized<% }else if(stat[1]==2){ %>In Progress<% }else if(stat[1]==3){ %>Resolved<% }else if(stat[1]==4){ %>Closed<% }; %>', <%= stat[0] %>],
+          <% }); %>
+        ]);
+
+        var data3 = new google.visualization.DataTable();
+        data3.addColumn('string', 'Category');
+        data3.addColumn('number', 'Bug');
+        data3.addRows([
+          <% categories.forEach(function(stat) { %>
+            ['<% if(stat[1]==1){ %>UI<% }else if(stat[1]==2){ %>기능<% }else if(stat[1]==3){ %>보안<% }else if(stat[1]==4){ %>네트워크<% }else if(stat[1]==5){ %>기타<% }; %>', <%= stat[0] %>],
+          <% }); %>
+        ]);
+
+        // Set chart options
+        var options = {'width':400,
+                       'height':400};
+
+        var chart1 = new google.visualization.PieChart(document.getElementById('chart_div1'));
+        chart1.draw(data1, options);
+
+        var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
+        chart2.draw(data2, options);
+
+        var chart3 = new google.visualization.PieChart(document.getElementById('chart_div3'));
+        chart3.draw(data3, options);
+      }
+
+    </script>
+  </head>
+  <body>
+    <div class="header">
+      <% include ../partials/header %>
+    </div>
+      <div class="container">
+        <div class="container row" style="margin-top:30px">
+          <div class="panel panel-default">
+            <div class="panel-heading" style="display:flex;height:50px">
+              <div>
+                <font size="4"><b><%= projs[1]%></b></font>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="top" style="display:flex;height:50px">
+                <div class="info">
+                  <font size="2">매니저 : <%= projs[8]%>(<%= projs[13] %>)</font>
+                </div>
+                <div class="info">
+                  <font size="2">PhoneGroup : <%= projs[4]%></font>
+                </div>
+                <div class="info">
+                  <font size="2">테스트기간 : <%= projs[2].toString().substr(0,16) %> ~ <%= projs[3].toString().substr(0,16) %></font>
+                </div>
+              </div>
+              <div>
+                <p>[Description]</p>
+                <p style="white-space:pre-line"><%= projs[6] %></p><br>
+                <p>[발견된 버그 수]</p>
+                <p><%= status[0][0] %> 개</p><br>
+                <p>[Report]</p>
+                <% reports.forEach(function(report) { %>
+                  <p>테스트타입 : <% if(report[0]==0){ %>에러리스트<% }else if(report[0]==1){ %>메뉴얼리스트<% }else if(report[0]==2){ %>체크리스트<% }; %></p>
+                  <p>테 스 터 : <%= report[6] %>(<%= report[8] %>)</p>
+                  <p style="white-space:pre-line">Description : <%= report[1] %></p>
+                  <p>테스트기간 : <%= report[2].toString().substr(0,16) %> ~ <%= report[3].toString().substr(0,16) %></p>
+                  <% if(report[4]!=null){ %><p style="white-space:pre-line">Report : <%= report[4] %></p><% };%>
+                  <br>
+                  <% if(report[0]==1){ %>
+                    <p>[ManualSet 결과]</p>
+                    <% ts.forEach(function(tc) { %>
+                      <% if(tc[5]==report[5]){ %>
+                        <p> <%= tc[8] %>(ER : <% if(tc[10]==1){ %>PASS<% }else{ %>FAIL<% }; %>) => [AR : <% if(tc[3]==1){ %>PASS<% }else{ %>FAIL<% }; %>]
+                      <% }; %>
+                    <% }); %>
+                  <% }; %>
+                  <br>
+                  <br>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title"><center>버그 Type별 현황</center></h3>
+                      <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="chart_div1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title"><center>버그 Status별 현황</center></h3>
+                      <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="chart_div2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title"><center>버그 Category별 현황</center></h3>
+                      <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="chart_div3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
+
+
+<script>
+jQuery(function ($) {
+  $('.panel-heading span.clickable').on("click", function (e) {
+      if ($(this).hasClass('panel-collapsed')) {
+          // expand the panel
+          $(this).parents('.panel').find('.panel-body').slideDown();
+          $(this).removeClass('panel-collapsed');
+          $(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+      }
+      else {
+          // collapse the panel
+          $(this).parents('.panel').find('.panel-body').slideUp();
+          $(this).addClass('panel-collapsed');
+          $(this).find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+      }
+  });
+});
+</script>

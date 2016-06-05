@@ -79,7 +79,7 @@
                       <td><%= job[6] %></td>
                       <td><%= job[2].toString().substr(0, 16) %></td>
                       <td><input type="button" value="Start"class="btn btn-info pull" onclick="popTesting('/job/testing?testtype=<%=job[3]%>&projnum=<%=job[0]%>');"></td>
-                      <td><input type="button" value="Close" class="btn btn-info pull" onclick="location.href='/job/endjob?projnum=<%=job[0]%>&testtype=<%=job[3]%>'"></td>
+                      <td><input type="button" value="Finish" class="btn btn-info pull" onclick="location.href='/job/endjob?projnum=<%=job[0]%>&testtype=<%=job[3]%>'"></td>
                       <td><input type="button" value="Report Bug" class="btn btn-info pull" data-toggle="collapse" href="#bugForm<%= i%>" aria-expanded="false" aria-controls="bugForm" onclick="showBug('bug_<%= i %>');"></td>
                       <td><input type="button" value="Report Result" class="btn btn-info pull" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm" onclick="showResult('desc_<%= i %>');"></td>
                     </tr>
@@ -88,7 +88,7 @@
                       <div class="collapse" id="describeForm<%= i %>" >
                         <div class="well" >
                           <form action="/job/describe" method="GET">
-                            <input type="text" name="description" style="width:80%;height:50px" value="<%= job[7] %>">
+                            <textarea id="InputMessage" name="description" class="form-control" style="width:80%;height:50px" rows="2"><%= job[7] %></textarea>
                             <input type="submit" class="btn btn-default" class="btn btn-lg btn-primary" value="submit"/>   <!-- description 제출 -->
                             <input type="hidden" name="projnum" value="<%= job[0]%>" />
                             <input type="hidden" name="testtype" value="<%= job[3]%>"/>
@@ -202,7 +202,7 @@
                       <td><%= job[5].toString().substr(0, 16) %></td>
                       <td colspan="4"></td>
                     </tr>
-                <% } %>
+                    <% } %>
                 <% }); %>
               </table>
             </div>

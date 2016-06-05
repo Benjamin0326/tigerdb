@@ -67,6 +67,7 @@
                   <th>Manager</th>
                   <th>StartDate</th>
                   <th>EndDate</th>
+                  <th>결과확인</th>
                 </tr>
                 <% project.forEach(function(item){  %>
                 <% if(item[3]!=null){ %>
@@ -76,6 +77,7 @@
                   <td><%= item[8] %> (<%= item[5] %>)</td>
                   <td><%= item[2].toString().substr(0, 16) %></td>
                   <td><%= item[3].toString().substr(0, 16) %></td>
+                  <td><a href="/test/project/report/<%= item[0] %>"><button class="btn btn-primary">결과확인</button></a></td>
                 </tr>
                 <% }  %>
                 <% });%>
