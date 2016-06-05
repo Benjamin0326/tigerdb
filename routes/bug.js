@@ -65,7 +65,7 @@ router.get('/phone/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from bug where phone = '"+id+"' order by bugdate desc ",  // bind value for :id
+        "SELECT * from bug b, testproj t where b.testproj=t.projectno and phone = '"+id+"' order by bugdate desc ",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -113,7 +113,7 @@ router.get('/phonegroup/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from bug join phone on bug.phone=phone.phoneno and phone.phonegroup = '"+id+"' order by bugdate desc ",  // bind value for :id
+        "SELECT * from bug b, testproj t, phone p where b.phone=p.phoneno and p.phonegroup = '"+id+"' and t.projectno=b.testproj order by bugdate desc ",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -161,7 +161,7 @@ router.get('/status/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from bug where status = '"+id+"' order by bugdate desc ",  // bind value for :id
+        "SELECT * from bug  b, testproj t where b.testproj=t.projectno and status = '"+id+"' order by bugdate desc ",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -209,7 +209,7 @@ router.get('/type/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from bug where type = '"+id+"' order by bugdate desc ",  // bind value for :id
+        "SELECT * from bug b, testproj t where b.testproj=t.projectno and type = '"+id+"' order by bugdate desc ",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -257,7 +257,7 @@ router.get('/project/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from bug where testproj = '"+id+"' order by bugdate desc ",  // bind value for :id
+        "SELECT * from bug b, testproj t where b.testproj=t.projectno and testproj = '"+id+"' order by bugdate desc ",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -305,7 +305,7 @@ router.get('/category/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from bug where category = '"+id+"' order by bugdate desc ",  // bind value for :id
+        "SELECT * from bug b, testproj t where b.testproj=t.projectno and category = '"+id+"' order by bugdate desc ",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
