@@ -16,15 +16,15 @@
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-6" style="padding-left:0px;">
           <label for="sel1">Phone</label>
           <select class="form-control" name="phone" id="sel1">
             <% phones.forEach(function(phone) { %>
-              <option>(<%= phone[0] %>)<%= phone[1] %> -  <%= phone[3] %></option>
+              <option>(<%= phone[0] %>) <%= phone[1] %> -  <%= phone[3] %></option>
             <% }); %>
           </select>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-6" style="padding-right:0px;">
           <label for="sel1">Type</label>
           <select class="form-control" name="bugtype" id="sel1">
               <option>Critical</option>
@@ -32,22 +32,22 @@
               <option>Minor</option>
           </select>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-6" style="padding-left:0px;">
           <label for="sel1">Project</label>
           <select class="form-control" name="project" id="sel1">
             <% testprojs.forEach(function(proj) { %>
-              <option>(<%= proj[0] %>)<%= proj[1] %></option>
+              <option> (<%= proj[0] %>) <%= proj[1] %></option>
             <% }); %>
           </select>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-6" style="padding-right:0px;">
           <label for="sel1">Category</label>
           <select class="form-control" name="category" id="sel1">
-              <option>(1)UI</option>
-              <option>(2)기능</option>
-              <option>(3)보안</option>
-              <option>(4)네트워크</option>
-              <option>(5)기타</option>
+              <option>(1) UI</option>
+              <option>(2) 기능</option>
+              <option>(3) 보안</option>
+              <option>(4) 네트워크</option>
+              <option>(5) 기타</option>
           </select>
         </div>
         <div class="form-group">

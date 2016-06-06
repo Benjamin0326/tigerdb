@@ -2,6 +2,17 @@
 <html>
   <head>
     <% include ../partials/head %>
+     <style>
+      .side{
+        flex : 2;
+      }
+      .title{
+        flex : 8;
+      }
+      .info{
+        flex : 2;
+      }
+    </style>
   </head>
   <body>
     <div class="header">
@@ -10,27 +21,60 @@
     <div class="container">
       <div class="container row" style="margin-top:30px">
         <div class="panel panel-default">
-          <div class="panel-heading"><h4 class="col-md-8"><%= info[1]%></h4><p class="col-md-1"><%= info[10]%></p>
-            <p class="col-md-8"></p><p>Type : <%= info[7] %> / Status : <% if(info[6]==0){ %>New<% }else if(info[6]==1){ %>Recognized<% }else if(info[6]==2){ %>In Progress<% }else if(info[6]==3){ %>Resolved<% }else if(info[6]==4){ %>Closed<% }; %></p>
-            <p class="col-md-5"></p><p>Phone : <%= info[8] %> - <%= info[9] %> (<%= info[11] %>)</p><p class="col-md-3"></p>
-            <p>Category : <% if(info[12]==1){ %>UI<% }else if(info[12]==2){ %>기능<% }else if(info[12]==3){ %>보안<% }else if(info[12]==4){ %>네트워크<% }else if(info[12]==5){ %>기타<% }; %> / Project : <%= info[14] %></p>
-          </div>
-          <div class="panel-body">
-            <p style="white-space:pre-line"><%= info[2] %></p><br><br><p class="col-md-10"></p><%= info[4].toString().substr(0,16) %>
-          </div>
-          <% if (iswriter) { %>
-            <div class="panel-footer">
-              <a href="/bug/modify/<%= info[0] %>">수정</a>
-              <a href="/bug/delete/<%= info[0] %>">삭제</a>
-              <a href="/bug %>">목록</a>
+          <div class="panel-heading" style="display:flex;height:50px">
+            <div>
+              <font size="4"><b>[<%= info[15]%>] <%= info[1]%></b></font>
             </div>
-          <% }else{ %>
-            <div class="panel-footer">
-              <a href="/bug %>">목록</a>
+          </div>
+          <div class="panel-body" style="padding-top:10px">
+            <div class="top" style="display:flex;height:30px;margin-bottom:0px">
+              <div class="info">
+                <font size="2">프로젝트 : <%= info[15]%></font>
+              </div>
+              <div class="info">
+                <font size="2">작성자 : <%= info[10]%></font>
+              </div>
+              <div class="info">
+                <font size="2">이메일 : <%= info[11]%></font>
+              </div>
+              <div class="info">
+                <font size="2">작성일 : <%= info[4].toString().substr(0,16) %></font>
+              </div>
             </div>
-          <% } %>
+            <hr style="margin-top:5px;margin-bottom:5px">
+            <div>
+            <div class="top" style="display:flex;height:30px;margin-bottom:0px">
+              <div class="info">
+                <font size="2">phone : <%= info[8]%></font>
+              </div>
+              <div class="info">
+                <font size="2">status : 
+                <% if(info[6]==0){ %>New<% }else if(info[6]==1){ %>Recognized<% }else if(info[6]==2){ %>In Progress<% }else if(info[6]==3){ %>Resolved<% }; %>                              
+                </font>
+              </div>
+              <div class="info">
+                <font size="2">type : <%= info[7] %></font>
+              </div>
+              <div class="info">
+                <font size="2">category : 
+                <% if(info[13]==1){ %>UI<% }else if(info[13]==2){ %>기능<% }else if(info[13]==3){ %>보안<% }else if(info[13]==4){ %>네트워크<% }else if(info[13]==5){ %>기타<% }; %>
+                </font>
+              </div>
+            </div>
+            <hr style="margin-top:5px;margin-bottom:5px">
+            <div style="padding-top:10px">
+              <p style="white-space:pre-line"><%= info[2] %></p>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="row" style="margin-top:0px" align="right">
+        <% if (iswriter) { %>
+          <input type="button" name="add" id="add" value="update" class="btn btn-info pull" style="margin-right:5px" onclick="location.href='/bug/modify/<%= info[0] %>'">
+          <input type="button" name="add" id="add" value="delete" class="btn btn-info pull" style="margin-right:5px" onclick="location.href='/bug/delete/<%= info[0] %>'">
+        <% }  %>
+          <input type="button" style="margin-right:15px" value="목록" class="btn btn-info pull" onclick="location.href='/bug'">
+        </div> 
     </div>
   </body>
 </html>

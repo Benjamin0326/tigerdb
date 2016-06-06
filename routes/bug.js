@@ -17,7 +17,7 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from bug b, testproj t where b.testproj=t.projectno order by bugdate desc",  // bind value for :id
+        "SELECT * from bug b, testproj t, phone p where b.testproj=t.projectno and p.phoneno=b.phone order by bugdate desc",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -360,7 +360,7 @@ router.get('/modify/:id', function(req, res, next){
           console.log(result.rows);
           var infos=result.rows;
           connection.execute(
-            "SELECT * from testproj",  // bind value for :id
+            "SELECT DISTINCT projectno, projname from testproj t, projectjob p where p.tester="+req.session.empno+"AND t.projectno=p.testproj AND t.enddate is null",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -383,7 +383,7 @@ router.post('/modify/commit/:id', function(req, res, next){
   var status = req.body.bugstatus;
   var project = req.body.project;
   var category = req.body.category;
-  var now = moment().format("YYYYMMDDhhmmss");
+  var now = moment().format("YYYYMMDD");
   phone = phone.substr(1,phone.toString().indexOf(")")-1);
   project = project.substr(1,project.toString().indexOf(")")-1);
   category = category.substr(1,category.toString().indexOf(")")-1);
@@ -399,7 +399,7 @@ router.post('/modify/commit/:id', function(req, res, next){
     function(err, connection)
     {
       if (err) { console.error(err.message); return; }
-      console.log("update bug set SUMMARY='"+summary+"', DESCRIPTION='"+description+"', BUGDATE='TO_DATE('"+now+"','yyyyMMddhh24miss')', PHONE='"+phone+"', STATUS='"+status+"', TYPE='"+type+"' where BUGNO='"+id+"'");
+      console.log("update bug set SUMMARY='"+summary+"', DESCRIPTION='"+description+"', BUGDATE='TO_DATE('"+now+"','yyyyMMddhh24miss')', PHONE='"+phone+"', STATUS='"+status+"', TYPE='"+type+"', CATEGORY="+category+", TESTPROJ="+project+" where BUGNO='"+id+"'");
       connection.execute(
         "update bug set SUMMARY='"+summary+"', DESCRIPTION='"+description+"', BUGDATE=TO_DATE('"+now+"','yyyyMMddhh24miss'), PHONE="+phone+", STATUS="+status+", TYPE='"+type+"', CATEGORY="+category+", TESTPROJ="+project+" where BUGNO='"+id+"'",
         function(err, result)
@@ -464,7 +464,7 @@ router.get('/report', function(req, res, next){
           console.log(result.rows);
           var phones=result.rows;
           connection.execute(
-            "SELECT * from testproj",  // bind value for :id
+            "SELECT DISTINCT projectno, projname from testproj t, projectjob p where p.tester="+req.session.empno+"AND t.projectno=p.testproj AND t.enddate is null",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -599,7 +599,7 @@ router.get('/:id', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "SELECT b.bugno, b.summary, b.description, b.reporter, b.bugdate, b.phone, b.status, b.type, p.phonename, p.osver, e.empname, p.phonegroup, b.category, b.testproj, t.projname from bug b, phone p, employee e, testproj t where b.bugno='"+id+"' and b.reporter=e.empno and b.phone=p.phoneno and b.testproj=t.projectno",  // bind value for :id
+        "SELECT b.bugno, b.summary, b.description, b.reporter, b.bugdate, b.phone, b.status, b.type, p.phonename, p.osver, e.empname, e.email, p.phonegroup, b.category, b.testproj, t.projname from bug b, phone p, employee e, testproj t where b.bugno='"+id+"' and b.reporter=e.empno and b.phone=p.phoneno and b.testproj=t.projectno",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
