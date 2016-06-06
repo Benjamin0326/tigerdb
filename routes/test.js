@@ -103,7 +103,15 @@ router.get('/project/report/:id', function(req, res, next){
                               if (err) { console.error(err.message); return; }
                               console.log(result.rows);
                               ts = result.rows;
-                              res.render('project/report', {emp:req.session, projs:projs, reports:reports, status:status, types:types, categories:categories, ts:ts});
+                              connection.execute(
+                                "SELECT count(*) from bug where testproj="+id,  // bind value for :id
+                                function(err, result)
+                                {
+                                  if (err) { console.error(err.message); return; }
+                                  console.log(result.rows);
+                                  bugcount = result.rows[0];
+                                  res.render('project/report', {emp:req.session, projs:projs, reports:reports, status:status, types:types, categories:categories, ts:ts, bugcount:bugcount});
+                                });
                             });
                         });
                     });

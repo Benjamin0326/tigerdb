@@ -111,7 +111,7 @@
                 <p>[Description]</p>
                 <p style="white-space:pre-line"><%= projs[6] %></p><br>
                 <p>[발견된 버그 수]</p>
-                <p><%= status[0][0] %> 개</p><br>
+                <p><%= bugcount[0] %> 개</p><br>
                 <p>[Report]</p>
                 <% reports.forEach(function(report) { %>
                   <p>테스트타입 : <% if(report[0]==0){ %>에러리스트<% }else if(report[0]==1){ %>메뉴얼리스트<% }else if(report[0]==2){ %>체크리스트<% }; %></p>
