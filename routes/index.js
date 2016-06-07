@@ -46,20 +46,20 @@ router.post('/login', function(req, res, next) {
                 res.redirect('home');
               }
               else{
-                res.render('index', { title: 'Incorrect Email/Password' });
+                //res.render('index', { title: 'Incorrect Email/Password'});
+                res.render('index', {msg: 'fail'});
               }
             }
             else{
-                res.render('index', { title: 'Incorrect Email/Password' });
+                //res.render('index', { title: 'Incorrect Email/Password'});
+                res.render('index', {msg: 'fail'});
               }
           }else{
-            res.render('index', { title: 'Incorrect Email/Password' });
+            //res.render('index', { title: 'Incorrect Email/Password'});
+                res.render('index', {msg: 'fail'});
           }
         });
     });
-
-  //console.log(email);
-  //res.render('index', { title: 'TigerDB' });
 });
 
 router.post('/enroll', function(req, res, next) {
@@ -100,9 +100,6 @@ router.post('/enroll', function(req, res, next) {
 
         });
     });
-
-  //console.log(email);
-  //res.render('index', { title: 'TigerDB' });
 });
 
 router.get('/home', function(req, res, next){
