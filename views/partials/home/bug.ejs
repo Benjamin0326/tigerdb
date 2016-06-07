@@ -1,13 +1,27 @@
-<p>버그</p>
-<div style="text-align:right" class="row">
-  <a style="text-align:right" href="/bug">more...</a>
-</div>
+<style>
+  .panel-heading span {
+    margin-top: -20px;
+    font-size: 15px;
+  }
+</style>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><center>버그</center></h3>
+    <span class="pull-right"><a href="/bug">more...</a></span>
+  </div>
 <br>
 <div class="list-group">
+    <% if(bug_values[0]==null){ %>
+      <div class="list-group-item">
+        <p class="list-group-item-text" style="color:black">등록한 버그가 없습니다.</p>
+      </div>
+    <% }; %>
   <% bug_values.forEach(function(bug_value) { %>
     <div class="list-group-item">
       <a href="/bug/<%= bug_value[0] %>"><p class="list-group-item-text" style="color:<% if(bug_value[7]=='Critical'){ %>red<% }else if(bug_value[7]=='Major'){ %>blue<% }else{ %>black<% }; %>"><span>(<%= bug_value[7] %>) </span><span style="color:black"><%= bug_value[1] %></span>
         <span style="float:right;color:black">Status : <% if(bug_value[6]==0){ %>New<% }else if(bug_value[6]==1){ %>Recognized<% }else if(bug_value[6]==2){ %>In Progress<% }else if(bug_value[6]==3){ %>Resolved<% }else if(bug_value[6]==4){ %>Closed<% }; %></span></p></a>
     </div>
     <% }); %>
+</div>
+
 </div>
