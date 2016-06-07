@@ -21,9 +21,9 @@
         <div class="form-group col-md-6">
           <label for="sel1">포상 종류</label>
           <select class="form-control" name="prizetype" id="sel1">
-              <option>(0)이달의 버그킹</option>
-              <option>(1)이달의 사원</option>
-              <option>(2)특별 포상</option>
+            <% codes.forEach(function(code) { %>
+              <option>(<%= code[0] %>)<%= code[2] %></option>
+            <% }); %>
           </select>
         </div>
         <input type="submit" name="submit" id="submit" value="포상 수여" class="btn btn-primary pull-right">
