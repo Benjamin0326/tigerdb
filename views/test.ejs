@@ -144,7 +144,9 @@
                 <td><%= item[8] %> (<%= item[5] %>)</td>
                 <td><%= item[2].toString().substr(0, 16) %></td>
                 <td><%= item[3].toString().substr(0, 16) %></td>
-                <td><a href="/test/project/report/<%= item[0] %>"><button class="btn btn-primary">결과확인</button></a></td>
+                <td>
+                  <input type="button" value="결과 확인" class="btn btn-info pull" onclick="location.href='/test/project/report/<%= item[0] %>'">
+                </td>
               </tr>
               <% }  %>
               <% });%>

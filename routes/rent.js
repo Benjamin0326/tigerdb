@@ -46,14 +46,14 @@ router.get('/totallist', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT r.rentno, r.renter, r.description, r.phone, r.usim, r.rentdate, r.returndate, e.empno, e.empname, p.phoneno, p.phonename, p.osver from rent r, employee e, phone p where r.renter=e.empno and r.phone=p.phoneno order by rentdate desc",  // bind value for :id
+        "SELECT r.rentno, r.renter, r.description, r.phone, r.usim, r.rentdate, r.returndate, e.empno, e.empname, e.email, p.phoneno, p.phonename, p.osver from rent r, employee e, phone p where r.renter=e.empno and r.phone=p.phoneno order by rentdate desc",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
           var phonerent=result.rows;
           connection.execute(
-            "SELECT r.rentno, r.renter, r.description, r.phone, r.usim, r.rentdate, r.returndate, e.empno, e.empname, u.usimidx, u.usimno from rent r, employee e, usim u where r.renter=e.empno and r.usim=u.usimidx order by rentdate desc",  // bind value for :id
+            "SELECT r.rentno, r.renter, r.description, r.phone, r.usim, r.rentdate, r.returndate, e.empno, e.empname, e.email, u.usimidx, u.usimno from rent r, employee e, usim u where r.renter=e.empno and r.usim=u.usimidx order by rentdate desc",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -109,7 +109,7 @@ router.get('/phonelist/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT r.rentno, r.renter, r.description, r.phone, r.usim, r.rentdate, r.returndate, e.empno, e.empname, p.phoneno, p.phonename, p.osver from rent r, employee e, phone p where r.phone='"+id+"' and r.renter=e.empno and r.phone=p.phoneno order by rentdate desc",
+        "SELECT r.rentno, r.renter, r.description, r.phone, r.usim, r.rentdate, r.returndate, e.empno, e.empname, e.email, p.phoneno, p.phonename, p.osver from rent r, employee e, phone p where r.phone='"+id+"' and r.renter=e.empno and r.phone=p.phoneno order by rentdate desc",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -244,7 +244,7 @@ router.get('/usimlist/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT r.rentno, r.renter, r.description, r.phone, r.usim, r.rentdate, r.returndate, e.empno, e.empname, u.usimidx, u.usimno from rent r, employee e, usim u where r.usim='"+id+"' and r.renter=e.empno and r.usim=u.usimidx order by rentdate desc",
+        "SELECT r.rentno, r.renter, r.description, r.phone, r.usim, r.rentdate, r.returndate, e.empno, e.empname, e.email, u.usimidx, u.usimno from rent r, employee e, usim u where r.usim='"+id+"' and r.renter=e.empno and r.usim=u.usimidx order by rentdate desc",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
