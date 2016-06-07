@@ -87,15 +87,15 @@ router.post('/enroll', function(req, res, next) {
           console.log(result);
           connection.commit(function(err){
             if(err){
-              res.render('index', { title: 'Failed!!' });
+              res.render('index', {flag: 2});
               return;
             }
           });
           if(!err){
-            res.render('index', { title: 'Success!!' });
+            res.render('index', {flag: 0});
           }
           else{
-            res.render('index', { title: 'Failed!!' });
+            res.render('index', {flag: 2});
           }
 
         });
