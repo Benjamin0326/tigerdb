@@ -38,7 +38,7 @@
                 <th style="width:3%"></th>
                 <th style="width:17%">요약</th>
                 <th style="width:15%">등록일</th>
-                <th style="width:8%"> 
+                <th style="width:8%">
                     <div class="btn-group dropdown">
                       <a class="dropdown-toggle" data-toggle="dropdown">계열
                      <span class="caret"></span></a>
@@ -49,7 +49,7 @@
                       </ul>
                     </div>
                 </th>
-                <th style="width:10%"> 
+                <th style="width:10%">
                     <div class="btn-group dropdown">
                      <a class="dropdown-toggle" data-toggle="dropdown">스마트폰
                      <span class="caret"></span></a>
@@ -114,10 +114,9 @@
                 <td><%= bug[0] %></td>
                 <td><%= bug[1] %></td>
                 <td><%= bug[4].toString().substr(0,16) %></td>
-                <td><%= bug[14]%></td>
+                <td><%= bug[22]%></td>
                 <td><%= bug[18]%></td>
                 <td><% if(bug[6]==0){ %>New<% }else if(bug[6]==1){ %>Recognized<% }else if(bug[6]==2){ %>In Progress<% }else if(bug[6]==3){ %>Resolved<% }; %></td>
-
                 <td><%= bug[7] %></td>
                 <td><% if(bug[8]==1){ %>UI<% }else if(bug[8]==2){ %>기능<% }else if(bug[8]==3){ %>보안<% }else if(bug[8]==4){ %>네트워크<% }else if(bug[8]==5){ %>기타<% }; %></td>
                 <td><%= bug[11] %></td>
@@ -141,7 +140,7 @@
                 <th style="width:3%"></th>
                 <th style="width:17%">요약</th>
                 <th style="width:15%">종료일</th>
-                <th style="width:8%"> 
+                <th style="width:8%">
                     <div class="btn-group dropdown">
                       <a class="dropdown-toggle" data-toggle="dropdown">계열
                      <span class="caret"></span></a>
@@ -152,7 +151,7 @@
                       </ul>
                     </div>
                 </th>
-                <th style="width:10%"> 
+                <th style="width:10%">
                     <div class="btn-group dropdown">
                      <a class="dropdown-toggle" data-toggle="dropdown">스마트폰
                      <span class="caret"></span></a>
@@ -162,7 +161,7 @@
                     <% }); %>
                       </ul>
                     </div>
-                </th>         
+                </th>
                 <th style="width:7%">
                     <div class="btn-group dropdown">
                       <a class="dropdown-toggle" data-toggle="dropdown">타입

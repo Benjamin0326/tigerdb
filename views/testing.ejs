@@ -4,14 +4,18 @@
    <% include partials/head %>
   </head>
   <body>
-            <% if(type==0) {%>
-
+    <% if(type==0) {%>
             <table width="80%" border="1px" align="center">
               <tr>
                 <td align="center">#</td>
                 <td>요약</td>
                 <td>설명</td>
               </tr>
+              <% if(bugs[0]==null){ %>
+                <tr>
+                  <td colspan="3">등록된 버그가 없습니다.</td>
+                </tr>
+              <% }; %>
             <% bugs.forEach(function(bug) { %>
               <tr>
                 <td><%= bug[0] %></td>

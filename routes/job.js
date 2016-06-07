@@ -66,7 +66,7 @@ router.get('/testing', function(req, res, next){
       {
         if (err) { console.error(err.message); return; }
         connection.execute(
-          "SELECT DISTINCT B.BUGNO, B.SUMMARY, B.DESCRIPTION FROM BUG B, PHONE P, TESTPROJ T WHERE B.PHONE=P.PHONENO AND P.PHONEGROUP=T.PHONEGROUP",  // bind value for :id
+          "SELECT DISTINCT B.BUGNO, B.SUMMARY, B.DESCRIPTION FROM BUG B, PHONE P, TESTPROJ T WHERE B.PHONE=P.PHONENO AND P.PHONEGROUP=T.PHONEGROUP AND T.PROJECTNO="+projnum,  // bind value for :id
           function(err, result)
           {
             if (err) { console.error(err.message); return; }
