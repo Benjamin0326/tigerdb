@@ -20,21 +20,21 @@
     <div class="header">
       <% include ../partials/header %>
     </div>
-    <div class="container" id="container1" style="margin-top:30px">
+    <div class="container" id="container1">
       <form id="body" action="update/commit" method="POST">
         <div class="row">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title"><center>Update Project</center></h3>
+              <h3 class="panel-title"><center>프로젝트 수정</center></h3>
             </div>
             <div class="panel-body">
               <table class="table">
                 <tr>
-                    <th style="width:150px">Phone Group</th>
-                    <th style="width:200px">Project Name</th>
-                    <th style="width:150px">Manager</th>
-                    <th style="width:350px">Description</th>
-                    <th style="width:150px">End Date</th>
+                    <th style="width:150px">스마트폰 계열</th>
+                    <th style="width:200px">프로젝트명</th>
+                    <th style="width:150px">관리자</th>
+                    <th style="width:350px">설명</th>
+                    <th style="width:150px">종료일</th>
                   </tr>
                   <tr>
                     <td>
@@ -70,7 +70,7 @@
             </div>
           </div>
         </div>
-        <input type="submit" name="add" id="add" value="Update" class="btn btn-info pull-right">
+        <input type="submit" name="add" id="add" value="수정" class="btn btn-primary pull-right">
         </form>
 
     <% if(results[0][7]!=null){ %>
@@ -83,11 +83,11 @@
           <div class="panel-body">
             <table class="table">
               <tr>
-                <th>Test Type</th>
-                <th>Tester</th>
-                <th>Description</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
+                <th>테스트 종류</th>
+                <th>테스터</th>
+                <th>설명</th>
+                <th>시작일</th>
+                <th>종료일</th>
                 <th>결과확인</th>
               </tr>
               <% results.forEach(function(proj){ %>
@@ -98,7 +98,7 @@
                 <td><% if(proj[10]!='undefined'){ %><%= proj[10] %><% }else{ %>None<% }; %></td>
                 <td><%= proj[11].toString().substr(0, 16) %></td>
                 <td><% if(proj[12]!=null){ %><%= proj[12].toString().substr(0, 16) %><% }else{ %> - <% }; %></td>
-                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<%=proj[7]%><%=proj[8]%><%=proj[9]%>">Report 확인</button></td>
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<%=proj[7]%><%=proj[8]%><%=proj[9]%>">결과 보기</button></td>
               </tr>
               <% }); %>
             </table>

@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="col-md-12">
-        <input type="button" name="save" id="save" value="Save" class="btn btn-info pull-right comment_submit">
+        <input type="button" name="save" id="save" value="저장" class="btn btn-primary pull-right comment_submit">
     </div>
     </div>
   </body>
@@ -65,18 +65,18 @@
             },
             rowHover: false,
             columns: [
-                { field: "name", title: "Name", width: "70px"},
-                { field: "position", title: "Position", width:"90px"},
-                { field: "address", title: "Address", width: "230px"},
-                { field: "phone", title: "Phone", width: "110px" },
+                { field: "name", title: "이름", width: "70px"},
+                { field: "position", title: "직급", width:"90px"},
+                { field: "address", title: "주소", width: "230px"},
+                { field: "phone", title: "전화번호", width: "110px" },
                 { field: "email", title: "Email", width: "140px"  },
-                { field: "auth", title: "Auth", width: "90px", editor: myCustomEditor },
+                { field: "auth", title: "권한", width: "100px", editor: myCustomEditor },
                 {
-                    width: 150,
-                    title: "Update/Delete Column",
+                    width: 140,
+                    title: "수정/삭제",
                     buttons: [
-                        { commandName: "edit", caption: "Edit" },
-                        { commandName: "delete", caption: "Delete" }
+                        { commandName: "edit", caption: "수정" },
+                        { commandName: "delete", caption: "삭제" }
                     ]
                 }
             ],

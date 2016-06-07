@@ -9,8 +9,8 @@
             <table width="80%" border="1px" align="center">
               <tr>
                 <td align="center">#</td>
-                <td>SUMMARY</td>
-                <td>DES</td>
+                <td>요약</td>
+                <td>설명</td>
               </tr>
             <% bugs.forEach(function(bug) { %>
               <tr>
@@ -24,7 +24,7 @@
               <% var i = 0 %>
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h3 class="panel-title"><center>My Manual Test</center></h3>
+                  <h3 class="panel-title"><center>Manual Test</center></h3>
                   <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                 </div>
                 <div class="panel-body">
@@ -32,10 +32,10 @@
                     <tr>
                       <th style="width:150px">Set#</th>
                       <th style="width:100px">Case#</th>
-                      <th style="width:300px">Summary</th>
-                      <th style="width:100px">Description</th>
-                      <th style="width:100px">Result</th>
-                      <th style="width:100px">Submit</th>
+                      <th style="width:300px">요약</th>
+                      <th style="width:100px">설명</th>
+                      <th style="width:100px">결과</th>
+                      <th style="width:100px">저장</th>
                     </tr>
                     <% if(manuals[0]==null){ %>
                       <tr
@@ -47,7 +47,7 @@
                             <td><%= manual[0] %></td>
                             <td><%= manual[1] %></td>
                             <td><%= manual[5] %>(ER : <% if(manual[7]==1){ %>PASS<% }else if(manual[7]==0){ %>FAIL<% }; %>)</td>
-                            <td><input type="button" value="show Description" class="btn btn-primary pull" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm" onclick="showDes('desc_<%= i %>');"></td>
+                            <td><input type="button" value="설명" class="btn btn-primary pull" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm" onclick="showDes('desc_<%= i %>');"></td>
                             <form action="/job/typeresult" method="GET">
                             <td><input type="hidden" name = "setno" value="<%= manual[0]%>"/>
                                 <input type="hidden" name = "caseno" value="<%= manual[1]%>"/>
@@ -72,7 +72,7 @@
                                 <option value ="1">이상</option></select></td>
                                 <%}%>
 
-                            <td><button type="submit" class="btn btn-primary pull">submit
+                            <td><button type="submit" class="btn btn-primary pull">저장
                             </button></td>
                             </form>
                           </tr>
@@ -93,13 +93,9 @@
                   </table>
                 </div>
               </div>
-              <% }; %>
-
-
-
-
-
-
+              <% }else{ %>
+                <% include test/checklist %>
+              <%}%>
     </body>
 </html>
 

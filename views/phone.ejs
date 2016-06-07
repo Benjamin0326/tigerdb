@@ -20,8 +20,8 @@
       </div>
       <% if(emp.empauth>1){%>
       <div class="container row">
-        <input type="button" name="save" id="save" value="Save" class="btn btn-info pull-right phone_save" style="margin-left:10px; margin-right:10px">
-        <input type="button" name="add" id="add" value="Add" class="btn btn-info pull-right" onclick="location.href='/phone/phone_add'">
+        <input type="button" name="save" id="save" value="저장" class="btn btn-primary pull-right phone_save" style="margin-left:10px; margin-right:10px">
+        <input type="button" name="add" id="add" value="추가" class="btn btn-primary pull-right" onclick="location.href='/phone/phone_add'">
       </div>
       <% } %>
     </div>
@@ -67,19 +67,19 @@
             },
             rowHover: false,
             columns: [
-                { field: "id", title: "id", width: "50px" },
-                { field: "phonename", title: "Phone Name", width: "120px" },
-                { field: "manufacture", title: "manufacture", width:"120px"},
-                { field: "osver", title: "osver", width: "80px"},
-                { field: "group", title: "Phone Group", width: "120px"},
-                { field: "state", title: "state", width: "80px", editable: false },
+                { field: "id", title: "", width: "50px" },
+                { field: "phonename", title: "스마트폰명", width: "120px" },
+                { field: "manufacture", title: "제조사", width:"120px"},
+                { field: "osver", title: "OS", width: "80px"},
+                { field: "group", title: "스마트폰 계열", width: "120px"},
+                { field: "state", title: "대여 여부", width: "80px", editable: false },
                 {
                     width: 150,
-                    title: "Update/Delete Column",
+                    title: "수정/삭제",
                     buttons: [
                     <% if(emp.empauth>1){ %>
-                        { commandName: "edit", caption: "Edit" },
-                        { commandName: "delete", caption: "Delete" }
+                        { commandName: "edit", caption: "수정" },
+                        { commandName: "delete", caption: "삭제" }
                         <% } %>
                     ]
                 }

@@ -1,13 +1,26 @@
-<p>일정</p>
-<div style="text-align:right" class="row">
-  <a style="text-align:right" href="/schedule">more...</a>
-</div>
+<style>
+  .panel-heading span {
+    margin-top: -20px;
+    font-size: 15px;
+  }
+</style>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><center>일정</center></h3>
+    <span class="pull-right"><a href="/schedule">more...</a></span>
+  </div>
 <br>
 <div class="list-group">
+  <% if(schedule_values[0]==null){ %>
+    <div class="list-group-item">
+      <p class="list-group-item-text" style="color:black">일정이 없습니다.</p>
+    </div>
+  <% }; %>
   <% schedule_values.forEach(function(schedule_value) { %>
     <div class="list-group-item">
       <p class="list-group-item-text"><%= schedule_value[1] %></p>
       <p class="list-group-item-text"><%= schedule_value[4].toString().substr(0,16) %> ~ <%= schedule_value[5].toString().substr(0,16) %></p>
     </div>
     <% }); %>
+</div>
 </div>

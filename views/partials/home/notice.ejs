@@ -1,12 +1,25 @@
-<p>공지사항</p>
-<div style="text-align:right" class="row">
-  <a style="text-align:right" href="/notice">more...</a>
-</div>
+<style>
+  .panel-heading span {
+    margin-top: -20px;
+    font-size: 15px;
+  }
+</style>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><center>공지사항</center></h3>
+    <span class="pull-right"><a href="/notice">more...</a></span>
+  </div>
 <br>
 <div class="list-group">
+  <% if(notice_values[0]==null){ %>
+    <div class="list-group-item">
+      <p class="list-group-item-text" style="color:black">공지사항이 없습니다.</p>
+    </div>
+  <% }; %>
   <% notice_values.forEach(function(notice_value) { %>
     <div class="list-group-item">
       <a href="/notice/<%= notice_value[0] %>"><p class="list-group-item-text" style="color:black"><%= notice_value[1] %></p></a>
     </div>
     <% }); %>
+</div>
 </div>

@@ -8,23 +8,24 @@
       <% include ../partials/header %>
     </div>
     <div class="container" style="margin-top:30px">
-      <a href="/people/prize/totallist"><button class="btn btn-primary">전체 포상 기록</button></a>
-    </div>
-
-    <div class="container" style="margin-top:30px">
       <div class="list-group">
-        <div class="list-group-item active"><h4>사원</h4></div>
+        <div class="list-group-item active" style="height:50px"><h4><center>전체 사원 명단</center></h4></div>
         <% peoples.forEach(function(people) { %>
-          <div class="list-group-item" style="height:60px;">
-            <p class="list-group-item-text col-md-3"><a href="/people/prizelist/<%= people[0] %>"><%= people[1] %></a></p>
-            <p class="list-group-item-text col-md-3"><%= people[2] %></p>
-            <p class="list-group-item-text col-md-4"><%= people[6] %></p>
+          <div class="list-group-item" style="height:50px;">
+            <p class="list-group-item-text col-md-1"><%= people[0] %></p>
+            <p class="list-group-item-text col-md-1"><a href="/people/prizelist/<%= people[0] %>"><%= people[1] %></a></p>
+            <p class="list-group-item-text col-md-2"><%= people[2] %></p>
+            <p class="list-group-item-text col-md-2"><%= people[5] %></p>
+            <p class="list-group-item-text col-md-3"><%= people[6] %></p>
             <p class="list-group-item-text col-md-2">
-            <a href="/people/prize/award/<%= people[0] %>"><button class="btn btn-primary">포상</button></a>
+            <a href="/people/prize/award/<%= people[0] %>"><button class="btn btn-primary">포상 수여</button></a>
             </p>
           </div>
           <% }); %>
       </div>
+    </div>
+    <div class="container" style="margin-top:10px;text-align:right">
+      <a href="/people/prize/totallist"><button class="btn btn-primary">전체 포상 기록</button></a>
     </div>
   </body>
 </html>

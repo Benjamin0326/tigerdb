@@ -16,18 +16,31 @@
 
         // Create the data table.
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Test');
-        data.addColumn('number', 'Test 수');
+        data.addColumn('string', 'Project');
+        data.addColumn('number', 'Project 수');
         data.addRows([
           ['진행중인 테스트', <%= projecting %>],
           ['완료된 테스트', <%= projected %>]
         ]);
+
+        var data2 = new google.visualization.DataTable();
+        data2.addColumn('string', 'Bug');
+        data2.addColumn('number', 'Bug 수');
+        data2.addRows([
+          <% projbugs.forEach(function(bug) { %>
+            ['<%= bug[1] %>', <%= bug[0] %>],
+          <% }); %>
+        ]);
+
+
         // Set chart options
         var options = {'width':530,
                        'height':300};
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
+        var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
+        chart2.draw(data2, options);
       }
 
     </script>
@@ -38,13 +51,24 @@
       }
     </style>
   </head>
-    <div class="panel panel-default">
+    <div class="panel panel-default col-md-5" style="padding-left:0px;padding-right:0px">
       <div class="panel-heading">
-        <h3 class="panel-title"><center>할당된 테스트 진행상황</center></h3>
+        <h3 class="panel-title"><center>담당한 프로젝트 진행상황</center></h3>
         <span class="pull-right"><a href="/test">more...</a></span>
       </div>
-                <div class="panel-body">
-                    <div id="chart_div"></div>
-                </div>
+          <div class="panel-body">
+              <div id="chart_div"></div>
+          </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="panel panel-default col-md-5" style="padding-left:0px;padding-right:0px">
+        <div class="panel-heading">
+          <h3 class="panel-title"><center>담당한 프로젝트 버그현황</center></h3>
+          <span class="pull-right"><a href="/bug">more...</a></span>
+        </div>
+            <div class="panel-body">
+                <div id="chart_div2"></div>
             </div>
+        </div>
+        <div class="col-md-1"></div>
 </body>

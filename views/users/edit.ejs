@@ -20,36 +20,34 @@
                   <form role="form" id="body" method="post" action="/users/edit/commit">
                           <!--<div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong></div>-->
                           <div class="form-group">
-                              <label for="InputName">Edit Name</label>
+                              <label for="InputName">이름</label>
                               <div class="input-group">
                                   <input type="text" class="form-control" name="empname" id="InputName" value="<%= emp.empname %>" required>
                                   <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                               </div>
                           </div>
                           <div class="form-group">
-                              <label for="InputEmail">Edit Address</label>
+                              <label for="InputEmail">주소</label>
                               <div class="input-group">
                                   <input type="text" class="form-control" id="Address" name="address" value="<%= userinfo[0] %>" required>
                                   <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                               </div>
                           </div>
                           <div class="form-group">
-                              <label for="InputEmail">Edit Phone</label>
+                              <label for="InputEmail">전화번호</label>
                               <div class="input-group">
                                   <input type="text" class="form-control" id="Phone" name="phone" value="<%= userinfo[1] %>" required>
                                   <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                               </div>
                           </div>
                           <div class="form-group">
-                              <label for="InputEmail">Edit Password</label>
+                              <label for="InputEmail">비밀번호</label>
                               <div class="input-group">
                                   <input type="password" class="form-control" id="Password" name="password" value="<%= userinfo[3] %>" required>
                                   <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                               </div>
                           </div>
-                          <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">
-
-
+                          <input type="submit" name="submit" id="submit" value="수정" class="btn btn-primary pull-right">
                   </form>
                 </div>
             </div>

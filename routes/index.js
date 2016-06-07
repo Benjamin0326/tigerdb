@@ -115,46 +115,167 @@ router.get('/home', function(req, res, next){
     function(err, connection)
     {
       if (err) { console.error(err.message); return; }
-      oracledb.maxRows=5;
-      connection.execute(
-        "select * from notice order by ntcdate desc",
-        function(err, result)
-        {
-          console.log(err);
-          console.log(result.rows[0]);
-          if(req.session===null)
-            res.redirect('/');
-          else{
-            var notice_values=result.rows;
-            connection.execute(
-              "select * from bug",
-              function(err, result)
-              {
-                console.log(err);
-                console.log(result.rows[0]);
-                if(req.session===null)
-                  res.redirect('/');
-                else{
+        if(req.session.empauth==1){
+          oracledb.maxRows=5;
+          connection.execute(
+            "select * from notice order by ntcdate desc",
+            function(err, result)
+            {
+              console.log(err);
+              console.log(result.rows[0]);
+              var notice_values=result.rows;
+              oracledb.maxRows=5;
+              connection.execute(
+                "select * from bug where reporter="+req.session.empno+" order by bugdate desc",
+                function(err, result)
+                {
+                  console.log(err);
+                  console.log(result.rows[0]);
                   var bug_values=result.rows;
                   var now = moment().format("YYYYMMDDhhmmss");
                   now = now-1000000;
+                  oracledb.maxRows=5;
                   connection.execute(
                     "SELECT * from schedule where enddate>=TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate ",
                     function(err, result)
                     {
-                      console.log(err);
-                      console.log(result.rows[0]);
-                      if(req.session===null)
-                        res.redirect('/');
-                      else{
-                        var schedule_values=result.rows;
-                        res.render('home', {bug_values:bug_values, notice_values:notice_values, schedule_values:schedule_values, emp:req.session});
-                      }
+                      var schedule_values=result.rows;
+                      connection.execute(
+                        "SELECT count(*) from projectjob where tester="+req.session.empno+" and enddate is null",
+                        function(err, result)
+                        {
+                          var projecting = result.rows[0];
+                          connection.execute(
+                            "SELECT count(*) from projectjob where tester="+req.session.empno+" and enddate is not null",
+                            function(err, result)
+                            {
+                              var projected = result.rows[0];
+                              res.render('home', {bug_values:bug_values, notice_values:notice_values, schedule_values:schedule_values, emp:req.session, projecting:projecting, projected:projected});
+                            });
+                        });
                     });
-                }
-              });
-          }
-        });
+                });
+            });
+        }else if(req.session.empauth==2){
+          oracledb.maxRows=5;
+          connection.execute(
+            "select * from notice order by ntcdate desc",
+            function(err, result)
+            {
+              console.log(err);
+              console.log(result.rows[0]);
+              var notice_values=result.rows;
+              oracledb.maxRows=5;
+              var now = moment().format("YYYYMMDDhhmmss");
+              now = now-1000000;
+              connection.execute(
+                "SELECT * from schedule where enddate>=TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate ",
+                function(err, result)
+                {
+                  console.log(err);
+                  console.log(result.rows[0]);
+                  var schedule_values=result.rows;
+                  oracledb.maxRows=5;
+                  connection.execute(
+                    "SELECT count(*), status from phone group by status order by status",
+                    function(err, result)
+                    {
+                      var phones=result.rows;
+                      connection.execute(
+                        "SELECT count(*), state from usim group by state order by state",
+                        function(err, result)
+                        {
+                          var usims = result.rows;
+                          console.log(phones, usims);
+                          res.render('home', {notice_values:notice_values, schedule_values:schedule_values, emp:req.session, phones:phones, usims:usims});
+                        });
+                    });
+                });
+            });
+        }else if(req.session.empauth==3){
+          oracledb.maxRows=5;
+          connection.execute(
+            "select * from notice order by ntcdate desc",
+            function(err, result)
+            {
+              console.log(err);
+              console.log(result.rows[0]);
+              var notice_values=result.rows;
+              oracledb.maxRows=5;
+              var now = moment().format("YYYYMMDDhhmmss");
+              now = now-1000000;
+              connection.execute(
+                "SELECT * from schedule where enddate>=TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate ",
+                function(err, result)
+                {
+                  console.log(err);
+                  console.log(result.rows[0]);
+                  var schedule_values=result.rows;
+                  oracledb.maxRows=5;
+                  connection.execute(
+                    "SELECT count(*) from testproj where manager="+req.session.empno+" and enddate is null",
+                    function(err, result)
+                    {
+                      var projecting=result.rows[0];
+                      connection.execute(
+                        "SELECT count(*) from testproj where manager="+req.session.empno+" and enddate is not null",
+                        function(err, result)
+                        {
+                          var projected=result.rows[0];
+                          connection.execute(
+                            "SELECT count(*), t.projname from bug b, testproj t where b.status!=4 and b.testproj=t.projectno and t.manager="+req.session.empno+" group by t.projname",
+                            function(err, result)
+                            {
+                              var projbugs = result.rows;
+                              res.render('home', {notice_values:notice_values, schedule_values:schedule_values, emp:req.session, projecting:projecting, projected:projected, projbugs:projbugs});
+                            });
+                        });
+                    });
+                });
+            });
+        }else if(req.session.empauth==4){
+          oracledb.maxRows=5;
+          connection.execute(
+            "select * from notice order by ntcdate desc",
+            function(err, result)
+            {
+              console.log(err);
+              console.log(result.rows[0]);
+              var notice_values=result.rows;
+              oracledb.maxRows=5;
+              var now = moment().format("YYYYMMDDhhmmss");
+              now = now-1000000;
+              connection.execute(
+                "SELECT * from schedule where enddate>=TO_DATE('"+now+"','yyyyMMddhh24miss') order by enddate ",
+                function(err, result)
+                {
+                  console.log(err);
+                  console.log(result.rows[0]);
+                  var schedule_values=result.rows;
+                  oracledb.maxRows=5;
+                  connection.execute(
+                    "SELECT count(*) from testproj where enddate is null",
+                    function(err, result)
+                    {
+                      var projecting=result.rows[0];
+                      connection.execute(
+                        "SELECT count(*) from testproj where enddate is not null",
+                        function(err, result)
+                        {
+                          var projected=result.rows[0];
+                          connection.execute(
+                            "SELECT count(*), t.projname from bug b, testproj t where b.status!=4 and b.testproj=t.projectno group by t.projname",
+                            function(err, result)
+                            {
+                              var projbugs = result.rows;
+                              res.render('home', {notice_values:notice_values, schedule_values:schedule_values, emp:req.session, projecting:projecting, projected:projected, projbugs:projbugs});
+                            });
+                        });
+                    });
+                });
+            });
+        }
+
     });
 });
 

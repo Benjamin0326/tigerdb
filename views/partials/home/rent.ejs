@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Phone');
+        data.addColumn('number', 'Phone 수');
+        data.addRows([
+          <% phones.forEach(function(phone) { %>
+            ['<% if(phone[1]==0){ %>대여가능<% }else if(phone[1]==1){ %>대여중<% }else if(phone[1]==2){ %>대여불가<% }; %>', <%= phone[0] %>],
+          <% }); %>
+        ]);
+
+        var data2 = new google.visualization.DataTable();
+        data2.addColumn('string', 'Usim');
+        data2.addColumn('number', 'Usim 수');
+        data2.addRows([
+          <% usims.forEach(function(usim) { %>
+            ['<% if(usim[1]==0){ %>대여가능<% }else if(usim[1]==1){ %>대여중<% }else if(usim[1]==2){ %>대여불가<% }; %>', <%= usim[0] %>],
+          <% }); %>
+        ]);
+
+
+        // Set chart options
+        var options = {'width':530,
+                       'height':300};
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+        var chart2 = new google.visualization.PieChart(document.getElementById('chart_div2'));
+        chart2.draw(data2, options);
+      }
+
+    </script>
+    <style>
+      .panel-heading span {
+        margin-top: -20px;
+        font-size: 15px;
+      }
+    </style>
+  </head>
+    <div class="panel panel-default col-md-5">
+      <div class="panel-heading">
+        <h3 class="panel-title"><center>스마트폰 대여현황</center></h3>
+        <span class="pull-right"><a href="/rent">more...</a></span>
+      </div>
+          <div class="panel-body">
+              <div id="chart_div"></div>
+          </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="panel panel-default col-md-5">
+        <div class="panel-heading">
+          <h3 class="panel-title"><center>유심카드 대여현황</center></h3>
+          <span class="pull-right"><a href="/rent">more...</a></span>
+        </div>
+            <div class="panel-body">
+                <div id="chart_div2"></div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+</body>

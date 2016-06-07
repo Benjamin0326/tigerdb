@@ -24,16 +24,16 @@
         <div class="row">
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  <h3 class="panel-title"><center>Test Set</center></h3>
+                  <h3 class="panel-title"><center>Manual Set</center></h3>
                   <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
                 </div>
                 <div class="panel-body">
                   <table class="table">
                     <tr>
-                      <th style="width:200px">Phone Group</th>
-                      <th style="width:200px">Project Name</th>
-                      <th style="width:200px">Set Name</th>
-                      <th style="width:200px">Tester</th>
+                      <th style="width:200px">스마트폰 계열</th>
+                      <th style="width:200px">프로젝트명</th>
+                      <th style="width:200px">제목</th>
+                      <th style="width:200px">테스터</th>
                     </tr>
                     <% testsets.forEach(function(ts){ %>
                     <tr data-href="/test/testset/<%= ts[0] %>" class="clickable">
@@ -48,7 +48,7 @@
               </div>
           </div>
           <div class="row" style="margin-top:0px" align="right">
-          <input type="button" name="add" id="add" value="New TestSet" class="btn btn-info pull-right" onclick="location.href='/test/testset/add'">
+          <input type="button" name="add" id="add" value="Manual Set 생성" class="btn btn-primary pull-right" onclick="location.href='/test/testset/add'">
           </div>
       </div>
 
