@@ -31,7 +31,7 @@ router.get('/', function(req, res, next){
               if (err) { console.error(err.message); return;}
               var phones=result.rows;
               connection.execute(
-                "SELECT * from testproj",
+                "SELECT DISTINCT projectno, projname from testproj t, projectjob p where p.tester="+req.session.empno+"AND t.projectno=p.testproj AND t.enddate is null",
                 function(err,result){
                   if (err) { console.error(err.message); return;}
                   var testprojs=result.rows;
@@ -66,7 +66,7 @@ router.get('/testing', function(req, res, next){
       {
         if (err) { console.error(err.message); return; }
         connection.execute(
-          "SELECT DISTINCT B.BUGNO, B.SUMMARY, B.DESCRIPTION FROM BUG B, PHONE P, TESTPROJ T WHERE B.PHONE=P.PHONENO AND P.PHONEGROUP=T.PHONEGROUP",  // bind value for :id
+          "SELECT DISTINCT B.BUGNO, B.SUMMARY, B.DESCRIPTION FROM BUG B, PHONE P, TESTPROJ T WHERE B.PHONE=P.PHONENO AND P.PHONEGROUP=T.PHONEGROUP and T.PROJECTNO="+projnum,  // bind value for :id
           function(err, result)
           {
             if (err) { console.error(err.message); return; }
@@ -146,23 +146,29 @@ router.get('/describe', function(req, res, next){
 
 });
 
-router.get('/typeresult', function(req, res, next){
+router.post('/typeresult', function(req, res, next){
   oracledb.maxRows=50;
-
+/*
   var setno = req.query.setno;
   var caseno = req.query.caseno;
   var projnum = req.query.projnum;
   var tester = req.session.empno;
   var result = req.query.result;
   var type = req.query.testtype;
+*/
+  var setno = req.body.setno;
+  var caseno = req.body.caseno;
+  var projnum = req.body.projnum;
+  var tester = req.session.empno;
+  var type = req.body.testtype;
+  var result = req.body.result;
+  var url = '/job/testing?testtype='+type+'&projnum='+projnum;
 
-  console.log("setnum:"+setno);
-  console.log("casenum:"+caseno);
-  console.log("projnum:"+projnum);
-  console.log("tester:"+tester);
   console.log("result:"+result);
-  console.log("type:"+type);
-
+  if(result!=0 && result!=1){
+     res.write("<html><body><script>alert('Select test result!'); location.href='"+url+"';</script></body>");
+  }else{ 
+  
   oracledb.getConnection(
     {
       user          : "SYSTEM",
@@ -183,13 +189,12 @@ router.get('/typeresult', function(req, res, next){
                   res.write("<html><body><script>alert('Failed Submit'); location.href='/job/testing';</script></body>");
                   return;
                 }
-                  var url = '/job/testing?testtype='+type+'&projnum='+projnum;
                   //res.write("<html><body><script>alert('Success Submit'); location.href='/job/testing?testtype='"+type+"'&projnum='"+projnum+"';</script></body>");
                   res.write("<html><body><script>alert('Success Submit'); location.href='"+url+"';</script></body>");
               });
         });
     });
-
+  }
 });
 
 

@@ -48,7 +48,7 @@
                             <td><%= manual[1] %></td>
                             <td><%= manual[5] %>(ER : <% if(manual[7]==1){ %>PASS<% }else if(manual[7]==0){ %>FAIL<% }; %>)</td>
                             <td><input type="button" value="설명" class="btn btn-primary pull" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm" onclick="showDes('desc_<%= i %>');"></td>
-                            <form action="/job/typeresult" method="GET">
+                            <form id="body" action="/job/typeresult" method="POST">
                             <td><input type="hidden" name = "setno" value="<%= manual[0]%>"/>
                                 <input type="hidden" name = "caseno" value="<%= manual[1]%>"/>
                                 <input type="hidden" name = "projnum" value="<%= manual[3]%>"/>
@@ -56,18 +56,18 @@
                                 <% if(manual[4]==0) {%>
 
                                 <select id= "result" name="result" size="1" class="form-control">
-                                <option value="" >선택</option>
+                                <option value="2">선택</option>
                                 <option value ="0" selected="selected">정상</option>
                                 <option value ="1">이상</option></select></td>
 
                                 <%} else if(manual[4]==1){%>
                                 <select id= "result" name="result" size="1" class="form-control">
-                                <option value="" >선택</option>
+                                <option value="2" >선택</option>
                                 <option value ="0">정상</option>
                                 <option value ="1" selected="selected">이상</option></select></td>
                                 <%} else {%>
                                 <select id= "result" name="result" size="1" class="form-control">
-                                <option value="" selected="selected">선택</option>
+                                <option value="2" selected="selected">선택</option>
                                 <option value ="0" >정상</option>
                                 <option value ="1">이상</option></select></td>
                                 <%}%>
@@ -126,5 +126,4 @@ function showDes(id){
     id.display = 'none';
   }
 }
-
 </script>

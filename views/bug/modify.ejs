@@ -10,14 +10,14 @@
     <div class="container" style="margin-top:30px">
       <form role="form" id="body" method="post" action="/bug/modify/commit/<%= infos[0][0] %>">
         <div class="form-group">
-          <label for="InputName">Summary</label>
+          <label for="InputName">요약</label>
             <div class="input-group">
                 <input type="text" class="form-control" name="bugsummary" id="InputName" value="<%= infos[0][1] %>" required>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
             </div>
         </div>
         <div class="form-group col-md-4" style="padding-left:0px">
-          <label for="sel1">Phone</label>
+          <label for="sel1">스마트폰</label>
           <select class="form-control" name="phone" id="sel1">
             <% infos.forEach(function(info) { %>
               <option <% if(infos[0][5]==info[10]){ %> selected="selected" <% }; %>>(<%= info[10] %>)<%= info[11] %> -  <%= info[13] %></option>
@@ -25,7 +25,7 @@
           </select>
         </div>
         <div class="form-group col-md-4">
-          <label for="sel1">Type</label>
+          <label for="sel1">타입</label>
           <select class="form-control" name="bugtype" id="sel1">
               <option <% if(infos[0][7]=='Critical'){ %> selected="selected" <% }; %>)>Critical</option>
               <option <% if(infos[0][7]=='Major'){ %> selected="selected" <% }; %>>Major</option>
@@ -33,7 +33,7 @@
           </select>
         </div>
         <div class="form-group col-md-4" style="padding-right:0px">
-          <label for="sel1">STATUS</label>
+          <label for="sel1">상태</label>
           <select class="form-control" name="bugstatus" id="sel1">
               <option <% if(infos[0][6]==0){ %> selected="selected" <% }; %>)>(0)New</option>
               <option <% if(infos[0][6]==1){ %> selected="selected" <% }; %>>(1)Recognized</option>
@@ -43,7 +43,7 @@
           </select>
         </div>
         <div class="form-group col-md-6" style="padding-left:0px">
-          <label for="sel1">Project</label>
+          <label for="sel1">프로젝트</label>
           <select class="form-control" name="project" id="sel1">
             <% projects.forEach(function(proj) { %>
               <option <% if(infos[0][9]==proj[0]){ %> selected="selected" <% }; %>>(<%= proj[0] %>)<%= proj[1] %></option>
@@ -51,7 +51,7 @@
           </select>
         </div>
         <div class="form-group col-md-6" style="padding-right:0px">
-          <label for="sel1">Category</label>
+          <label for="sel1">카테고리</label>
           <select class="form-control" name="category" id="sel1">
               <option <% if(infos[0][8]==1){ %> selected="selected" <% }; %>>(1)UI</option>
               <option <% if(infos[0][8]==2){ %> selected="selected" <% }; %>>(2)기능</option>
@@ -61,13 +61,13 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="InputMessage">Description</label>
+          <label for="InputMessage">설명</label>
           <div class="input-group">
             <textarea id="InputMessage" name="bugdescription" class="form-control" rows="10" required><%= infos[0][2] %></textarea>
             <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
           </div>
         </div>
-        <input type="submit" name="submit" id="submit" value="수정" class="btn btn-info pull-right">
+        <input type="submit" name="submit" id="submit" value="수정" class="btn btn-primary pull-right">
       </form>
     </div>
   </body>
