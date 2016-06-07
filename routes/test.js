@@ -332,6 +332,59 @@ router.get('/testcase/:id', function(req, res, next){
     });
 });
 
+router.post('/testset/add/commit', function(req, res, next){
+  var now = moment().format("YYYYMMDD");
+  var setno = moment().format("x");
+  var title = req.body.tstitle;
+  var description = req.body.tsdescription;
+  var proj = req.body.tsproj;
+  proj = proj.substr(1,proj.toString().indexOf(")")-1);
+  var tester = req.body.tstester;
+  tester = tester.substr(1,tester.toString().indexOf(")")-1);
+  var tc = req.body.testcases;
+  var i = 0;
+  console.log(tc.length);
+  console.log(title, description, proj, tester, tc);
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "insert into PROJECTJOB (TESTPROJ, TESTTYPE, TESTER, DESCRIPTION, STARTDATE) VALUES("+proj+", 1, "+tester+", '"+description+"', TO_DATE('"+now+"', 'yyyyMMddhh24miss'))",
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          connection.commit(function(err){
+            if(err){
+              res.send("실패했습니다.");
+              return;
+            }
+          });
+          console.log(result.rows);
+          for(i=0;i<tc.length;i++){
+            connection.execute(
+              "insert into MANUALSET (SETNO, CASENO, DESCRIPTION, TESTPROJ, TESTER, TITLE) VALUES("+setno+", "+tc[i]+", '"+description+"', "+proj+", "+tester+", '"+title+"')",
+              function(err, result)
+              {
+                if (err) { console.error(err.message); return; }
+                connection.commit(function(err){
+                  if(err){
+                    res.send("실패했습니다.");
+                    return;
+                  }
+                });
+                console.log(result.rows);
+              });
+          }
+          res.redirect('/test/testset');
+        });
+    });
+});
 
 router.post('/testcase/add/commit', function(req, res, next){
   var summary = req.body.tcsummary;
@@ -363,47 +416,6 @@ router.post('/testcase/add/commit', function(req, res, next){
           console.log(result.rows);
           res.redirect('/test/testcase');
         });
-    });
-});
-
-router.post('/testset/add/commit', function(req, res, next){
-  var setno = moment().format("x");
-  var title = req.body.tstitle;
-  var description = req.body.tsdescription;
-  var proj = req.body.tsproj;
-  proj = proj.substr(1,proj.toString().indexOf(")")-1);
-  var tester = req.body.tstester;
-  tester = tester.substr(1,tester.toString().indexOf(")")-1);
-  var tc = req.body.testcases;
-  var i = 0;
-  console.log(tc.length);
-  console.log(title, description, proj, tester, tc);
-  oracledb.getConnection(
-    {
-      user          : "SYSTEM",
-      password      : "0305",
-      connectString : "localhost/DBSERVER"
-    },
-    function(err, connection)
-    {
-      if (err) { console.error(err.message); return; }
-      for(i=0;i<tc.length;i++){
-        connection.execute(
-          "insert into MANUALSET (SETNO, CASENO, DESCRIPTION, TESTPROJ, TESTER, TITLE) VALUES("+setno+", "+tc[i]+", '"+description+"', "+proj+", "+tester+", '"+title+"')",
-          function(err, result)
-          {
-            if (err) { console.error(err.message); return; }
-            connection.commit(function(err){
-              if(err){
-                res.send("실패했습니다.");
-                return;
-              }
-            });
-            console.log(result.rows);
-          });
-      }
-
-      res.redirect('/test/testset');
     });
 });
 
@@ -516,18 +528,40 @@ router.get('/testset/delete/:id', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "delete from manualset where setno="+id,  // bind value for :id
+        "select * from manualset where setno="+id,  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
-          connection.commit(function(err){
-            if(err){
-              res.send("실패했습니다.");
-              return;
-            }
-          });
+          var info=result.rows[0];
 
-          res.redirect('/test/testset');
+
+          connection.execute(
+            "delete from manualset where setno="+id,  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              connection.commit(function(err){
+                if(err){
+                  res.send("실패했습니다.");
+                  return;
+                }
+              });
+
+              connection.execute(
+                "delete from projectjob where testproj="+info[4]+" and tester="+info[5],  // bind value for :id
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  connection.commit(function(err){
+                    if(err){
+                      res.send("실패했습니다.");
+                      return;
+                    }
+                  });
+
+                  res.redirect('/test/testset');
+                });
+            });
         });
     });
 });
