@@ -19,12 +19,12 @@
     <ul class="dropdown-menu">
       <li><a href="/phone">스마트폰</a></li>
       <li><a href="/usim">USIM</a></li>
-      <% if(emp.empauth>=2){%>
-      <li><a href="/rent">대여</a></li>
+      <% if(emp.empauth>=1002){%>
+      <li><a href="/rent">대여처리</a></li>
       <% }%>
     </ul>
   </li>
-   <% if(emp.empauth>=3){%>
+   <% if(emp.empauth>=1003){%>
      <li class="dropdown">
        <a class="dropdown-toggle" data-toggle="dropdown">인적자원
        <span class="caret"></span></a>

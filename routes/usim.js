@@ -14,18 +14,45 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from usim",  // bind value for :id
+        "SELECT * from usim u, totalcode c where u.state=c.code",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
-          res.render('usim', {emp:req.session, usims:result.rows});
+          var usims=result.rows;
+          connection.execute(
+            "SELECT * from countrycode",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              var codes=result.rows;
+              res.render('usim', {emp:req.session, usims:usims, codes:codes});
+            });
         });
     });
 });
 
 router.get('/usim_add', function(req, res){
-  res.render('hardware/usim_add', {emp:req.session});
+  oracledb.getConnection(
+    {
+      user          : "SYSTEM",
+      password      : "0305",
+      connectString : "localhost/DBSERVER"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error(err.message); return; }
+      connection.execute(
+        "SELECT * from countrycode",  // bind value for :id
+        function(err, result)
+        {
+          if (err) { console.error(err.message); return; }
+          console.log(result.rows);
+          var codes=result.rows;
+          res.render('hardware/usim_add', {emp:req.session, codes:codes});
+        });
+    });
 });
 
 router.post('/add_commit', function(req, res, next){
@@ -37,6 +64,7 @@ router.post('/add_commit', function(req, res, next){
   var usimno = data[0].usimno;
   var phoneno = data[0].phoneno;
   var desc = data[0].desc;
+  var nation = data[0].nation;
 
   oracledb.getConnection(
     {
@@ -49,7 +77,7 @@ router.post('/add_commit', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "insert into usim (STATION, USIMNO, PHONENO, DESCRIPTION, STATE) VALUES('"+stat+"', '"+usimno+"', '"+phoneno+"',  '"+desc+"', 0)",
+        "insert into usim (STATION, USIMNO, PHONENO, DESCRIPTION, STATE, COUNTRYCODE) VALUES('"+stat+"', '"+usimno+"', '"+phoneno+"',  '"+desc+"', 2000, '"+nation+"')",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -88,11 +116,12 @@ router.post('/commit', function(req, res, next){
         var t_phoneno = editdata[i].phoneno;
         var t_desc = editdata[i].desc;
         var t_state = editdata[i].state;
+        var t_nation = editdata[i].nation;
 
         if(t_id!=null){
           t_state=t_state[1];
           connection.execute(
-            "UPDATE USIM set station='"+t_stat+"', usimno='"+t_usimno+"', phoneno='"+t_phoneno+"', description='"+t_desc+"', state='"+t_state+"' where usimidx='"+t_id+"'",  // bind value for :id
+            "UPDATE USIM set station='"+t_stat+"', usimno='"+t_usimno+"', phoneno='"+t_phoneno+"', description='"+t_desc+"', state='"+t_state+"', countrycode='"+t_nation+"' where usimidx='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -110,7 +139,7 @@ router.post('/commit', function(req, res, next){
           t_id=editdata[i];
           console.log("delete : "+t_id);
           connection.execute(
-            "update usim set state=2 where state=0 and usimidx='"+t_id+"'",  // bind value for :id
+            "update usim set state=2002 where state=2000 and usimidx='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }

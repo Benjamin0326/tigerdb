@@ -18,7 +18,7 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT J.TESTPROJ, T.PROJNAME, T.STARTDATE, J.TESTTYPE, J.STARTDATE, J.ENDDATE, J.DESCRIPTION, J.REPORT, E.EMPNAME FROM TESTPROJ T, PROJECTJOB J, EMPLOYEE E WHERE J.TESTER='"+ req.session.empno+"' AND J.TESTPROJ = T.PROJECTNO AND T.MANAGER=E.EMPNO",  // bind value for :id
+        "SELECT J.TESTPROJ, T.PROJNAME, T.STARTDATE, J.TESTTYPE, J.STARTDATE, J.ENDDATE, J.DESCRIPTION, J.REPORT, E.EMPNAME, C.CODE, C.VAL FROM TOTALCODE C, TESTPROJ T, PROJECTJOB J, EMPLOYEE E WHERE C.CODE=J.TESTTYPE AND J.TESTER='"+ req.session.empno+"' AND J.TESTPROJ = T.PROJECTNO AND T.MANAGER=E.EMPNO",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -54,7 +54,7 @@ router.get('/testing', function(req, res, next){
   console.log("projnum:"+projnum);
   console.log("tester:"+tester);
 
-  if(type == 0){
+  if(type == 7000){
 
     oracledb.getConnection(
       {
@@ -66,8 +66,8 @@ router.get('/testing', function(req, res, next){
       {
         if (err) { console.error(err.message); return; }
         connection.execute(
-          "SELECT DISTINCT B.BUGNO, B.SUMMARY, B.DESCRIPTION FROM BUG B, PHONE P, TESTPROJ T WHERE B.PHONE=P.PHONENO AND P.PHONEGROUP=T.PHONEGROUP and T.PROJECTNO="+projnum,  // bind value for :id
-          function(err, result)
+          "SELECT DISTINCT B.BUGNO, B.SUMMARY, B.DESCRIPTION FROM BUG B, PHONE P, TESTPROJ T WHERE B.PHONE=P.PHONENO AND P.PHONEGROUP=T.PHONEGROUP AND T.PROJECTNO="+projnum,  // bind value for :id
+         function(err, result)
           {
             if (err) { console.error(err.message); return; }
             console.log(result.rows);
@@ -76,7 +76,7 @@ router.get('/testing', function(req, res, next){
             res.render('testing', {type:type,bugs:bug});
           });
       });
-  }else if(type == 1){
+  }else if(type == 7001){
 
     oracledb.getConnection(
     {
@@ -99,7 +99,7 @@ router.get('/testing', function(req, res, next){
         });
     });
 
-  }else if(type == 2){
+  }else if(type == 7002){
       res.render('testing', {type:type});
   }
 
@@ -148,14 +148,7 @@ router.get('/describe', function(req, res, next){
 
 router.post('/typeresult', function(req, res, next){
   oracledb.maxRows=50;
-/*
-  var setno = req.query.setno;
-  var caseno = req.query.caseno;
-  var projnum = req.query.projnum;
-  var tester = req.session.empno;
-  var result = req.query.result;
-  var type = req.query.testtype;
-*/
+
   var setno = req.body.setno;
   var caseno = req.body.caseno;
   var projnum = req.body.projnum;
@@ -167,7 +160,9 @@ router.post('/typeresult', function(req, res, next){
   console.log("result:"+result);
   if(result!=0 && result!=1){
      res.write("<html><body><script>alert('Select test result!'); location.href='"+url+"';</script></body>");
-  }else{ 
+  }else if(result=='' || result==null){ 
+    res.write("<html><body><script>alert('Select test result!'); location.href='"+url+"';</script></body>");
+  }else{
   
   oracledb.getConnection(
     {

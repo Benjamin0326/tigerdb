@@ -14,11 +14,11 @@
             <p class="list-group-item-text">포상기록이 없습니다.</p>
           </div>
         <% }else{ %>
-        <div class="list-group-item active" style="height:50px"><h4><center><%= winners[0][6]%> (<%= winners[0][7]%>) 의 포상 기록</center></h4></div>
+        <div class="list-group-item active" style="height:50px"><h4><center>전체 포상 기록</center></h4></div>
         <% } %>
         <% winners.forEach(function(winner) { %>
           <div class="list-group-item" style="height:50px;">
-            <p class="list-group-item-text col-md-1"><%= winner[0] %></p>
+            <p class="list-group-item-text col-md-2"><%= winner[6] %>[<%= winner[11] %>]</p>
             <p class="list-group-item-text col-md-2"><%= winner[1] %></p>
             <p class="list-group-item-text col-md-2">(<%= winner[3] %>)<%= winner[15] %></p>
             <p class="list-group-item-text col-md-2"><%= winner[11] %></p>

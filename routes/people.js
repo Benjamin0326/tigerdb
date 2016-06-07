@@ -15,12 +15,21 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from employee",  // bind value for :id
+        "SELECT * from employee e, totalcode c where e.auth=c.code",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
-          res.render('people', {emp:req.session, peoples:result.rows});
+          var peoples=result.rows;
+          connection.execute(
+            "SELECT * from totalcode where MAJOR='AUTH'",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              var codes=result.rows;
+              res.render('people', {emp:req.session, peoples:peoples, codes:codes});
+            });
         });
     });
 });
@@ -59,12 +68,12 @@ router.get('/prize/totallist', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from prize p, employee e where p.winner=e.empno",  // bind value for :id
+        "SELECT * from prize p, employee e, totalcode c where p.winner=e.empno and p.type=c.code",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
-          res.render('management/list', {emp:req.session, winners:result.rows});
+          res.render('management/totallist', {emp:req.session, winners:result.rows});
         });
     });
 });
@@ -82,7 +91,7 @@ router.get('/prizelist/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from prize p, employee e where p.winner=e.empno and p.winner="+id,  // bind value for :id
+        "SELECT * from prize p, employee e, totalcode c where p.winner=e.empno and p.type=c.code and p.winner="+id,  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -112,7 +121,15 @@ router.get('/prize/award/:id', function(req, res, next){
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
           var employees=result.rows[0];
-          res.render('management/award', {emp:req.session, employees:employees});
+          connection.execute(
+            "SELECT * from totalcode where MAJOR='TYPE'",
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              var codes=result.rows;
+              res.render('management/award', {emp:req.session, employees:employees, codes:codes});
+            });
         });
     });
 });
@@ -206,7 +223,15 @@ router.get('/prize/award/modify/:id', function(req, res, next){
               if (err) { console.error(err.message); return; }
               console.log(result.rows);
               var winners=result.rows;
-              res.render('management/modify', {emp:req.session, prize:prize, winners:winners});
+              connection.execute(
+                "SELECT * from totalcode where MAJOR='TYPE'",
+                function(err, result)
+                {
+                  if (err) { console.error(err.message); return; }
+                  console.log(result.rows);
+                  var codes=result.rows;
+                  res.render('management/modify', {emp:req.session, prize:prize, winners:winners, codes:codes});
+                });
             });
         });
     });
@@ -294,7 +319,7 @@ router.post('/commit', function(req, res, next){
           t_id=editdata[i];
           console.log("delete : "+t_id);
           connection.execute(
-            "delete from employee where empno='"+t_id+"'",  // bind value for :id
+            "update EMPLOYEE set auth=1000 where empno='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }

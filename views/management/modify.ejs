@@ -24,9 +24,9 @@
         <div class="form-group col-md-4">
           <label for="sel1">포상 종류</label>
           <select class="form-control" name="prizetype" id="sel1">
-              <option <% if(prize[3]==0){ %> selected="selected" <% }; %>>(0)이달의 버그킹</option>
-              <option <% if(prize[3]==1){ %> selected="selected" <% }; %>>(1)이달의 사원</option>
-              <option <% if(prize[3]==2){ %> selected="selected" <% }; %>>(2)특별 포상</option>
+            <% codes.forEach(function(code) { %>
+              <option <% if(prize[3]==code[0]){ %> selected="selected" <% }; %>>(<%= code[0] %>)<%= code[2] %></option>
+            <% }); %>
           </select>
         </div>
         <input type="submit" name="submit" id="submit" value="수정" class="btn btn-primary pull-right">

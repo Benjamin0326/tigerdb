@@ -36,7 +36,7 @@
       "address": "<%= people[4] %>",
       "name": "<%= people[1] %>",
       "phone": "<%= people[5] %>",
-      "auth": "<% if(people[3]==0){ %>(0)승인대기<% }else if(people[3]==1){ %>(1)테스터<% }else if(people[3]==2){ %>(2)물품관리자 <% }else if(people[3]==3){ %>(3)테스터관리자<% }else if(people[3]==4){ %>(4)시스템관리자<% }; %>",
+      "auth": "(<%= people[3] %>)<%= people[10] %>",
       "position": "<%= people[2] %>",
       "email": "<%= people[6] %>"
   },
@@ -66,11 +66,11 @@
             rowHover: false,
             columns: [
                 { field: "name", title: "이름", width: "70px"},
-                { field: "position", title: "직급", width:"90px"},
-                { field: "address", title: "주소", width: "230px"},
+                { field: "position", title: "직급", width:"80px"},
+                { field: "address", title: "주소", width: "210px"},
                 { field: "phone", title: "전화번호", width: "110px" },
-                { field: "email", title: "Email", width: "140px"  },
-                { field: "auth", title: "권한", width: "100px", editor: myCustomEditor },
+                { field: "email", title: "Email", width: "150px"  },
+                { field: "auth", title: "권한", width: "120px", editor: myCustomEditor },
                 {
                     width: 140,
                     title: "수정/삭제",
@@ -105,7 +105,9 @@
         .appendTo(cell)
         .shieldDropDown({
             dataSource: {
-                data: ["(0)승인대기", "(1)테스터", "(2)물품관리자", "(3)테스터관리자", "(4)시스템관리자"]
+                data: [<% codes.forEach(function(code) { %>
+                "(<%= code[0] %>)<%= code[2] %>",
+              <% }); %>]
             },
             value: !item["auth"] ? null : item["auth"].toString()
         }).swidget().focus();

@@ -41,7 +41,7 @@
     </div>
     <% var i = 0 %>
     <div id ="align" class="container">
-    <% if(emp.empauth<2){ %>
+    <% if(emp.empauth<1002){ %>
       <div class="row">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -71,10 +71,7 @@
                     <tr>
                       <td><%= job[1] %></td>
                       <td><%= job[8] %></td>
-                      <td><% if(job[3]==0){ %>Error List
-                      <% }else if(job[3]==1){ %>Manual List
-                      <% }else{ %>Check List
-                      <% } %>
+                      <td><%= job[10] %>
                       </td>
                       <td><%= job[6] %></td>
                       <td><%= job[2].toString().substr(0, 16) %></td>
@@ -193,10 +190,7 @@
                     <tr>
                       <td><%= job[1] %></td>
                       <td><%= job[8] %></td>
-                      <td><% if(job[3]==0){ %>Error List
-                      <% }else if(job[3]==1){ %>Manual List
-                      <% }else{ %>Check List
-                      <% } %>
+                      <td><%= job[10] %>
                       </td>
                       <td><%= job[6] %></td>
                       <td><%= job[5].toString().substr(0, 16) %></td>

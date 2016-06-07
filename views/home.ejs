@@ -9,7 +9,7 @@
     </div>
 
     <div class="container" style="margin-top:30px">
-    <% if(emp.empauth==1){ %>
+    <% if(emp.empauth==1001){ %>
         <div class="row container">
           <div class="container col-md-5">
             <% include partials/home/test %>
@@ -20,15 +20,15 @@
           </div>
           <div class="container col-md-1"></div>
         </div>
-      <% }else if(emp.empauth==2){ %>
+      <% }else if(emp.empauth==1002){ %>
           <div class="row container">
             <% include partials/home/rent %>
           </div>
-      <% }else if(emp.empauth==3){ %>
+      <% }else if(emp.empauth==1003){ %>
           <div class="row container">
             <% include partials/home/testermanager %>
           </div>
-      <% }else if(emp.empauth==4){ %>
+      <% }else if(emp.empauth==1004){ %>
           <div class="row container">
             <% include partials/home/systemmanager %>
           </div>

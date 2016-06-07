@@ -14,7 +14,7 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from phone",  // bind value for :id
+        "SELECT * from phone p, totalcode c where p.status=c.code",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -48,9 +48,9 @@ router.post('/add_commit', function(req, res, next){
     function(err, connection)
     {
       if (err) { console.error(err.message); return; }
-      console.log("insert into phone (PHONENAME, MANUFACTURE, OSVER, STATUS, PHONEGROUP) VALUES('"+phonename+"', '"+manu+"', '"+osver+"', 0, '"+group+"')");
+      console.log("insert into phone (PHONENAME, MANUFACTURE, OSVER, STATUS, PHONEGROUP) VALUES('"+phonename+"', '"+manu+"', '"+osver+"', 2000, '"+group+"')");
       connection.execute(
-        "insert into phone (PHONENAME, MANUFACTURE, OSVER, STATUS, PHONEGROUP) VALUES('"+phonename+"', '"+manu+"', '"+osver+"', 0, '"+group+"')",
+        "insert into phone (PHONENAME, MANUFACTURE, OSVER, STATUS, PHONEGROUP) VALUES('"+phonename+"', '"+manu+"', '"+osver+"', 2000, '"+group+"')",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -111,7 +111,7 @@ router.post('/commit', function(req, res, next){
           t_id=editdata[i];
           console.log("delete : "+t_id);
           connection.execute(
-            "update phone set status=2 where status=0 and phoneno='"+t_id+"'",  // bind value for :id
+            "update phone set status=2002 where status=2000 and phoneno='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }

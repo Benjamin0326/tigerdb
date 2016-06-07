@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <% if(emp.empauth>1){%>
+      <% if(emp.empauth>1001){%>
       <div class="container row">
         <input type="button" name="save" id="save" value="저장" class="btn btn-primary pull-right phone_save" style="margin-left:10px; margin-right:10px">
         <input type="button" name="add" id="add" value="추가" class="btn btn-primary pull-right" onclick="location.href='/phone/phone_add'">
@@ -32,17 +32,15 @@
   var editno=[];
   var griddata=[
     <% phones.forEach(function(phone) { %>
-      <% if(phone[4]==0 || phone[4]==1 || phone[4]==2){ %>
       {
       "id": <%= phone[0] %>,
       "isActive": true,
       "phonename": "<%= phone[1] %>",
       "manufacture": "<%= phone[2] %>",
       "osver": "<%= phone[3] %>",
-      "state": "<% if(phone[4]==0){ %>(0)대출가능<% }else if(phone[4]==1){ %>(1)대출중<% }else{ %>(2)대출불가능<% }; %>",
-      "group": "<%= phone[6] %>"
+      "state": "(<%= phone[4] %>)<%= phone[8] %>",
+      "group": "<%= phone[5] %>"
   },
-    <% }; %>
     <% }); %>
   ];
     $(document).ready(function () {
@@ -71,13 +69,13 @@
                 { field: "phonename", title: "스마트폰명", width: "120px" },
                 { field: "manufacture", title: "제조사", width:"120px"},
                 { field: "osver", title: "OS", width: "80px"},
-                { field: "group", title: "스마트폰 계열", width: "120px"},
-                { field: "state", title: "대여 여부", width: "80px", editable: false },
+                { field: "group", title: "스마트폰 계열", width: "100px"},
+                { field: "state", title: "대여 여부", width: "100px", editable: false },
                 {
                     width: 150,
                     title: "수정/삭제",
                     buttons: [
-                    <% if(emp.empauth>1){ %>
+                    <% if(emp.empauth>1001){ %>
                         { commandName: "edit", caption: "수정" },
                         { commandName: "delete", caption: "삭제" }
                         <% } %>
