@@ -15,12 +15,21 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from employee",  // bind value for :id
+        "SELECT * from employee e, totalcode c where e.auth=c.code",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
           console.log(result.rows);
-          res.render('people', {emp:req.session, peoples:result.rows});
+          var peoples=result.rows;
+          connection.execute(
+            "SELECT * from totalcode where MAJOR='AUTH'",  // bind value for :id
+            function(err, result)
+            {
+              if (err) { console.error(err.message); return; }
+              console.log(result.rows);
+              var codes=result.rows;
+              res.render('people', {emp:req.session, peoples:peoples, codes:codes});
+            });
         });
     });
 });

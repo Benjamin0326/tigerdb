@@ -30,7 +30,8 @@
    "station": "",
    "usimno": "",
    "phoneno": "",
-   "desc": ""
+   "desc": "",
+   "nation": "",
   }];
     $(document).ready(function () {
         $("#grid").shieldGrid({
@@ -44,6 +45,7 @@
                         usimno: { path: "usimno", type: String },
                         phoneno: { path: "phoneno", type: String },
                         desc: { path: "desc", type: String },
+                        nation: { path: "nation", type: String },
                         isActive: { path: "isActive", type: Boolean }
                     }
                 }
@@ -53,9 +55,10 @@
             },
             rowHover: false,
             columns: [
-                { field: "station", title: "통신사", width: "120px" },
+                { field: "station", title: "통신사", width: "60px" },
                 { field: "usimno", title: "USIM 번호", width:"120px"},
                 { field: "phoneno", title: "전화번호", width: "80px"},
+                { field: "nation", title: "국가코드", width: "60px", editor: myCustomEditor},
                 { field: "desc", title: "설명", width: "80px" },
                 {
                     width: 150,
@@ -85,6 +88,18 @@
                 }
             }
         });
+        function myCustomEditor(cell, item) {
+    $('<div id="test"/>')
+        .appendTo(cell)
+        .shieldDropDown({
+            dataSource: {
+                data: [<% codes.forEach(function(code) { %>
+                "<%= code[0] %>",
+              <% }); %>]
+            },
+            value: !item["nation"] ? null : item["nation"].toString()
+        }).swidget().focus();
+        }
     });
 
     $(function(){

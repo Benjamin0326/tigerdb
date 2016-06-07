@@ -162,7 +162,7 @@ router.get('/typeresult', function(req, res, next){
   console.log("tester:"+tester);
   console.log("result:"+result);
   console.log("type:"+type);
-
+  
   oracledb.getConnection(
     {
       user          : "SYSTEM",

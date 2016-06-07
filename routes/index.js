@@ -80,7 +80,7 @@ router.post('/enroll', function(req, res, next) {
       if (err) { console.error(err.message); return; }
       console.log(name, address, phone, email, password);
       connection.execute(
-        "insert into EMPLOYEE (EMPNAME, AUTH, ADDRESS, PHONE, EMAIL, PASSWORD) VALUES('"+name+"', '0', '"+address+"', '"+phone+"', '"+email+"', '"+password+"')",
+        "insert into EMPLOYEE (EMPNAME, AUTH, ADDRESS, PHONE, EMAIL, PASSWORD) VALUES('"+name+"', 1000, '"+address+"', '"+phone+"', '"+email+"', '"+password+"')",
         function(err, result)
         {
           console.log(err);
@@ -115,7 +115,7 @@ router.get('/home', function(req, res, next){
     function(err, connection)
     {
       if (err) { console.error(err.message); return; }
-        if(req.session.empauth==1){
+        if(req.session.empauth==1001){
           oracledb.maxRows=5;
           connection.execute(
             "select * from notice order by ntcdate desc",
@@ -156,7 +156,7 @@ router.get('/home', function(req, res, next){
                     });
                 });
             });
-        }else if(req.session.empauth==2){
+        }else if(req.session.empauth==1002){
           oracledb.maxRows=5;
           connection.execute(
             "select * from notice order by ntcdate desc",
@@ -192,7 +192,7 @@ router.get('/home', function(req, res, next){
                     });
                 });
             });
-        }else if(req.session.empauth==3){
+        }else if(req.session.empauth==1003){
           oracledb.maxRows=5;
           connection.execute(
             "select * from notice order by ntcdate desc",
@@ -233,7 +233,7 @@ router.get('/home', function(req, res, next){
                     });
                 });
             });
-        }else if(req.session.empauth==4){
+        }else if(req.session.empauth==1004){
           oracledb.maxRows=5;
           connection.execute(
             "select * from notice order by ntcdate desc",

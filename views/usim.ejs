@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <% if(emp.empauth>1){%>
+      <% if(emp.empauth>1001){%>
       <div class="container row">
         <input type="button" name="save" id="save" value="저장" class="btn btn-primary pull-right usim_save" style="margin-left:10px; margin-right:10px">
         <input type="button" name="add" id="add" value="추가" class="btn btn-primary pull-right" onclick="location.href='/usim/usim_add'">
@@ -40,7 +40,8 @@
       "usimno": "<%= usim[2] %>",
       "phoneno": "<%= usim[3] %>",
       "desc": "<%= usim[4] %>",
-      "state": "<% if(usim[5]==0){ %>(0)대출가능<% }else if(usim[5]==1){ %>(1)대출중<% }else{ %>(2)대출불가능<% }; %>"
+      "state": "<% if(usim[5]==0){ %>(0)대출가능<% }else if(usim[5]==1){ %>(1)대출중<% }else{ %>(2)대출불가능<% }; %>",
+      "nation": "<%= usim[6] %>"
   },
     <% }; %>
     <% }); %>
@@ -52,11 +53,12 @@
                 selection: true,
                 schema: {
                     fields: {
-                        id: { path: "id", type: Number },
+                        id: { path: "id" },
                         station: { path: "station", type: String },
                         usimno: { path: "usimno", type: String },
                         phoneno: { path: "phoneno", type: String },
                         desc: { path: "desc", type: String },
+                        nation: { path: "nation", type: String },
                         isActive: { path: "isActive", type: Boolean },
                         state: { path: "state" }
                     }
@@ -67,17 +69,18 @@
             },
             rowHover: false,
             columns: [
-                { field: "id", title: "", width: "50px" },
-                { field: "station", title: "통신사", width: "120px" },
+                { field: "id", title: "", width: "50px", editable: false },
+                { field: "station", title: "통신사", width: "60px" },
                 { field: "usimno", title: "USIM 번호", width:"120px"},
                 { field: "phoneno", title: "전화번호", width: "80px"},
+                { field: "nation", title: "국가코드", width: "60px", editor: myCustomEditor},
                 { field: "desc", title: "설명", width: "80px" },
                 { field: "state", title: "대여 여부", width: "80px", editable: false },
                 {
                     width: 150,
                     title: "수정/삭제",
                     buttons: [
-                    <% if(emp.empauth>1){ %>
+                    <% if(emp.empauth>1001){ %>
                         { commandName: "edit", caption: "수정" },
                         { commandName: "delete", caption: "삭제" }
                         <% }%>
@@ -104,6 +107,18 @@
                 }
             }
         });
+        function myCustomEditor(cell, item) {
+    $('<div id="test"/>')
+        .appendTo(cell)
+        .shieldDropDown({
+            dataSource: {
+                data: [<% codes.forEach(function(code) { %>
+                "<%= code[0] %>",
+              <% }); %>]
+            },
+            value: !item["nation"] ? null : item["nation"].toString()
+        }).swidget().focus();
+        }
     });
 
     $(function(){

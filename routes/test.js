@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.get('/', function(req, res, next){
   oracledb.maxRows=100;
-  if(req.session.empauth>3){
+  if(req.session.empauth>1003){
     oracledb.getConnection(
     {
       user          : "SYSTEM",
@@ -23,7 +23,7 @@ router.get('/', function(req, res, next){
           res.render('test', {emp:req.session, project:result.rows});
         });
     });
-  }else if(req.session.empauth>2){
+  }else if(req.session.empauth>1002){
     oracledb.getConnection(
     {
       user          : "SYSTEM",
@@ -141,7 +141,7 @@ router.get('/assign/:id', function(req, res, next){
           console.log(result.rows);
           projs = result.rows[0];
           connection.execute(
-            "SELECT * from employee where auth < 2",  // bind value for :id
+            "SELECT * from employee where auth < 1002",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -245,7 +245,7 @@ router.get('/testset/add', function(req, res, next){
               console.log(result.rows);
               var projects=result.rows;
               connection.execute(
-                "SELECT * from employee where auth < 2",  // bind value for :id
+                "SELECT * from employee where auth < 1002",  // bind value for :id
                 function(err, result)
                 {
                   if (err) { console.error(err.message); return; }
@@ -603,7 +603,7 @@ router.get('/project/add', function(req, res){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from employee where auth>2",  // bind value for :id
+        "SELECT * from employee where auth>1002",  // bind value for :id
        function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -655,7 +655,7 @@ router.get('/project/:id', function(req, res){
             var group = result.rows;
             console.log('group : '+group);
             connection.execute(
-              "SELECT * from employee where auth>2",  // bind value for :id
+              "SELECT * from employee where auth>1002",  // bind value for :id
               function(err, result){
                 if(err) { console.error(err.message); return; }
                 res.render('project/update', {emp:req.session, results:projinfo, groups:group, managers: result.rows});

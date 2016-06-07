@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <% if(emp.empauth>1){%>
+      <% if(emp.empauth>1001){%>
       <div class="container row">
         <input type="button" name="save" id="save" value="저장" class="btn btn-primary pull-right phone_save" style="margin-left:10px; margin-right:10px">
         <input type="button" name="add" id="add" value="추가" class="btn btn-primary pull-right" onclick="location.href='/phone/phone_add'">
@@ -77,7 +77,7 @@
                     width: 150,
                     title: "수정/삭제",
                     buttons: [
-                    <% if(emp.empauth>1){ %>
+                    <% if(emp.empauth>1001){ %>
                         { commandName: "edit", caption: "수정" },
                         { commandName: "delete", caption: "삭제" }
                         <% } %>
