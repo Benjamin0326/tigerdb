@@ -32,7 +32,6 @@
   var editno=[];
   var griddata=[
     <% usims.forEach(function(usim) { %>
-      <% if(usim[5]==0 || usim[5]==1 || usim[5]==2){ %>
       {
       "id": <%= usim[0] %>,
       "isActive": true,
@@ -40,10 +39,9 @@
       "usimno": "<%= usim[2] %>",
       "phoneno": "<%= usim[3] %>",
       "desc": "<%= usim[4] %>",
-      "state": "<% if(usim[5]==0){ %>(0)대출가능<% }else if(usim[5]==1){ %>(1)대출중<% }else{ %>(2)대출불가능<% }; %>",
+      "state": "(<%= usim[5] %>)<%= usim[9] %>",
       "nation": "<%= usim[6] %>"
   },
-    <% }; %>
     <% }); %>
   ];
     $(document).ready(function () {
@@ -71,11 +69,11 @@
             columns: [
                 { field: "id", title: "", width: "50px", editable: false },
                 { field: "station", title: "통신사", width: "60px" },
-                { field: "usimno", title: "USIM 번호", width:"120px"},
+                { field: "usimno", title: "USIM 번호", width:"110px"},
                 { field: "phoneno", title: "전화번호", width: "80px"},
-                { field: "nation", title: "국가코드", width: "60px", editor: myCustomEditor},
+                { field: "nation", title: "국가코드", width: "50px", editor: myCustomEditor},
                 { field: "desc", title: "설명", width: "80px" },
-                { field: "state", title: "대여 여부", width: "80px", editable: false },
+                { field: "state", title: "대여 여부", width: "100px", editable: false },
                 {
                     width: 150,
                     title: "수정/삭제",

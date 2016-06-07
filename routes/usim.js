@@ -14,7 +14,7 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from usim",  // bind value for :id
+        "SELECT * from usim u, totalcode c where u.state=c.code",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -77,7 +77,7 @@ router.post('/add_commit', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "insert into usim (STATION, USIMNO, PHONENO, DESCRIPTION, STATE, COUNTRYCODE) VALUES('"+stat+"', '"+usimno+"', '"+phoneno+"',  '"+desc+"', 0, '"+nation+"')",
+        "insert into usim (STATION, USIMNO, PHONENO, DESCRIPTION, STATE, COUNTRYCODE) VALUES('"+stat+"', '"+usimno+"', '"+phoneno+"',  '"+desc+"', 2000, '"+nation+"')",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -139,7 +139,7 @@ router.post('/commit', function(req, res, next){
           t_id=editdata[i];
           console.log("delete : "+t_id);
           connection.execute(
-            "update usim set state=2 where state=0 and usimidx='"+t_id+"'",  // bind value for :id
+            "update usim set state=2002 where state=2000 and usimidx='"+t_id+"'",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }

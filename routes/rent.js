@@ -77,7 +77,7 @@ router.get('/phonerent', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT * from phone where status=0",
+        "SELECT * from phone where status=2000",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -156,7 +156,7 @@ router.get('/phonereturn/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "update phone set STATUS=0 where phoneno='"+id+"'",
+        "update phone set STATUS=2000 where phoneno='"+id+"'",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -203,7 +203,7 @@ router.post('/phonerent/commit/:id', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "update phone set STATUS=1 where phoneno='"+id+"'",
+        "update phone set STATUS=2001 where phoneno='"+id+"'",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -291,7 +291,7 @@ router.get('/usimreturn/:id', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "update usim set STATE=0 where usimidx='"+id+"'",
+        "update usim set STATE=2000 where usimidx='"+id+"'",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -338,7 +338,7 @@ router.post('/usimrent/commit/:id', function(req, res, next){
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "update usim set STATE=1 where usimidx='"+id+"'",
+        "update usim set STATE=2001 where usimidx='"+id+"'",
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
