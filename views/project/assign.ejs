@@ -164,7 +164,7 @@
               <% projectjobs.forEach(function(proj){ %>
               <tr>
                 <!--<td><%= proj[0] %></td>-->
-                <td>(<%= proj[1] %>) <% if(proj[1]==7000){ %>에러리스트<% }else if(proj[1]==7001){ %>메뉴얼리스트<% }else if(proj[1]==7002){ %>체크리스트<% }; %></td>
+                <td>(<%= proj[1] %>)<%= proj[17] %></td>
                 <td>(<%= proj[7] %>) <%= proj[8] %>[<%= proj[13] %>]</td>
                 <td><% if(proj[3]!='undefined'){ %><%= proj[3] %><% }else{ %>None<% }; %></td>
                 <td><%= proj[4].toString().substr(0, 16) %></td>
@@ -187,7 +187,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">(<%= proj[1] %>) <% if(proj[1]==7000){ %>에러리스트<% }else if(proj[1]==7001){ %>메뉴얼리스트<% }else if(proj[1]==7002){ %>체크리스트<% }; %></h4>
+              <h4 class="modal-title">(<%= proj[1] %>)<%= proj[17] %></h4>
               <p class="modal-title">Tester : (<%= proj[7] %>) <%= proj[8] %>[<%= proj[13] %>]</p>
             </div>
             <div class="modal-body">
@@ -230,7 +230,7 @@
             <p>[Report]</p>
             <% if(reports[0]!=null){ %>
               <% reports.forEach(function(report) { %>
-                <p>테스트타입 : <% if(report[0]==7000){ %>에러리스트<% }else if(report[0]==7001){ %>메뉴얼리스트<% }else if(report[0]==7002){ %>체크리스트<% }; %></p>
+                <p>테스트타입 : <%= report[10] %></p>
                 <p>테 스 터 : <%= report[6] %>(<%= report[8] %>)</p>
                 <p style="white-space:pre-line">Description : <%= report[1] %></p>
                 <% if(report[3]!=null){ %>

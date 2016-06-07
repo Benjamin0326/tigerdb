@@ -114,7 +114,7 @@
                 <p><%= bugcount[0] %> 개</p><br>
                 <p>[Report]</p>
                 <% reports.forEach(function(report) { %>
-                  <p>테스트타입 : <% if(report[0]==7000){ %>에러리스트<% }else if(report[0]==7001){ %>메뉴얼리스트<% }else if(report[0]==7002){ %>체크리스트<% }; %></p>
+                  <p>테스트타입 : <%= report[10] %></p>
                   <p>테 스 터 : <%= report[6] %>(<%= report[8] %>)</p>
                   <p style="white-space:pre-line">Description : <%= report[1] %></p>
                   <p>테스트기간 : <%= report[2].toString().substr(0,16) %> ~ <%= report[3].toString().substr(0,16) %></p>

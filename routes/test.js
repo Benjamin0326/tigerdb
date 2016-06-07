@@ -69,7 +69,7 @@ router.get('/project/report/:id', function(req, res, next){
           console.log(result.rows);
           projs = result.rows[0];
           connection.execute(
-            "SELECT p.testtype, p.description, p.startdate, p.enddate, p.report, e.empno, e.empname, e.position, e.email from employee e, projectjob p where e.empno=p.tester and p.testproj = "+id+" order by p.testtype",  // bind value for :id
+            "SELECT p.testtype, p.description, p.startdate, p.enddate, p.report, e.empno, e.empname, e.position, e.email, c.code, c.val from totalcode c, employee e, projectjob p where c.code=p.testtype and e.empno=p.tester and p.testproj = "+id+" order by p.testtype",  // bind value for :id
             function(err, result)
             {
               if (err) { console.error(err.message); return; }
@@ -148,7 +148,7 @@ router.get('/assign/:id', function(req, res, next){
               console.log(result.rows);
               testers = result.rows;
               connection.execute(
-                "SELECT * from projectjob p, employee e where p.tester=e.empno and testproj="+id,  // bind value for :id
+                "SELECT * from projectjob p, employee e, totalcode c where c.code=p.testtype and p.tester=e.empno and testproj="+id,  // bind value for :id
                 function(err, result)
                 {
                   if (err) { console.error(err.message); return; }
@@ -162,7 +162,7 @@ router.get('/assign/:id', function(req, res, next){
                       console.log(result.rows);
                       projs = result.rows[0];
                       connection.execute(
-                        "SELECT p.testtype, p.description, p.startdate, p.enddate, p.report, e.empno, e.empname, e.position, e.email from employee e, projectjob p where e.empno=p.tester and p.testproj = "+id+" order by p.testtype",  // bind value for :id
+                        "SELECT p.testtype, p.description, p.startdate, p.enddate, p.report, e.empno, e.empname, e.position, e.email, c.code, c.val from totalcode c, employee e, projectjob p where p.testtype=c.code and e.empno=p.tester and p.testproj = "+id+" order by p.testtype",  // bind value for :id
                         function(err, result)
                         {
                           if (err) { console.error(err.message); return; }
