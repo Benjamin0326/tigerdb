@@ -93,7 +93,7 @@
               <% results.forEach(function(proj){ %>
               <tr>
                 <!--<td><%= proj[0] %></td>-->
-                <td>(<%= proj[8] %>) <% if(proj[8]==0){ %>에러리스트<% }else if(proj[8]==1){ %>메뉴얼리스트<% }else if(proj[8]==2){ %>체크리스트<% }; %></td>
+                <td>(<%= proj[8] %>) <% if(proj[8]==7000){ %>에러리스트<% }else if(proj[8]==7001){ %>메뉴얼리스트<% }else if(proj[8]==7002){ %>체크리스트<% }; %></td>
                 <td>(<%= proj[14] %>) <%= proj[15] %>[<%= proj[20] %>]</td>
                 <td><% if(proj[10]!='undefined'){ %><%= proj[10] %><% }else{ %>None<% }; %></td>
                 <td><%= proj[11].toString().substr(0, 16) %></td>
@@ -112,7 +112,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">(<%= proj[8] %>) <% if(proj[8]==0){ %>에러리스트<% }else if(proj[8]==1){ %>메뉴얼리스트<% }else if(proj[8]==2){ %>체크리스트<% }; %></h4>
+              <h4 class="modal-title">(<%= proj[8] %>) <% if(proj[8]==7000){ %>에러리스트<% }else if(proj[8]==7001){ %>메뉴얼리스트<% }else if(proj[8]==7002){ %>체크리스트<% }; %></h4>
               <p class="modal-title">Tester : (<%= proj[14] %>) <%= proj[15] %>[<%= proj[20] %>]</p>
             </div>
             <div class="modal-body">

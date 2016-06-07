@@ -95,8 +95,8 @@
           <div class="form-group col-md-4">
             <label for="sel1">테스트 종류</label>
             <select class="form-control" name="testtype" id="sel1">
-              <option>(0) 에러리스트</option>
-              <option>(2) 체크리스트</option>
+              <option>(7000) 에러리스트</option>
+              <option>(7002) 체크리스트</option>
             </select>
           </div>
           <div class="form-group col-md-4">
@@ -164,7 +164,7 @@
               <% projectjobs.forEach(function(proj){ %>
               <tr>
                 <!--<td><%= proj[0] %></td>-->
-                <td>(<%= proj[1] %>) <% if(proj[1]==0){ %>에러리스트<% }else if(proj[1]==1){ %>메뉴얼리스트<% }else if(proj[1]==2){ %>체크리스트<% }; %></td>
+                <td>(<%= proj[1] %>) <% if(proj[1]==7000){ %>에러리스트<% }else if(proj[1]==7001){ %>메뉴얼리스트<% }else if(proj[1]==7002){ %>체크리스트<% }; %></td>
                 <td>(<%= proj[7] %>) <%= proj[8] %>[<%= proj[13] %>]</td>
                 <td><% if(proj[3]!='undefined'){ %><%= proj[3] %><% }else{ %>None<% }; %></td>
                 <td><%= proj[4].toString().substr(0, 16) %></td>
@@ -187,7 +187,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">(<%= proj[1] %>) <% if(proj[1]==0){ %>에러리스트<% }else if(proj[1]==1){ %>메뉴얼리스트<% }else if(proj[1]==2){ %>체크리스트<% }; %></h4>
+              <h4 class="modal-title">(<%= proj[1] %>) <% if(proj[1]==7000){ %>에러리스트<% }else if(proj[1]==7001){ %>메뉴얼리스트<% }else if(proj[1]==7002){ %>체크리스트<% }; %></h4>
               <p class="modal-title">Tester : (<%= proj[7] %>) <%= proj[8] %>[<%= proj[13] %>]</p>
             </div>
             <div class="modal-body">
@@ -230,7 +230,7 @@
             <p>[Report]</p>
             <% if(reports[0]!=null){ %>
               <% reports.forEach(function(report) { %>
-                <p>테스트타입 : <% if(report[0]==0){ %>에러리스트<% }else if(report[0]==1){ %>메뉴얼리스트<% }else if(report[0]==2){ %>체크리스트<% }; %></p>
+                <p>테스트타입 : <% if(report[0]==7000){ %>에러리스트<% }else if(report[0]==7001){ %>메뉴얼리스트<% }else if(report[0]==7002){ %>체크리스트<% }; %></p>
                 <p>테 스 터 : <%= report[6] %>(<%= report[8] %>)</p>
                 <p style="white-space:pre-line">Description : <%= report[1] %></p>
                 <% if(report[3]!=null){ %>
@@ -240,11 +240,11 @@
                 <% }; %>
                 <% if(report[4]!=null){ %><p style="white-space:pre-line">Report : <%= report[4] %></p><% };%>
                 <br>
-                <% if(report[0]==1){ %>
+                <% if(report[0]==7001){ %>
                   <p>[ManualSet 결과]</p>
                   <% ts.forEach(function(tc) { %>
                     <% if(tc[5]==report[5]){ %>
-                      <p> <%= tc[8] %>(ER : <% if(tc[10]==1){ %>PASS<% }else{ %>FAIL<% }; %>) => [AR : <% if(tc[3]==1){ %>PASS<% }else{ %>FAIL<% }; %>]
+                      <p> <%= tc[8] %>(ER : <% if(tc[10]==1){ %>PASS<% }else{ %>FAIL<% }; %>) => [AR : <% if(tc[3]==1){ %>PASS<% }else if(tc[3]==0){ %>FAIL<% }else{ %>진행 중<% }; %>]
                     <% }; %>
                   <% }); %>
                 <% }; %>

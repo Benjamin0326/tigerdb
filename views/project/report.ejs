@@ -114,17 +114,17 @@
                 <p><%= bugcount[0] %> 개</p><br>
                 <p>[Report]</p>
                 <% reports.forEach(function(report) { %>
-                  <p>테스트타입 : <% if(report[0]==0){ %>에러리스트<% }else if(report[0]==1){ %>메뉴얼리스트<% }else if(report[0]==2){ %>체크리스트<% }; %></p>
+                  <p>테스트타입 : <% if(report[0]==7000){ %>에러리스트<% }else if(report[0]==7001){ %>메뉴얼리스트<% }else if(report[0]==7002){ %>체크리스트<% }; %></p>
                   <p>테 스 터 : <%= report[6] %>(<%= report[8] %>)</p>
                   <p style="white-space:pre-line">Description : <%= report[1] %></p>
                   <p>테스트기간 : <%= report[2].toString().substr(0,16) %> ~ <%= report[3].toString().substr(0,16) %></p>
                   <% if(report[4]!=null){ %><p style="white-space:pre-line">Report : <%= report[4] %></p><% };%>
                   <br>
-                  <% if(report[0]==1){ %>
+                  <% if(report[0]==7001){ %>
                     <p>[ManualSet 결과]</p>
                     <% ts.forEach(function(tc) { %>
                       <% if(tc[5]==report[5]){ %>
-                        <p> <%= tc[8] %>(ER : <% if(tc[10]==1){ %>PASS<% }else{ %>FAIL<% }; %>) => [AR : <% if(tc[3]==1){ %>PASS<% }else{ %>FAIL<% }; %>]
+                        <p> <%= tc[8] %>(ER : <% if(tc[10]==1){ %>PASS<% }else{ %>FAIL<% }; %>) => [AR : <% if(tc[3]==1){ %>PASS<% }else if(tc[3]==0){ %>FAIL<% }else{ %>진행 중<% }; %>]
                       <% }; %>
                     <% }); %>
                   <% }; %>

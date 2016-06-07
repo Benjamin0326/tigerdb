@@ -18,7 +18,7 @@ router.get('/', function(req, res, next){
     {
       if (err) { console.error(err.message); return; }
       connection.execute(
-        "SELECT J.TESTPROJ, T.PROJNAME, T.STARTDATE, J.TESTTYPE, J.STARTDATE, J.ENDDATE, J.DESCRIPTION, J.REPORT, E.EMPNAME FROM TESTPROJ T, PROJECTJOB J, EMPLOYEE E WHERE J.TESTER='"+ req.session.empno+"' AND J.TESTPROJ = T.PROJECTNO AND T.MANAGER=E.EMPNO",  // bind value for :id
+        "SELECT J.TESTPROJ, T.PROJNAME, T.STARTDATE, J.TESTTYPE, J.STARTDATE, J.ENDDATE, J.DESCRIPTION, J.REPORT, E.EMPNAME, C.CODE, C.VAL FROM TOTALCODE C, TESTPROJ T, PROJECTJOB J, EMPLOYEE E WHERE C.CODE=J.TESTTYPE AND J.TESTER='"+ req.session.empno+"' AND J.TESTPROJ = T.PROJECTNO AND T.MANAGER=E.EMPNO",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -54,7 +54,7 @@ router.get('/testing', function(req, res, next){
   console.log("projnum:"+projnum);
   console.log("tester:"+tester);
 
-  if(type == 0){
+  if(type == 7000){
 
     oracledb.getConnection(
       {
@@ -76,7 +76,7 @@ router.get('/testing', function(req, res, next){
             res.render('testing', {type:type,bugs:bug});
           });
       });
-  }else if(type == 1){
+  }else if(type == 7001){
 
     oracledb.getConnection(
     {
@@ -99,7 +99,7 @@ router.get('/testing', function(req, res, next){
         });
     });
 
-  }else if(type == 2){
+  }else if(type == 7002){
       res.render('testing', {type:type});
   }
 
@@ -162,7 +162,7 @@ router.get('/typeresult', function(req, res, next){
   console.log("tester:"+tester);
   console.log("result:"+result);
   console.log("type:"+type);
-  
+
   oracledb.getConnection(
     {
       user          : "SYSTEM",
