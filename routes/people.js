@@ -274,6 +274,7 @@ router.post('/commit', function(req, res, next){
           console.log(t_id);
           console.log(t_position);
           console.log(t_auth);
+          t_auth = t_auth.substr(1,t_auth.toString().indexOf(")")-1);
           connection.execute(
             "UPDATE employee set empname='"+t_name+"', position='"+t_position+"', auth='"+t_auth+"', address='"+t_address+"' where empno='"+t_id+"'",  // bind value for :id
             function(err, result)

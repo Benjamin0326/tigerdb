@@ -38,7 +38,7 @@ router.post('/edit/commit', function(req, res, next) {
       if (err) { console.error(err.message); return; }
 
       connection.execute(
-        "update employee set empname='"+req.body.empname+"', address='"+req.body.address+"', phone='"+req.body.phone+"', email='"+req.body.email+"', password='"+req.body.password+"' where empno='"+req.session.empno+"'",  // bind value for :id
+        "update employee set empname='"+req.body.empname+"', address='"+req.body.address+"', phone='"+req.body.phone+"', password='"+req.body.password+"' where empno='"+req.session.empno+"'",  // bind value for :id
         function(err, result)
         {
           if (err) { console.error(err.message); return; }
@@ -50,6 +50,7 @@ router.post('/edit/commit', function(req, res, next) {
           });
           console.log(result.rows);
           req.session.empname=req.body.empname;
+          
           res.redirect('/home');
         });
     });

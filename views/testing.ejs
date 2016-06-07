@@ -21,51 +21,114 @@
             <% } ); %>
             </table>
             <%} else if(type==1) { %>
+              <% var i = 0 %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><center>My Manual Test</center></h3>
+                  <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                </div>
+                <div class="panel-body">
+                  <table class="table" style="margin-bottom:0px">
+                    <tr>
+                      <th style="width:150px">Set#</th>
+                      <th style="width:100px">Case#</th>
+                      <th style="width:300px">Summary</th>
+                      <th style="width:100px">Description</th>
+                      <th style="width:100px">Result</th>
+                      <th style="width:100px">Submit</th>
+                    </tr>
+                    <% if(manuals[0]==null){ %>
+                      <tr
+                        <td colspan="8">할당된 Manual Set이 없습니다.</td>
+                      </tr>
+                    <% }else{ %>
+                      <% manuals.forEach(function(manual){ %>
+                          <tr>
+                            <td><%= manual[0] %></td>
+                            <td><%= manual[1] %></td>
+                            <td><%= manual[5] %>(ER : <% if(manual[7]==1){ %>PASS<% }else if(manual[7]==0){ %>FAIL<% }; %>)</td>
+                            <td><input type="button" value="show Description" class="btn btn-primary pull" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm" onclick="showDes('desc_<%= i %>');"></td>
+                            <form action="/job/typeresult" method="GET">
+                            <td><input type="hidden" name = "setno" value="<%= manual[0]%>"/>
+                                <input type="hidden" name = "caseno" value="<%= manual[1]%>"/>
+                                <input type="hidden" name = "projnum" value="<%= manual[3]%>"/>
+                                <input type="hidden" name = "testtype" value="<%= type%>"/>
+                                <% if(manual[4]==0) {%>
 
-            <table width="80%" border="1px" align="center">
-              <tr align="center">
-                <td >set#</td>
-                <td>case#</td>
-                <td>DES</td>
-                <td>RESULT </td>
-                <td>submit </td>
-              </tr>
-            <% manuals.forEach(function(manual) {%>
-              <tr align="center">
-                <td><%= manual[0] %></td>
-                <td><%= manual[1] %></td>
-                <td><%= manual[5] %>(ER : <% if(manual[7]==1){ %>PASS<% }else if(manual[7]==0){ %>FAIL<% }; %>)</td>
-                <form action="/job/typeresult" method="GET">
-                <td><input type="hidden" name = "setno" value="<%= manual[0]%>"/>
-                    <input type="hidden" name = "caseno" value="<%= manual[1]%>"/>
-                    <input type="hidden" name = "projnum" value="<%= manual[3]%>"/>
-                    <input type="hidden" name = "testtype" value="<%= type%>"/>
-                    <% if(manual[4]==0) {%>
+                                <select id= "result" name="result" size="1" class="form-control">
+                                <option value="" >선택</option>
+                                <option value ="0" selected="selected">정상</option>
+                                <option value ="1">이상</option></select></td>
 
-                    <select id= "result" name="result" size="1">
-                    <option value="" >선택</option>
-                    <option value ="0" selected="selected">정상</option>
-                    <option value ="1">이상</option></select></td>
+                                <%} else if(manual[4]==1){%>
+                                <select id= "result" name="result" size="1" class="form-control">
+                                <option value="" >선택</option>
+                                <option value ="0">정상</option>
+                                <option value ="1" selected="selected">이상</option></select></td>
+                                <%} else {%>
+                                <select id= "result" name="result" size="1" class="form-control">
+                                <option value="" selected="selected">선택</option>
+                                <option value ="0" >정상</option>
+                                <option value ="1">이상</option></select></td>
+                                <%}%>
 
-                    <%} else if(manual[4]==1){%>
-                    <select id= "result" name="result" size="1">
-                    <option value="" >선택</option>
-                    <option value ="0">정상</option>
-                    <option value ="1" selected="selected">이상</option></select></td>
-                    <%} else {%>
-                    <select id= "result" name="result" size="1">
-                    <option value="" selected="selected">선택</option>
-                    <option value ="0" >정상</option>
-                    <option value ="1">이상</option></select></td>
-                    <%}%>
+                            <td><button type="submit" class="btn btn-primary pull">submit
+                            </button></td>
+                            </form>
+                          </tr>
 
-                <td><button type="submit">submit
-                </button></td>
-                </form>
-              </tr>
-            <% } ); %>
-            </table>
+                          <tr id="desc_<%= i %>" style="display:none">
+                            <td colspan="8">
+                            <div class="collapse" id="describeForm<%= i %>" >
+                              <div class="well" >
+                                <p style="white-space:pre-line"><%= manual[6] %></p>
+                              </div>
+                            </div>
+                            </td>
+                          </tr>
 
-            <% } %>
-</body>
+                        <% i = i+1; %>
+                      <% });%>  <!-- foreach-->
+                    <%}%> <!-- job is null -->
+                  </table>
+                </div>
+              </div>
+              <% }; %>
+
+
+
+
+
+
+    </body>
 </html>
+
+<script type="text/javascript">
+  jQuery(function ($) {
+        $('.panel-heading span.clickable').on("click", function (e) {
+            if ($(this).hasClass('panel-collapsed')) {
+                // expand the panel
+                $(this).parents('.panel').find('.panel-body').slideDown();
+                $(this).removeClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            }
+            else {
+                // collapse the panel
+                $(this).parents('.panel').find('.panel-body').slideUp();
+                $(this).addClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            }
+        });
+    });
+
+function showDes(id){
+  var id = document.getElementById(id).style;
+  if(id.display.toString()=="none"){
+    id.display = 'table-row';
+  }
+  else{
+    id.display = 'none';
+  }
+}
+
+</script>
