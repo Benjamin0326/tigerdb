@@ -45,17 +45,17 @@
       <div class="row">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><center>My Test</center></h3>
+            <h3 class="panel-title"><center>진행중인 테스트</center></h3>
             <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
           </div>
           <div class="panel-body">
             <table class="table" style="margin-bottom:0px">
               <tr>
-                <th style="width:150px">Project Name</th>
-                <th style="width:100px">Manager</th>
-                <th style="width:100px">Type</th>
-                <th style="width:350px">Description</th>
-                <th style="width:150px">StartDate</th>
+                <th style="width:150px">프로젝트명</th>
+                <th style="width:100px">관리자</th>
+                <th style="width:100px">타입</th>
+                <th style="width:350px">설명</th>
+                <th style="width:150px">시작일</th>
                 <th style="width:80px"></th>
                 <th style="width:80px"></th>
                 <th style="width:80px"></th>
@@ -63,7 +63,7 @@
               </tr>
               <% if(jobs[0]==null){ %>
                 <tr>
-                  <td colspan="8">No Job</td>
+                  <td colspan="8">할당된 테스트가 없습니다.</td>
                 </tr>
               <% }else{ %>
                 <% jobs.forEach(function(job){ %>
@@ -78,10 +78,10 @@
                       </td>
                       <td><%= job[6] %></td>
                       <td><%= job[2].toString().substr(0, 16) %></td>
-                      <td><input type="button" value="Start"class="btn btn-info pull" onclick="popTesting('/job/testing?testtype=<%=job[3]%>&projnum=<%=job[0]%>');"></td>
-                      <td><input type="button" value="Finish" class="btn btn-info pull" onclick="location.href='/job/endjob?projnum=<%=job[0]%>&testtype=<%=job[3]%>'"></td>
-                      <td><input type="button" value="Report Bug" class="btn btn-info pull" data-toggle="collapse" href="#bugForm<%= i%>" aria-expanded="false" aria-controls="bugForm" onclick="showBug('bug_<%= i %>');"></td>
-                      <td><input type="button" value="Report Result" class="btn btn-info pull" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm" onclick="showResult('desc_<%= i %>');"></td>
+                      <td><input type="button" value="시작"class="btn btn-primary pull" onclick="popTesting('/job/testing?testtype=<%=job[3]%>&projnum=<%=job[0]%>');"></td>
+                      <td><input type="button" value="종료" class="btn btn-primary pull" onclick="location.href='/job/endjob?projnum=<%=job[0]%>&testtype=<%=job[3]%>'"></td>
+                      <td><input type="button" value="버그 등록" class="btn btn-primary pull" data-toggle="collapse" href="#bugForm<%= i%>" aria-expanded="false" aria-controls="bugForm" onclick="showBug('bug_<%= i %>');"></td>
+                      <td><input type="button" value="결과 보고" class="btn btn-primary pull" data-toggle="collapse" href="#describeForm<%= i %>" aria-expanded="false" aria-controls="describeForm" onclick="showResult('desc_<%= i %>');"></td>
                     </tr>
                     <tr id="desc_<%= i %>" style="display:none">
                       <td colspan="8">
@@ -89,7 +89,7 @@
                         <div class="well" >
                           <form action="/job/describe" method="GET">
                             <textarea id="InputMessage" name="description" class="form-control" style="width:80%;height:50px" rows="2"><%= job[7] %></textarea>
-                            <input type="submit" class="btn btn-default" class="btn btn-lg btn-primary" value="submit"/>   <!-- description 제출 -->
+                            <input type="submit" class="btn btn-default" class="btn btn-lg btn-primary" value="등록"/>   <!-- description 제출 -->
                             <input type="hidden" name="projnum" value="<%= job[0]%>" />
                             <input type="hidden" name="testtype" value="<%= job[3]%>"/>
                           </form>
@@ -104,14 +104,14 @@
                               <div class="container" style="width:100%;margin-top:30px">
                                 <form role="form" id="body" method="post" action="/bug/report/commit">
                                   <div class="form-group">
-                                    <label for="InputName">Summary</label>
+                                    <label for="InputName">요약</label>
                                     <div class="input-group">
                                       <input type="text" class="form-control" name="bugsummary" id="InputName" placeholder="Enter Summary" required>
                                       <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                                     </div>
                                   </div>
                                   <div class="form-group col-md-6" style="padding-left:0px">
-                                    <label for="sel1">Phone</label>
+                                    <label for="sel1">스마트폰</label>
                                     <select class="form-control" name="phone" id="sel1">
                                       <% phones.forEach(function(phone) { %>
                                         <option>(<%= phone[0] %>)<%= phone[1] %> -  <%= phone[3] %></option>
@@ -119,7 +119,7 @@
                                     </select>
                                   </div>
                                   <div class="form-group col-md-6" style="padding-right:0px">
-                                    <label for="sel1">Type</label>
+                                    <label for="sel1">타입</label>
                                     <select class="form-control" name="bugtype" id="sel1">
                                       <option>Critical</option>
                                       <option>Major</option>
@@ -127,7 +127,7 @@
                                     </select>
                                   </div>
                                   <div class="form-group col-md-6" style="padding-left:0px">
-                                    <label for="sel1">Project</label>
+                                    <label for="sel1">프로젝트</label>
                                       <select class="form-control" name="project" id="sel1">
                                         <% testprojs.forEach(function(proj) { %>
                                           <option <% if(jobs[0][0]==proj[0]){ %>selected="selected"<% }; %>)>(<%= proj[0] %>)<%= proj[1] %></option>
@@ -135,7 +135,7 @@
                                       </select>
                                   </div>
                                   <div class="form-group col-md-6">
-                                    <label for="sel1">Category</label>
+                                    <label for="sel1">카테고리</label>
                                     <select class="form-control" name="category" id="sel1">
                                         <option>(1)UI</option>
                                         <option>(2)기능</option>
@@ -145,13 +145,13 @@
                                     </select>
                                   </div>
                                   <div class="form-group">
-                                    <label for="InputMessage">Description</label>
+                                    <label for="InputMessage">설명</label>
                                     <div class="input-group">
                                       <textarea id="InputMessage" name="bugdescription" class="form-control" rows="10" required></textarea>
                                       <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                                     </div>
                                   </div>
-                                  <input type="submit" name="submit" id="submit" value="Report Bug" class="btn btn-info pull-right">
+                                  <input type="submit" name="submit" id="submit" value="버그 등록" class="btn btn-primary pull-right">
                                 </form>
                               </div>
                             </div>
@@ -172,17 +172,17 @@
       <div class="row">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title"><center>Completed Test</center></h3>
+              <h3 class="panel-title"><center>완료된 테스트</center></h3>
               <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
             </div>
             <div class="panel-body">
               <table class="table" style="margin-bottom:0px">
                 <tr>
-                  <th style="width:150px">Project Name</th>
-                  <th style="width:100px">Manager</th>
-                  <th style="width:100px">Type</th>
-                  <th style="width:350px">Description</th>
-                  <th style="width:150px">EndDate</th>
+                  <th style="width:150px">프로젝트명</th>
+                  <th style="width:100px">관리자</th>
+                  <th style="width:100px">타입</th>
+                  <th style="width:350px">설명</th>
+                  <th style="width:150px">종료일</th>
                   <th style="width:50px"></th>
                   <th style="width:50px"></th>
                   <th style="width:50px"></th>
@@ -213,7 +213,7 @@
       <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-content"></div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">종료</button>
         </div>
       </div>
   </body>

@@ -17,7 +17,7 @@
               <div id="grid">
               </div>
             </div>
-              <input type="submit" name="submit" id="submit" value="Add" class="btn btn-info pull-right comment_submit" style="margin-top:10px;">
+              <input type="submit" name="submit" id="submit" value="추가" class="btn btn-primary pull-right comment_submit" style="margin-top:10px;">
           </div>
         </div>
     </div>
@@ -53,15 +53,15 @@
             },
             rowHover: false,
             columns: [
-                { field: "station", title: "Station Info", width: "120px" },
-                { field: "usimno", title: "USIM Number", width:"120px"},
-                { field: "phoneno", title: "Phone Number", width: "80px"},
-                { field: "desc", title: "Description", width: "80px" },
+                { field: "station", title: "통신사", width: "120px" },
+                { field: "usimno", title: "USIM 번호", width:"120px"},
+                { field: "phoneno", title: "전화번호", width: "80px"},
+                { field: "desc", title: "설명", width: "80px" },
                 {
                     width: 150,
-                    title: "Add Column",
+                    title: "추가",
                     buttons: [
-                        { commandName: "edit", caption: "Edit" }
+                        { commandName: "edit", caption: "추가" }
                     ]
                 }
             ],

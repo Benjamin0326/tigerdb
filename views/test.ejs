@@ -26,17 +26,17 @@
         <div class="row">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title"><center>In Progress Project</center></h3>
+              <h3 class="panel-title"><center>진행중인 프로젝트</center></h3>
               <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
             </div>
             <div class="panel-body">
               <table class="table">
                 <tr>
-                  <th>Category</th>
-                  <th>Name</th>
-                  <th>Manager</th>
-                  <th>StartDate</th>
-                  <th style="width:300px">Description</th>
+                  <th>카테고리</th>
+                  <th>이름</th>
+                  <th>관리자</th>
+                  <th>시작일자</th>
+                  <th style="width:300px">설명</th>
                 </tr>
                 <% project.forEach(function(item){ %>
                 <%    if(item[3]==null){ %>
@@ -56,17 +56,17 @@
         <div class="row">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title"><center>Completed Project</center></h3>
+              <h3 class="panel-title"><center>완료된 프로젝트</center></h3>
               <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
             </div>
             <div class="panel-body">
               <table class="table">
                 <tr>
-                  <th>Category</th>
-                  <th>Name</th>
-                  <th>Manager</th>
-                  <th>StartDate</th>
-                  <th>EndDate</th>
+                  <th>카테고리</th>
+                  <th>이름</th>
+                  <th>관리자</th>
+                  <th>시작일</th>
+                  <th>종료일</th>
                   <th>결과확인</th>
                 </tr>
                 <% project.forEach(function(item){  %>
@@ -86,24 +86,24 @@
           </div>
         </div>
         <div class="row" style="margin-top:0px">
-          <input type="button" name="add" id="add" value="New Project" class="btn btn-primary pull-right" onclick="location.href='/test/project/add'">
+          <input type="button" name="add" id="add" value="프로젝트 생성" class="btn btn-primary pull-right" onclick="location.href='/test/project/add'">
         </div>
     <% }else if(emp.empauth>2){ %>
     <div class="container" style="margin-top:30px">
       <div class="row">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><center>In Progress Project</center></h3>
+            <h3 class="panel-title"><center>진행중인 프로젝트</center></h3>
             <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
           </div>
           <div class="panel-body">
             <table class="table">
               <tr>
-                <th>Category</th>
-                <th>Name</th>
-                <th>Manager</th>
-                <th>StartDate</th>
-                <th style="width:300px">Description</th>
+                <th>카테고리</th>
+                <th>이름</th>
+                <th>관리자</th>
+                <th>시작일</th>
+                <th style="width:300px">설명</th>
               </tr>
               <% project.forEach(function(item){ %>
               <%    if(item[3]==null){ %>
@@ -123,17 +123,17 @@
       <div class="row">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><center>Completed Project</center></h3>
+            <h3 class="panel-title"><center>완료된 프로젝트</center></h3>
             <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
           </div>
           <div class="panel-body">
             <table class="table">
               <tr>
-                <th>Category</th>
-                <th>Name</th>
-                <th>Manager</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
+                <th>카테고리</th>
+                <th>이름</th>
+                <th>관리자</th>
+                <th>시작일</th>
+                <th>종료일</th>
                 <th>결과확인</th>
               </tr>
               <% project.forEach(function(item){  %>
@@ -144,7 +144,9 @@
                 <td><%= item[8] %> (<%= item[5] %>)</td>
                 <td><%= item[2].toString().substr(0, 16) %></td>
                 <td><%= item[3].toString().substr(0, 16) %></td>
-                <td><a href="/test/project/report/<%= item[0] %>"><button class="btn btn-primary">결과확인</button></a></td>
+                <td>
+                  <input type="button" value="결과 확인" class="btn btn-primary pull" onclick="location.href='/test/project/report/<%= item[0] %>'">
+                </td>
               </tr>
               <% }  %>
               <% });%>
@@ -153,8 +155,8 @@
         </div>
       </div>
       <div class="row" style="margin-top:0px" align="right">
-         <input type="button" value="TestCase 관리" class="btn btn-info pull" onclick="location.href='/test/testcase'">
-         <input type="button" value="TestSet 관리" class="btn btn-info pull" onclick="location.href='/test/testset'">
+         <input type="button" value="ManaulCase 관리" class="btn btn-primary pull" onclick="location.href='/test/testcase'">
+         <input type="button" value="ManualSet 관리" class="btn btn-primary pull" onclick="location.href='/test/testset'">
       </div>
       <% }%>
     </div>

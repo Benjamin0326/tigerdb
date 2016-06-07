@@ -27,7 +27,7 @@
         <input type="hidden" name="projno" value="<%= projs[0] %>">
         <div class="row">
           <div class="form-group col-md-4">
-            <label for="sel1">Test Type</label>
+            <label for="sel1">테스트 종류</label>
             <select class="form-control" name="testtype" id="sel1">
               <option>(0) 에러리스트</option>
               <option onchange="alert('shit')">(1) 메뉴얼리스트</option>
@@ -35,7 +35,7 @@
             </select>
           </div>
           <div class="form-group col-md-4">
-            <label for="sel1">Tester</label>
+            <label for="sel1">테스터</label>
             <select class="form-control" name="tester" id="sel1">
               <% testers.forEach(function(tester) { %>
                 <option>(<%= tester[0] %>)<%= tester[1] %>[<%= tester[6] %>]</option>
@@ -43,14 +43,14 @@
             </select>
           </div>
           <div class="form-group col-md-4">
-            <label for="InputName">Description</label>
+            <label for="InputName">설명</label>
               <div class="input-group">
                   <input type="text" class="form-control" name="projdescription" id="InputName" placeholder="Enter Description">
                   <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
               </div>
           </div>
         </div>
-        <input type="submit" name="submit" id="submit" value="업무 할당" class="btn btn-info pull-right">
+        <input type="submit" name="submit" id="submit" value="업무 할당" class="btn btn-primary pull-right">
       </form>
       <div class="row" style="margin-top:50px">
         <div class="panel panel-default">
@@ -61,11 +61,11 @@
           <div class="panel-body">
             <table class="table">
               <tr>
-                <th>Index</th>
-                <th>Category</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>StartDate</th>
+                <th>번호</th>
+                <th>카테고리</th>
+                <th>스마트폰명</th>
+                <th>설명</th>
+                <th>시작일</th>
               </tr>
               <tr>
                 <td><%= projs[0] %></td>
@@ -82,19 +82,19 @@
       <div class="row" style="margin-top:50px">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><center><%= projs[1] %> TEST 할당 상황</center></h3>
+            <h3 class="panel-title"><center><%= projs[1] %> 테스트 할당 상황</center></h3>
             <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
           </div>
           <div class="panel-body">
             <table class="table">
               <tr>
-                <th>Test Type</th>
-                <th>Tester</th>
-                <th>Description</th>
-                <th>StartDate</th>
-                <th>EndDate</th>
+                <th>테스트 종류</th>
+                <th>테스터</th>
+                <th>설명</th>
+                <th>시작일</th>
+                <th>종료일</th>
                 <th>삭제</th>
-                <th>결과확인</th>
+                <th>결과 확인</th>
               </tr>
               <% projectjobs.forEach(function(proj){ %>
               <tr>
@@ -105,7 +105,7 @@
                 <td><%= proj[4].toString().substr(0, 16) %></td>
                 <td><% if(proj[5]!=null){ %><%= proj[5].toString().substr(0, 16) %><% }else{ %> - <% }; %></td>
                 <td><a href="/test/projectjob/delete/<%= proj[0] %>/<%= proj[1] %>/<%= proj[2] %>"><button class="btn btn-primary">삭제</button></a></td>
-                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<%=proj[0]%><%=proj[1]%><%=proj[2]%>">Report 확인</button></td>
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal<%=proj[0]%><%=proj[1]%><%=proj[2]%>">결과 확인</button></td>
               </tr>
               <% }); %>
             </table>
@@ -129,7 +129,7 @@
               <p style="white-space:pre-line"><% if(proj[6]==null){ %>보고된 Report가 없습니다.<% }else{ %><%= proj[6] %><% }; %></p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">종료</button>
             </div>
           </div>
         </div>

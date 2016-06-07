@@ -25,7 +25,7 @@
       <div class="row">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><center>Bug</center></h3>
+            <h3 class="panel-title"><center>진행중인 버그</center></h3>
           </div>
           <div class="panel-body">
            <div class="container" style="width:100%">
@@ -35,12 +35,12 @@
             </div>
             <table class="table">
               <tr>
-                <th style="width:3%">Bug#</th>
-                <th style="width:17%">Summary</th>
-                <th style="width:15%">Date</th>
+                <th style="width:3%"></th>
+                <th style="width:17%">요약</th>
+                <th style="width:15%">등록일</th>
                 <th style="width:8%"> 
                     <div class="btn-group dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Group
+                      <a class="dropdown-toggle" data-toggle="dropdown">계열
                      <span class="caret"></span></a>
                      <ul class="dropdown-menu">
                     <% phonegroups.forEach(function(phonegroup) { %>
@@ -51,7 +51,7 @@
                 </th>
                 <th style="width:10%"> 
                     <div class="btn-group dropdown">
-                     <a class="dropdown-toggle" data-toggle="dropdown">Phone
+                     <a class="dropdown-toggle" data-toggle="dropdown">스마트폰
                      <span class="caret"></span></a>
                      <ul class="dropdown-menu">
                     <% phones.forEach(function(phone) { %>
@@ -62,7 +62,7 @@
                 </th>
                 <th style="width:10%">
                     <div class="btn-group dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Status
+                      <a class="dropdown-toggle" data-toggle="dropdown">상태
                       <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                      <li> <a href="/bug/status/0">New</a></li>
@@ -74,7 +74,7 @@
                 </th>
                 <th style="width:7%">
                     <div class="btn-group dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Type
+                      <a class="dropdown-toggle" data-toggle="dropdown">타입
                       <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                       <li><a href="/bug/type/Critical">Critical</a></li>
@@ -85,7 +85,7 @@
                 </th>
                 <th style="width:10%">
                     <div class="btn-group dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Category
+                      <a class="dropdown-toggle" data-toggle="dropdown">카테고리
                       <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                       <li><a href="/bug/category/1">UI</a></li>
@@ -98,7 +98,7 @@
                 </th>
                 <th style="width:10%">
                     <div class="btn-group dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Proj#
+                      <a class="dropdown-toggle" data-toggle="dropdown">프로젝트명
                      <span class="caret"></span></a>
                      <ul class="dropdown-menu">
                     <% projects.forEach(function(proj) { %>
@@ -132,18 +132,18 @@
       <div class="row">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><center>Closed Bug</center></h3>
+            <h3 class="panel-title"><center>종료된 버그</center></h3>
           </div>
           <div class="panel-body">
            <div class="container" style="width:100%">
             <table class="table">
               <tr>
-                <th style="width:3%">Bug#</th>
-                <th style="width:17%">Summary</th>
-                <th style="width:15%">Date</th>
+                <th style="width:3%"></th>
+                <th style="width:17%">요약</th>
+                <th style="width:15%">종료일</th>
                 <th style="width:8%"> 
                     <div class="btn-group dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Group
+                      <a class="dropdown-toggle" data-toggle="dropdown">계열
                      <span class="caret"></span></a>
                      <ul class="dropdown-menu">
                     <% phonegroups.forEach(function(phonegroup) { %>
@@ -154,7 +154,7 @@
                 </th>
                 <th style="width:10%"> 
                     <div class="btn-group dropdown">
-                     <a class="dropdown-toggle" data-toggle="dropdown">Phone
+                     <a class="dropdown-toggle" data-toggle="dropdown">스마트폰
                      <span class="caret"></span></a>
                      <ul class="dropdown-menu">
                     <% phones.forEach(function(phone) { %>
@@ -165,7 +165,7 @@
                 </th>         
                 <th style="width:7%">
                     <div class="btn-group dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Type
+                      <a class="dropdown-toggle" data-toggle="dropdown">타입
                       <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                       <li><a href="/bug/type/Critical">Critical</a></li>
@@ -176,7 +176,7 @@
                 </th>
                 <th style="width:10%">
                     <div class="btn-group dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Category
+                      <a class="dropdown-toggle" data-toggle="dropdown">카테고리
                       <span class="caret"></span></a>
                       <ul class="dropdown-menu">
                       <li><a href="/bug/category/1">UI</a></li>
@@ -189,7 +189,7 @@
                 </th>
                 <th style="width:10%">
                     <div class="btn-group dropdown">
-                      <a class="dropdown-toggle" data-toggle="dropdown">Proj#
+                      <a class="dropdown-toggle" data-toggle="dropdown">프로젝트명
                      <span class="caret"></span></a>
                      <ul class="dropdown-menu">
                     <% projects.forEach(function(proj) { %>
@@ -211,7 +211,6 @@
                 <td><%= bug[7] %></td>
                 <td><% if(bug[8]==1){ %>UI<% }else if(bug[8]==2){ %>기능<% }else if(bug[8]==3){ %>보안<% }else if(bug[8]==4){ %>네트워크<% }else if(bug[8]==5){ %>기타<% }; %></td>
                 <td><%= bug[11] %></td>
-                <td><a class="btn btn-default"  href="/bug/<%= bug[0]%>" style="">Detail</a></td>
               </tr>
               <%}%>
               <% });%>
@@ -221,7 +220,7 @@
       </div>
     </div>
     <div class="row" style="margin-top:0px" align="right">
-      <input type="button" name="add" id="add" value="Report Bug" class="btn btn-info pull-right" onclick="location.href='/bug/report'">
+      <input type="button" name="add" id="add" value="버그 등록" class="btn btn-primary pull-right" onclick="location.href='/bug/report'">
     </div>
   </div>
   </body>

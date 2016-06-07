@@ -2,6 +2,17 @@
 <html>
   <head>
     <% include ../partials/head %>
+    <style>
+      .side{
+        flex : 2;
+      }
+      .title{
+        flex : 8;
+      }
+      .info{
+        flex : 2;
+      }
+    </style>
   </head>
   <body>
     <div class="header">
@@ -10,21 +21,34 @@
     <div class="container">
       <div class="container row" style="margin-top:30px">
         <div class="panel panel-default">
-          <div class="panel-heading"><h4 class="col-md-9"><%= infos[0][1]%></h4><p>TESTER : <%= infos[0][7] %></p><br></div>
-          <div class="panel-body">
-            <p style="white-space:pre-line">[PROJECT]</p>
-            <p style="white-space:pre-line"><%= infos[0][6] %></p><br>
-            <p style="white-space:pre-line">[DESCRIPTION]</p>
-            <p style="white-space:pre-line"><%= infos[0][2] %></p><br>
-            <p style="white-space:pre-line">[수행해야 할 TestCase]</p>
+          <div class="panel-heading" style="display:flex;height:50px">
+            <div>
+              <font size="4"><b><%= infos[0][1]%></b></font>
+            </div>
+          </div>
+          <div class="panel-body" style="padding-bottom:0px;padding-top:5px">
+            <div class="top" style="display:flex;height:50px">
+              <div class="info">
+                <font size="2">프로젝트 : <%= infos[0][6]%></font>
+              </div> 
+              <div class="info">
+                <font size="2">테스터 : <%= infos[0][7]%></font>
+              </div>
+            </div>
+          </div>   
+          <hr style="margin-top:0px;margin-bottom:5px">          
+          <div style="padding-left:5px">
+            <p style="white-space:pre-line"> [설명]</p>
+            <p style="white-space:pre-line"> <%= infos[0][2] %></p><br>
+            <p style="white-space:pre-line"> [수행해야 할 Manual Case 목록]</p>
             <% infos.forEach(function(info){ %>
-              <p style="white-space:pre-line">(ER : <% if(info[5]==1){ %>PASS<% }else if(info[5]==0){ %>FAIL<% }; %>) <%= info[3] %></p>
+              <p style="white-space:pre-line"> - <%= info[3] %></p>
             <% }); %>
           </div>
-            <div class="panel-footer">
-              <a href="/test/testset/delete/<%= infos[0][0] %>">삭제</a>
-              <a href="/test/testset %>">목록</a>
-            </div>
+        </div>
+        <div class="row" style="margin-top:0px" align="right">         
+        <input type="button" name="add" id="add" value="삭제" class="btn btn-primary pull" style="margin-right:5px" onclick="location.href='/test/testset/delete/<%= infos[0][0] %>'">
+        <input type="button" name="add" id="add" value="목록" class="btn btn-primary pull" style="margin-right:5px" onclick="location.href='/test/testset'">
         </div>
       </div>
     </div>

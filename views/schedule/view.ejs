@@ -49,10 +49,10 @@
       </div>
       <div class="row" style="margin-top:0px" align="right">
       <% if (iswriter) { %>
-        <input type="button" name="add" id="add" value="update" class="btn btn-info pull" style="margin-right:5px" onclick="location.href='/schedule/modify/<%= schedules[0] %>'">
-        <input type="button" name="add" id="add" value="delete" class="btn btn-info pull" style="margin-right:5px" onclick="location.href='/schedule/delete/<%= schedules[0] %>'">
+        <input type="button" name="add" id="add" value="수정" class="btn btn-primary pull" style="margin-right:5px" onclick="location.href='/schedule/modify/<%= schedules[0] %>'">
+        <input type="button" name="add" id="add" value="삭제" class="btn btn-primary pull" style="margin-right:5px" onclick="location.href='/schedule/delete/<%= schedules[0] %>'">
       <% }  %>
-        <input type="button" style="margin-right:15px" value="목록" class="btn btn-info pull" onclick="location.href='/schedule'">
+        <input type="button" style="margin-right:15px" value="목록" class="btn btn-primary pull" onclick="location.href='/schedule'">
       </div> 
     </div>
   </body>

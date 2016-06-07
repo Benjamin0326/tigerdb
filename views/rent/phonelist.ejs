@@ -10,16 +10,21 @@
     <div class="container" style="margin-top:30px">
       <div class="list-group">
         <% if(results[0]==null){ %>
-          <div class="list-group-item active"><h4>해당 Phone의 대여기록이 없습니다.</h4></div>
+          <div class="list-group-item active"><h4><center>해당 Phone의 대여기록이 없습니다.</center></h4></div>
         <% }else{ %>
-        <div class="list-group-item active"><h4>해당 Phone의 대여기록</h4></div>
+        <div class="list-group-item active" style="height:50px"><h4><center><%= results[0][11] %> (<%= results[0][3] %>) 의 대여기록</center></h4></div>
           <% results.forEach(function(result) { %>
             <div class="list-group-item">
-              <p class="list-group-item-text col-md-4"><%= result[10] %>(<%= result[11] %>)</p>
-              <p class="list-group-item-text col-md-4"><%= result[8] %></p>
-              <p class="list-group-item-text col-md-4"><%= result[2] %></p>
+              <p class="list-group-item-text col-md-1"><%= result[0] %></p>
+              <p class="list-group-item-text col-md-1"><%= result[8] %></p>
+              <p class="list-group-item-text col-md-2"><%= result[9] %></p>
+              <p class="list-group-item-text col-md-4"><% if(result[6]==null){ %>대여 중(<%= result[5].toString().substr(0,16) %>~)<% }else{ %>반납 완료(<%= result[5].toString().substr(0,16) %>~<%= result[6].toString().substr(0,16) %>)<% }; %></p>
+              <p class="list-group-item-text col-md-3">
+              <% if(result[2]==null){ %> 없음
+              <% }else{ %> <%= result[2] %> <% } %>
+              </p>
               <br>
-              <p class="list-group-item-text" style="text-algin:right; margin-left:700px"><% if(result[6]==null){ %>대여 중(<%= result[5].toString().substr(0,16) %>~)<% }else{ %>반납 완료(<%= result[5].toString().substr(0,16) %>~<%= result[6].toString().substr(0,16) %>)<% }; %></p>
+              <p class="list-group-item-text" style="text-algin:right; margin-left:700px"></p>
             </div>
           <% }); %>
           <% }; %>
