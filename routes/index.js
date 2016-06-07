@@ -5,7 +5,7 @@ var moment = require('moment');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'welcome to TigerDB'});
+  res.render('index', { flag: 0});
 });
 
 router.get('/logout', function(req, res, next) {
@@ -37,7 +37,7 @@ router.post('/login', function(req, res, next) {
           if(result.rows[0]!=null){
             if(result.rows[0][7]==password){
               if(result.rows[0][3]==0){
-                res.render('index', { title: '가입 승인이 나지 않았습니다.' });
+                res.render('index', { flag: 1 });
               }
               else if(result.rows[0][7]==password){
                 req.session.empno=result.rows[0][0];
@@ -47,16 +47,16 @@ router.post('/login', function(req, res, next) {
               }
               else{
                 //res.render('index', { title: 'Incorrect Email/Password'});
-                res.render('index', {msg: 'fail'});
+                res.render('index', {flag: -1});
               }
             }
             else{
                 //res.render('index', { title: 'Incorrect Email/Password'});
-                res.render('index', {msg: 'fail'});
+                res.render('index', {flag: -1});
               }
           }else{
             //res.render('index', { title: 'Incorrect Email/Password'});
-                res.render('index', {msg: 'fail'});
+                res.render('index', {flag: -1});
           }
         });
     });

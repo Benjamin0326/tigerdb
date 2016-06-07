@@ -36,7 +36,7 @@
       "address": "<%= people[4] %>",
       "name": "<%= people[1] %>",
       "phone": "<%= people[5] %>",
-      "auth": "<%= people[3] %>",
+      "auth": "<% if(people[3]==0){ %>(0)승인대기<% }else if(people[3]==1){ %>(1)테스터<% }else if(people[3]==2){ %>(2)물품관리자 <% }else if(people[3]==3){ %>(3)테스터관리자<% }else if(people[3]==4){ %>(4)시스템관리자<% }; %>",
       "position": "<%= people[2] %>",
       "email": "<%= people[6] %>"
   },
@@ -56,7 +56,7 @@
                         phone: { path: "phone", type: String },
                         isActive: { path: "isActive", type: Boolean },
                         email: { path: "email", type: String },
-                        auth: { path: "auth", type: Number }
+                        auth: { path: "auth", type: String }
                     }
                 }
             },
@@ -65,12 +65,12 @@
             },
             rowHover: false,
             columns: [
-                { field: "name", title: "Name", width: "80px"},
-                { field: "position", title: "Position", width:"100px", editor: myCustomEditor},
-                { field: "address", title: "Address", width: "240px"},
-                { field: "phone", title: "Phone", width: "120px" },
-                { field: "email", title: "Email", width: "150px"  },
-                { field: "auth", title: "Auth", width: "40px" },
+                { field: "name", title: "Name", width: "70px"},
+                { field: "position", title: "Position", width:"90px"},
+                { field: "address", title: "Address", width: "230px"},
+                { field: "phone", title: "Phone", width: "110px" },
+                { field: "email", title: "Email", width: "140px"  },
+                { field: "auth", title: "Auth", width: "90px", editor: myCustomEditor },
                 {
                     width: 150,
                     title: "Update/Delete Column",
@@ -105,13 +105,12 @@
         .appendTo(cell)
         .shieldDropDown({
             dataSource: {
-                data: ["Intern", "Employee", "Researcher", "Senior Researcher", "Major Researcher", "Master"]
+                data: ["(0)승인대기", "(1)테스터", "(2)물품관리자", "(3)테스터관리자", "(4)시스템관리자"]
             },
-            value: !item["position"] ? null : item["position"].toString()
+            value: !item["auth"] ? null : item["auth"].toString()
         }).swidget().focus();
         }
     });
-
     $(function(){
             var data = {};
             $(".comment_submit").click(function(){
@@ -132,5 +131,4 @@
                  });
             });
         });
-
 </script>

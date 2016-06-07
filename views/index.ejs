@@ -43,6 +43,15 @@
                   </td>
                   <td style="width:70px"></td>
                 </tr>
+                <% if(flag==-1){ %>
+                  <tr class="row">
+                    <td colspan="3" class="row" style="width:100px;color:red;">로그인에 실패! 아이디나 비밀번호를 확인해주세요.</td>
+                  </tr>
+                <% }else if(flag==1){ %>
+                  <tr class="row">
+                    <td colspan="3" class="row" style="width:100px;color:blue;">가입승인 대기중입니다.</td>
+                  </tr>
+                <% }; %>
                 <tr>
                   <td style="width:100px"></td>
                   <td style="width:120px;padding-left:15px;padding-top:10px;padding-bottom:10px">
